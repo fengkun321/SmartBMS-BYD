@@ -65,4 +65,9 @@
         app:defaultNavHost="true"
         android:layout_above="@+id/llBottom"/>
 
+    <com.smart.bms_byd.view.MyStyleTitleView
+        android:id="@+id/myTitleView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
 </RelativeLayout>

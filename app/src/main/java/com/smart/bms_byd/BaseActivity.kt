@@ -1,7 +1,12 @@
 package com.smart.bms_byd
 
 import android.app.Activity
+import android.content.BroadcastReceiver
 import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
+import android.net.ConnectivityManager
+import android.net.wifi.WifiManager
 import android.os.Bundle
 import android.os.Handler
 import android.view.MotionEvent
@@ -10,6 +15,8 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.smart.bms_byd.util.BaseVolume
+import com.smart.bms_byd.util.NetWorkType
 
 
 open class BaseActivity : AppCompatActivity() {
@@ -77,6 +84,7 @@ open class BaseActivity : AppCompatActivity() {
             e.printStackTrace()
         }
     }
+
 
 
 

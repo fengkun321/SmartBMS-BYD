@@ -1,5 +1,6 @@
 package com.smart.bms_byd.ui.home
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -25,6 +26,9 @@ class HomeFragment : Fragment() {
 
     private fun initUI() {
         text_home.text = "第一个页面！"
+        text_home.setOnClickListener {
+            startActivity(Intent(activity,SomeThingActivity().javaClass))
+        }
     }
 
 

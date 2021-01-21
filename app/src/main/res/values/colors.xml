@@ -14,6 +14,7 @@
     <color name="white">#FFFFFFFF</color>
 
     <color name="color_hui">#c5c7cd</color>
+    <color name="color_transparent_hui">#74818181</color>
     <color name="color_transparent_ban">#20000000</color>
     <color name="color_transparent">#00000000</color>
 
