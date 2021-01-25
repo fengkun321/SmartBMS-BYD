@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 
-import com.smart.bms_byd.MyApplication;
+import com.smart.bms_byd.BaseApplication;
 import com.smart.bms_byd.R;
 import com.smart.bms_byd.util.NetWorkType;
 
@@ -39,19 +39,22 @@ public class MyStyleTitleView extends LinearLayout {
         imgLeft.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                myStyleTitleViewListener.onClickListenerByLeft(v);
+                if (myStyleTitleViewListener != null)
+                    myStyleTitleViewListener.onClickListenerByLeft(v);
             }
         });
         tvRight.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                myStyleTitleViewListener.onClickListenerByRight(v);
+                if (myStyleTitleViewListener != null)
+                    myStyleTitleViewListener.onClickListenerByRight(v);
             }
         });
         llNetInfo.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                myStyleTitleViewListener.onClickListenerByNetInfo(v);
+                if (myStyleTitleViewListener != null)
+                    myStyleTitleViewListener.onClickListenerByNetInfo(v);
             }
         });
 
@@ -76,7 +79,7 @@ public class MyStyleTitleView extends LinearLayout {
 
         this.myStyleTitleViewListener = myStyleTitleViewListener;
 
-        updateNetInfo(MyApplication.getInstance().nowNetWorkType);
+        updateNetInfo(BaseApplication.getInstance().nowNetWorkType);
     }
 
     public void setLeftVisible(Boolean isVisible) {
@@ -105,10 +108,10 @@ public class MyStyleTitleView extends LinearLayout {
                 tvNetInfo.setText("移动网络");
                 break;
             case WIFI_OTHER:
-                tvNetInfo.setText(MyApplication.getInstance().strNowSSID);
+                tvNetInfo.setText(BaseApplication.getInstance().strNowSSID);
                 break;
             case WIFI_DEVICE:
-                tvNetInfo.setText(""+MyApplication.getInstance().strNowSSID);
+                tvNetInfo.setText(""+ BaseApplication.getInstance().strNowSSID);
                 break;
         }
     }

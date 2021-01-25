@@ -17,19 +17,31 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.smart.bms_byd.util.BaseVolume
 import com.smart.bms_byd.util.NetWorkType
+import com.smart.bms_byd.view.LoadingDialog
 
 
 open class BaseActivity : AppCompatActivity() {
 
     protected lateinit var mContext: Context
     protected lateinit var mHandler: Handler
-
+    public lateinit var loadingDialog: LoadingDialog
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         mContext = this
         mHandler = Handler()
+        loadingDialog = LoadingDialog(mContext, R.style.dialog_style)
 
+        registerBroadcast()
+
+    }
+
+    private fun registerBroadcast() {
+        val filter = IntentFilter()
+        filter.addAction(BaseVolume.COMMAND_SEND_START)
+        filter.addAction(BaseVolume.COMMAND_SEND_TIMEOUT)
+        filter.addAction(BaseVolume.COMMAND_SEND_STOP)
+        registerReceiver(mBroadcastReceiver, filter)
     }
 
     protected fun showToast(str: String?) {
@@ -85,7 +97,29 @@ open class BaseActivity : AppCompatActivity() {
         }
     }
 
+    private val mBroadcastReceiver: BroadcastReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context, intent: Intent) {
+            if (intent.action == BaseVolume.COMMAND_SEND_START) {
+                if (!loadingDialog.isShowing) {
+                    loadingDialog.show()
+                }
+            } else if (intent.action == BaseVolume.COMMAND_SEND_TIMEOUT) {
+                if (loadingDialog.isShowing) {
+                    loadingDialog.dismiss()
+                }
+                showToast("操作超时！")
+            } else if (intent.action == BaseVolume.COMMAND_SEND_STOP) {
+//                if (loadingDialog.isShowing) {
+//                    loadingDialog.dismiss()
+//                }
+            }
+        }
+    }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        unregisterReceiver(mBroadcastReceiver)
+    }
 
 
 

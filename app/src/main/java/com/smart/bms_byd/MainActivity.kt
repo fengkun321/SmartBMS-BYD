@@ -2,11 +2,15 @@ package com.smart.bms_byd
 
 import android.os.Bundle
 import android.view.View
-import androidx.annotation.MainThread
+import android.widget.Toast
 import androidx.fragment.app.Fragment
+import com.smart.bms_byd.data.AnalysisInfo
+import com.smart.bms_byd.data.CreateControlData
+import com.smart.bms_byd.tcpclient.TCPClientS
 import com.smart.bms_byd.ui.dashboard.DashboardFragment
 import com.smart.bms_byd.ui.home.HomeFragment
 import com.smart.bms_byd.ui.notifications.NotificationsFragment
+import com.smart.bms_byd.util.BaseVolume
 import com.smart.bms_byd.util.NetWorkType
 import com.smart.bms_byd.view.MyStyleTitleView
 import com.smartIPandeInfo.data.MessageInfo
@@ -27,7 +31,7 @@ class MainActivity : BaseActivity() {
 
         EventBus.getDefault().register(this);
 
-        myTitleView.initView(this,"主页",false,false,true,onTitleClickListener);
+        myTitleView.initView(this, "主页", false, false, true, onTitleClickListener);
 
 
         initData()
@@ -35,6 +39,8 @@ class MainActivity : BaseActivity() {
         llItem1.setOnClickListener { setFragmentPosition(0) }
         llItem2.setOnClickListener { setFragmentPosition(1) }
         llItem3.setOnClickListener { setFragmentPosition(2) }
+
+        TCPClientS.getInstance(BaseApplication.getInstance()).connect(BaseVolume.TCP_IP,BaseVolume.TCP_PORT)
 
 
     }
@@ -87,11 +93,32 @@ class MainActivity : BaseActivity() {
                 val netWorkType = msg.anyInfo as NetWorkType
                 myTitleView.updateNetInfo(netWorkType)
             }
+            MessageInfo.i_TCP_CONNECT_SUCCESS -> {
+                val strSendData = CreateControlData.readInfoByAddress("0000","000b")
+                BaseApplication.getInstance().StartSendDataByTCP(strSendData)
+            }
+            MessageInfo.i_TCP_CONNECT_FAIL -> {
+                val strFailInfo= msg.anyInfo as String
+                showToast(strFailInfo)
+            }
+            MessageInfo.i_RECEIVE_DATA -> {
+                val analysisInfo = msg.anyInfo as AnalysisInfo
+                showToast(analysisInfo.strType)
+            }
 
         }
 
     }
 
+    private var time = System.currentTimeMillis()
+    override fun onBackPressed() {
+        if (System.currentTimeMillis() - time > 1500) {
+            time = System.currentTimeMillis()
+            Toast.makeText(this, "双击退出应用", Toast.LENGTH_SHORT).show()
+        } else {
+            super.onBackPressed()
+        }
+    }
 
 
     override fun onDestroy() {

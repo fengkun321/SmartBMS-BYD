@@ -18,8 +18,22 @@ import java.util.*
 object BaseVolume {
 
 
-    const val zigbee_write = "write"
+    const val FIRST_RUN_APPLICATION = "FIRST_RUN_APPLICATION"
+    const val TCP_IP = "192.168.16.254"
+    const val TCP_PORT = 8080
 
+    const val COMMAND_SEND_START = "COMMAND_SEND_START"
+    const val COMMAND_SEND_TIMEOUT = "COMMAND_SEND_TIMEOUT"
+    const val COMMAND_SEND_STOP = "COMMAND_SEND_STOP"
+
+    const val CMD_TYPE_READ_DATA = "03"
+    const val CMD_TYPE_READ_DATA_ERROR = "83"
+    const val CMD_TYPE_WRITE_ONLY = "06"
+    const val CMD_TYPE_WRITE_ONLY_ERROR = "86"
+    const val CMD_TYPE_WRITE_MORE = "10"
+    const val CMD_TYPE_WRITE_MORE_ERROR = "90"
+    const val DATA_TYPE = "DATA_TYPE"
+    const val DATA_VALUE = "DATA_VALUE"
 
 
     /**

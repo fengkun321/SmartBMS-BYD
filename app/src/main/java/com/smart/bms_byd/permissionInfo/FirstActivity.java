@@ -4,10 +4,15 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.animation.AnimationUtils;
+import android.widget.ImageView;
 
 import com.smart.bms_byd.BaseActivity;
 import com.smart.bms_byd.MainActivity;
+import com.smart.bms_byd.BaseApplication;
 import com.smart.bms_byd.R;
+import com.smart.bms_byd.otherPage.PrivacyActivity;
+import com.smart.bms_byd.util.BaseVolume;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -15,6 +20,7 @@ import java.util.TimerTask;
 public class FirstActivity extends BaseActivity {
 
     private static final int REQUEST_CODE = 0; // 请求�?
+    private ImageView imgLogo;
 
     // �?�?的全部权�?
     @SuppressLint("InlinedApi")
@@ -39,11 +45,13 @@ public class FirstActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_first);
         mPermissionsChecker = new PermissionsChecker(this);
-
+        imgLogo = findViewById(R.id.imgLogo);
     }
 
     public void onResume() {
         super.onResume();
+
+        imgLogo.startAnimation(AnimationUtils.loadAnimation(mContext, R.anim.alpha_logo));
 
         new Timer().schedule(new TimerTask() {
             @Override
@@ -52,11 +60,11 @@ public class FirstActivity extends BaseActivity {
                 if (mPermissionsChecker.lacksPermissions(PERMISSIONS)) {
                     startPermissionsActivity();
                 } else {
-                    startActivity(new Intent(FirstActivity.this, MainActivity.class));
-                    finish();
+                    gotoNextActivity();
+
                 }
             }
-        },500);
+        },1000);
 
     }
 
@@ -73,10 +81,24 @@ public class FirstActivity extends BaseActivity {
         } else {
             if (isCheckLogin) {
                 isCheckLogin = false;
-                startActivity(new Intent(FirstActivity.this, MainActivity.class));
-                finish();
+                gotoNextActivity();
             }
         }
+    }
+
+    /** 前往下一个页面 */
+    private void gotoNextActivity() {
+
+        // 第一次打开，则先进入隐私政策页面
+        if (BaseApplication.getInstance().getBooleanBySharedPreferences(BaseVolume.FIRST_RUN_APPLICATION,true)) {
+            startActivity(new Intent(FirstActivity.this, PrivacyActivity.class));
+            finish();
+        }
+        else {
+            startActivity(new Intent(FirstActivity.this, MainActivity.class));
+            finish();
+        }
+
     }
 
 
