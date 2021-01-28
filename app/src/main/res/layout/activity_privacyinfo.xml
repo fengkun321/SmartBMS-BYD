@@ -2,12 +2,13 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:gravity="center_horizontal">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="45dp"
-        android:background="@color/black">
+        android:background="@color/title_color">
 
         <ImageView android:id="@+id/imgLeft"
             android:layout_width="wrap_content"
@@ -18,7 +19,7 @@
         <TextView android:id="@+id/tvTitleName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="TitleName"
+            android:text="Privacy agreement"
             android:textSize="18sp"
             android:textColor="@color/white"
             android:layout_centerInParent="true"/>
@@ -30,29 +31,45 @@
             android:textColor="@color/white"
             android:layout_centerVertical="true"
             android:layout_alignParentRight="true"
-            android:layout_marginRight="10dp"/>
+            android:layout_marginRight="10dp"
+            android:visibility="gone"/>
 
     </RelativeLayout>
 
-    <LinearLayout android:id="@+id/llNetInfo"
+    <com.smart.bms_byd.view.NetStateInfoView
+        android:id="@+id/myNetState"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center"
-        android:padding="3dp"
-        android:background="@color/color_transparent_hui">
+        android:layout_height="wrap_content"/>
 
-        <ImageView android:id="@+id/imgNetIcon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
 
-        <TextView android:id="@+id/tvNetInfo"
-            android:layout_width="wrap_content"
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:scrollbars="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="WIFI:12345678"
-            android:layout_marginLeft="10dp"/>
+            android:orientation="vertical">
 
-    </LinearLayout>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+
+    <Button android:id="@+id/btnNext"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="download"
+        android:background="@drawable/text_border"
+        android:textAllCaps="false"
+        android:layout_margin="30dp"/>
+
 
 
 </LinearLayout>

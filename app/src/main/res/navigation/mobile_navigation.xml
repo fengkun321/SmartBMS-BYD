@@ -7,19 +7,19 @@
 
     <fragment
         android:id="@+id/navigation_home"
-        android:name="com.smart.bms_byd.ui.home.HomeFragment"
+        android:name="com.smart.bms_byd.ui.system.SystemFragment"
         android:label="@string/title_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_system" />
 
     <fragment
         android:id="@+id/navigation_dashboard"
-        android:name="com.smart.bms_byd.ui.dashboard.DashboardFragment"
+        android:name="com.smart.bms_byd.ui.more.MoreFragment"
         android:label="@string/title_dashboard"
-        tools:layout="@layout/fragment_dashboard" />
+        tools:layout="@layout/fragment_diagnosis" />
 
     <fragment
         android:id="@+id/navigation_notifications"
-        android:name="com.smart.bms_byd.ui.notifications.NotificationsFragment"
+        android:name="com.smart.bms_byd.ui.diagnosis.DiagnosisFragment"
         android:label="@string/title_notifications"
-        tools:layout="@layout/fragment_notifications" />
+        tools:layout="@layout/fragment_more" />
 </navigation>

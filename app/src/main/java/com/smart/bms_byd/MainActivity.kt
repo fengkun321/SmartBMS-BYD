@@ -1,18 +1,15 @@
 package com.smart.bms_byd
 
 import android.os.Bundle
-import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.smart.bms_byd.data.AnalysisInfo
 import com.smart.bms_byd.data.CreateControlData
 import com.smart.bms_byd.tcpclient.TCPClientS
-import com.smart.bms_byd.ui.dashboard.DashboardFragment
-import com.smart.bms_byd.ui.home.HomeFragment
-import com.smart.bms_byd.ui.notifications.NotificationsFragment
-import com.smart.bms_byd.util.BaseVolume
+import com.smart.bms_byd.ui.more.MoreFragment
+import com.smart.bms_byd.ui.system.SystemFragment
+import com.smart.bms_byd.ui.diagnosis.DiagnosisFragment
 import com.smart.bms_byd.util.NetWorkType
-import com.smart.bms_byd.view.MyStyleTitleView
 import com.smartIPandeInfo.data.MessageInfo
 import kotlinx.android.synthetic.main.activity_main.*
 import org.greenrobot.eventbus.EventBus
@@ -31,8 +28,6 @@ class MainActivity : BaseActivity() {
 
         EventBus.getDefault().register(this);
 
-        myTitleView.initView(this, "主页", false, false, true, onTitleClickListener);
-
 
         initData()
 
@@ -40,7 +35,7 @@ class MainActivity : BaseActivity() {
         llItem2.setOnClickListener { setFragmentPosition(1) }
         llItem3.setOnClickListener { setFragmentPosition(2) }
 
-        TCPClientS.getInstance(BaseApplication.getInstance()).connect(BaseVolume.TCP_IP,BaseVolume.TCP_PORT)
+//        TCPClientS.getInstance(BaseApplication.getInstance()).connect(BaseVolume.TCP_IP,BaseVolume.TCP_PORT)
 
 
     }
@@ -48,9 +43,9 @@ class MainActivity : BaseActivity() {
 
     private fun initData() {
         mFragments = ArrayList()
-        mFragments.add(HomeFragment())
-        mFragments.add(NotificationsFragment())
-        mFragments.add(DashboardFragment())
+        mFragments.add(SystemFragment())
+        mFragments.add(DiagnosisFragment())
+        mFragments.add(MoreFragment())
         // 初始化展示MessageFragment
         setFragmentPosition(0)
 
@@ -68,20 +63,25 @@ class MainActivity : BaseActivity() {
         }
         ft.show(currentFragment)
         ft.commitAllowingStateLoss()
-    }
 
-    private val onTitleClickListener = object : MyStyleTitleView.MyStyleTitleViewListener{
-        override fun onClickListenerByLeft(view: View?) {
+        tvOne.setTextColor(resources.getColor(R.color.black))
+        tvTwo.setTextColor(resources.getColor(R.color.black))
+        tvThree.setTextColor(resources.getColor(R.color.black))
+
+        when(position) {
+            0 -> {
+                tvOne.setTextColor(resources.getColor(R.color.text_color))
+            }
+            1 -> {
+                tvTwo.setTextColor(resources.getColor(R.color.text_color))
+            }
+            2 -> {
+                tvThree.setTextColor(resources.getColor(R.color.text_color))
+            }
+
 
         }
 
-        override fun onClickListenerByRight(view: View?) {
-
-        }
-
-        override fun onClickListenerByNetInfo(view: View?) {
-            showToast("嘿嘿嘿")
-        }
 
     }
 
@@ -91,7 +91,7 @@ class MainActivity : BaseActivity() {
             // 接收数据
             MessageInfo.i_NET_WORK_STATE -> {
                 val netWorkType = msg.anyInfo as NetWorkType
-                myTitleView.updateNetInfo(netWorkType)
+
             }
             MessageInfo.i_TCP_CONNECT_SUCCESS -> {
                 val strSendData = CreateControlData.readInfoByAddress("0000","000b")
@@ -123,6 +123,7 @@ class MainActivity : BaseActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
+        TCPClientS.getInstance(BaseApplication.getInstance()).manuallyDisconnect()
         EventBus.getDefault().unregister(this)
 
     }

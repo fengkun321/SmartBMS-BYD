@@ -10,7 +10,7 @@
     <style name="AppTheme_NoActionBar" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/color_transparent_ban</item>
+        <item name="colorPrimaryDark">@color/title_color</item>
         <item name="colorAccent">@color/colorPrimary</item>
 
     </style>

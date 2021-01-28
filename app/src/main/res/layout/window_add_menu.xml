@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/rlParent"
+    android:layout_gravity="bottom"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_margin="10dp">
+
+		<ScrollView
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_above="@+id/tvConfirm"
+			android:scrollbarSize="0.5dp">
+
+			<LinearLayout
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:orientation="vertical"
+				android:background="@drawable/dialog_finddevice_border"
+				android:padding="10dp">
+
+				<TextView android:id="@+id/tvTitle"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:text="标题栏"
+					android:gravity="center"
+					android:visibility="visible"/>
+
+				<View
+					android:layout_width="match_parent"
+					android:layout_height="0.5dp"
+					android:layout_marginTop="5dp"
+					android:visibility="visible"/>
+
+				<ListView android:id="@+id/lvMenu"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:divider="#ccc"
+					android:dividerHeight="0.5dp"
+					android:scrollbars="none"
+					android:cacheColorHint="#00000000"
+					android:listSelector="#00000000"
+					android:fadingEdge="none"
+					android:background="#fff"
+					android:layout_marginTop="5dp"/>
+
+			</LinearLayout>
+		</ScrollView>
+
+
+
+        <TextView android:id="@+id/tvConfirm"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/dialog_finddevice_border"
+            android:text="取消"
+            android:gravity="center"
+			android:layout_alignParentBottom="true"/>
+
+    </RelativeLayout>
+
+</LinearLayout>

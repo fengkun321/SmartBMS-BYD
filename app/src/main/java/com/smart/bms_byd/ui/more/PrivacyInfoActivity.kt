@@ -1,4 +1,4 @@
-package com.smart.bms_byd.otherPage
+package com.smart.bms_byd.ui.more
 
 import android.content.Intent
 import android.os.Bundle
@@ -6,21 +6,18 @@ import com.smart.bms_byd.BaseActivity
 import com.smart.bms_byd.BaseApplication
 import com.smart.bms_byd.R
 import com.smart.bms_byd.util.BaseVolume
-import kotlinx.android.synthetic.main.activity_privacy.*
+import kotlinx.android.synthetic.main.activity_privacyinfo.*
 
-class PrivacyActivity : BaseActivity() {
+class PrivacyInfoActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_privacy)
-
-//        BaseApplication.getInstance().saveBooleanBySharedPreferences(BaseVolume.FIRST_RUN_APPLICATION,false)
+        setContentView(R.layout.activity_privacyinfo)
 
         myNetState.initView(this,true,this);
 
         btnNext.setOnClickListener {
-            startActivity(Intent(mContext,UpdateFirmwareActivity().javaClass))
-            finish()
+
         }
 
     }

@@ -8,7 +8,7 @@
     <LinearLayout
         android:id="@+id/llBottom"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="60dp"
         android:orientation="horizontal"
         app:menu="@menu/bottom_nav_menu"
         android:background="?android:attr/windowBackground"
@@ -20,10 +20,15 @@
             android:layout_height="match_parent"
             android:gravity="center">
 
-            <TextView
+            <ImageView android:id="@+id/imgOne"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView android:id="@+id/tvOne"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Page1"/>
+                android:text="system"
+                android:layout_marginTop="5dp"/>
 
         </LinearLayout>
 
@@ -33,10 +38,15 @@
             android:layout_height="match_parent"
             android:gravity="center">
 
-            <TextView
+            <ImageView android:id="@+id/imgTwo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView android:id="@+id/tvTwo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Page2"/>
+                android:text="diagnosis"
+                android:layout_marginTop="5dp"/>
 
         </LinearLayout>
 
@@ -46,10 +56,15 @@
             android:layout_height="match_parent"
             android:gravity="center">
 
-            <TextView
+            <ImageView android:id="@+id/imgThree"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView android:id="@+id/tvThree"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Page3"/>
+                android:text="more"
+                android:layout_marginTop="5dp"/>
 
         </LinearLayout>
 
@@ -65,9 +80,5 @@
         app:defaultNavHost="true"
         android:layout_above="@+id/llBottom"/>
 
-    <com.smart.bms_byd.view.MyStyleTitleView
-        android:id="@+id/myTitleView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
 
 </RelativeLayout>

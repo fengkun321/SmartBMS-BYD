@@ -34,7 +34,7 @@ public class FirstActivity extends BaseActivity {
             Manifest.permission.ACCESS_FINE_LOCATION,
 //            Manifest.permission.ACCESS_BACKGROUND_LOCATION, //全新的定位权限
             Manifest.permission.READ_PHONE_STATE,// 设备唯一标识
-            Manifest.permission.ACCESS_MEDIA_LOCATION,  //访问照片的位置信息
+//            Manifest.permission.ACCESS_MEDIA_LOCATION,  //访问照片的位置信息
 
     };
 

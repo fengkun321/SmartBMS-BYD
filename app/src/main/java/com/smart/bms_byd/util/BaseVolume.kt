@@ -3,14 +3,10 @@ package com.smart.bms_byd.util
 import android.app.Activity
 import android.app.ActivityManager
 import android.content.Context
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.net.ConnectivityManager
 import android.net.wifi.WifiManager
 import android.os.Build
-import android.os.Environment
 import android.text.TextUtils
-import android.util.Log
 import java.io.*
 import java.text.SimpleDateFormat
 import java.util.*
@@ -34,6 +30,7 @@ object BaseVolume {
     const val CMD_TYPE_WRITE_MORE_ERROR = "90"
     const val DATA_TYPE = "DATA_TYPE"
     const val DATA_VALUE = "DATA_VALUE"
+    const val WIFI_SIGN = "BYD"
 
 
     /**
@@ -119,7 +116,16 @@ object BaseVolume {
         return version
     }
 
-
+    /**
+     * 获取当前系统时间
+     */
+    fun getNowSystemTime() : String {
+        var currentTime = ""
+        val cal = Calendar.getInstance()
+        //格式化指定形式的时间
+        currentTime = SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(cal.time) //获取到完整的时间
+        return currentTime
+    }
 
 
 

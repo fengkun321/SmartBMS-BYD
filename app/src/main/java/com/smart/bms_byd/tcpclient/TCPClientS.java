@@ -144,13 +144,16 @@ public class TCPClientS {
 
                 }
                 catch (IOException e) {
-                    Message msg = new Message();
-                    msg.what = -1;
-                    Bundle bundle = new Bundle();
-                    bundle.putString("error",e.getMessage());
-                    msg.setData(bundle);
-                    uiHandler.sendMessage(msg);
                     Log.e(TAG_log,"SocketThread read io exception = "+e.getMessage());
+                    // 不是手动断开，则需要抛异常上去
+                    if (!isManuallyDisc) {
+                        Message msg = new Message();
+                        msg.what = -1;
+                        Bundle bundle = new Bundle();
+                        bundle.putString("error",e.getMessage());
+                        msg.setData(bundle);
+                        uiHandler.sendMessage(msg);
+                    }
                     e.printStackTrace();
                     return;
                 }
@@ -182,10 +185,20 @@ public class TCPClientS {
         return flag;
     }
 
+    private boolean isManuallyDisc = false;
+
+    /**
+     * 主动断开连接
+     */
+    public void manuallyDisconnect() {
+        isManuallyDisc = true;
+        disconnect();
+    }
+
     /**
      * socket disconnect
      * */
-    public void disconnect() {
+    private void disconnect() {
         isStop = true;
         iConnectionState = TCP_CONNECT_STATE_DISCONNECT;
         try {
@@ -290,6 +303,7 @@ public class TCPClientS {
 
                 //connect success
                 case 1:
+                    isManuallyDisc = false;
                     iConnectionState = TCP_CONNECT_STATE_CONNECTED;
                     if (null != onDataReceiveListener) {
                         onDataReceiveListener.onConnectSuccess();

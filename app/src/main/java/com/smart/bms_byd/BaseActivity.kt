@@ -5,8 +5,6 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
-import android.net.ConnectivityManager
-import android.net.wifi.WifiManager
 import android.os.Bundle
 import android.os.Handler
 import android.view.MotionEvent
@@ -15,22 +13,27 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.smart.bms_byd.otherPage.ConnectWIFIActivity
 import com.smart.bms_byd.util.BaseVolume
-import com.smart.bms_byd.util.NetWorkType
+import com.smart.bms_byd.view.AreaAddWindowHint
 import com.smart.bms_byd.view.LoadingDialog
+import com.smart.bms_byd.view.NetStateInfoView
 
 
-open class BaseActivity : AppCompatActivity() {
+open class BaseActivity : AppCompatActivity(),
+    NetStateInfoView.NetStateInfoListener {
 
     protected lateinit var mContext: Context
     protected lateinit var mHandler: Handler
     public lateinit var loadingDialog: LoadingDialog
+    protected lateinit var areaAddWindowHint: AreaAddWindowHint
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         mContext = this
         mHandler = Handler()
         loadingDialog = LoadingDialog(mContext, R.style.dialog_style)
+        areaAddWindowHint = AreaAddWindowHint(mContext, R.style.dialog_style, "系统提示", null, "是否")
 
         registerBroadcast()
 
@@ -47,6 +50,23 @@ open class BaseActivity : AppCompatActivity() {
     protected fun showToast(str: String?) {
         mHandler.post { Toast.makeText(applicationContext, str, Toast.LENGTH_SHORT).show() }
     }
+
+    protected open fun showDialog(strMsg: String, periodListener: AreaAddWindowHint.PeriodListener?, isToast: Boolean) {
+        if (areaAddWindowHint.isShowing()) return
+        areaAddWindowHint.updateContent(strMsg)
+        areaAddWindowHint.setShowTost(isToast)
+        areaAddWindowHint.setListener(periodListener)
+        areaAddWindowHint.show()
+    }
+
+    protected fun dismissDialog() {
+        mHandler.post {
+            loadingDialog.dismiss()
+        }
+
+    }
+
+
 
 
     override fun dispatchTouchEvent(ev: MotionEvent): Boolean {
@@ -121,6 +141,10 @@ open class BaseActivity : AppCompatActivity() {
         unregisterReceiver(mBroadcastReceiver)
     }
 
+    // 网络信息点击事件
+    override fun onClickListenerByNetInfo(view: View?) {
+        startActivity(Intent(mContext,ConnectWIFIActivity().javaClass))
+    }
 
 
 }

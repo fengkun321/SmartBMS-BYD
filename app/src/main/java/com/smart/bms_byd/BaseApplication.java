@@ -11,6 +11,7 @@ import android.net.NetworkInfo;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -73,16 +74,7 @@ public class BaseApplication extends Application implements TCPClientS.OnDataRec
                     if (netInfo.getType() == ConnectivityManager.TYPE_WIFI) {
                         WifiManager wifiManager = (WifiManager) myApplication.getSystemService(Context.WIFI_SERVICE);
                         WifiInfo wifiInfo = wifiManager.getConnectionInfo();
-                        strNowSSID = wifiInfo.getSSID();
-                        int version = BaseVolume.getAndroidSDKVersion();
-                        if (version > 13)
-                            strNowSSID = strNowSSID.replace("\"", "");
-                        if (strNowSSID.contains("BYD"))
-                            nowNetWorkType = NetWorkType.WIFI_DEVICE;
-                        else
-                            nowNetWorkType = NetWorkType.WIFI_OTHER;
-
-                        EventBus.getDefault().post(new MessageInfo(MessageInfo.i_NET_WORK_STATE, NetWorkType.WIFI_DEVICE));
+                        checkSSIDTYPE(wifiInfo.getSSID());
                     }
                     // 移动网
                     else if (netInfo.getType() == ConnectivityManager.TYPE_MOBILE) {
@@ -98,6 +90,20 @@ public class BaseApplication extends Application implements TCPClientS.OnDataRec
             }
         }
     };
+
+    public void checkSSIDTYPE(String strSSID) {
+        strNowSSID = strSSID;
+        int version = BaseVolume.getAndroidSDKVersion();
+        if (version > 13)
+            strNowSSID = strNowSSID.replace("\"", "");
+        if (strNowSSID.contains("BYD"))
+            nowNetWorkType = NetWorkType.WIFI_DEVICE;
+        else
+            nowNetWorkType = NetWorkType.WIFI_OTHER;
+
+        EventBus.getDefault().post(new MessageInfo(MessageInfo.i_NET_WORK_STATE, NetWorkType.WIFI_DEVICE));
+
+    }
 
     private SharedPreferences pref  = null;
     public void saveBooleanBySharedPreferences(String strKey,Boolean isBl) {
@@ -152,7 +158,10 @@ public class BaseApplication extends Application implements TCPClientS.OnDataRec
     public void onDataResultInfo(boolean isOK, String strErrorInfo) {
         Log.e(TAG, "TCP，发送数据，结果：" + isOK+" "+strErrorInfo);
         if (!isOK) {
+            Looper.prepare();
             Toast.makeText(this,"tcp,send fail:"+strErrorInfo,Toast.LENGTH_SHORT).show();
+            Looper.loop();
+
         }
 
     }
