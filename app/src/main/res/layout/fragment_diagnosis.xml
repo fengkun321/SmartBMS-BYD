@@ -28,12 +28,15 @@
         <TextView android:id="@+id/tvRight"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Save"
+            android:text="Help document"
+            android:textSize="12sp"
             android:textColor="@color/white"
             android:layout_centerVertical="true"
             android:layout_alignParentRight="true"
             android:layout_marginRight="10dp"
-            android:visibility="gone"/>
+            android:visibility="visible"
+            android:padding="5dp"
+            android:background="@drawable/text_border"/>
 
     </RelativeLayout>
 
@@ -41,6 +44,65 @@
         android:id="@+id/myNetState"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_margin="20dp">
+
+        <TextView android:id="@+id/tvRealTime"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="30dp"
+            android:text="Real-time malfunction"
+            android:tag="true"
+            android:padding="5dp"
+            android:gravity="center"
+            android:textColor="@color/white"
+            android:background="@drawable/system_blue_border" />
+
+        <TextView android:id="@+id/tvHistory"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="30dp"
+            android:text="history record"
+            android:padding="5dp"
+            android:gravity="center"
+            android:tag="false"
+            android:textColor="@color/text_color"
+            android:background="@drawable/system_tran_border"
+            android:layout_marginLeft="20dp"/>
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        android:paddingLeft="10dp"
+        android:text="recording"
+        android:background="@color/color_hui_white"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerDevice"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+        <ImageView android:id="@+id/imgPush"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:layout_margin="50dp"/>
+
+
+    </RelativeLayout>
+
 
 
 
