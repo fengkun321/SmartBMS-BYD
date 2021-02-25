@@ -6,47 +6,17 @@
     android:gravity="center_horizontal"
     android:background="@color/color_hui_white">
 
-    <RelativeLayout
+    <LinearLayout android:id="@+id/llTitleName"
         android:layout_width="match_parent"
-        android:layout_height="45dp"
-        android:background="@color/title_color">
-
-        <ImageView android:id="@+id/imgLeft"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp" />
-
+        android:layout_height="wrap_content"
+        android:background="@color/color_bg_hui">
         <TextView android:id="@+id/tvTitleName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Contact us"
-            android:textSize="18sp"
-            android:textColor="@color/white"
-            android:layout_centerInParent="true"/>
-
-        <TextView android:id="@+id/tvRight"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Save"
-            android:textColor="@color/white"
-            android:layout_centerVertical="true"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="10dp"
-            android:visibility="gone"/>
-
-    </RelativeLayout>
-
-    <com.smart.bms_byd.view.NetStateInfoView
-        android:id="@+id/myNetState"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-
-    <RelativeLayout android:id="@+id/llTitle"
-        android:layout_width="match_parent"
-        android:layout_height="150dp"
-        android:background="@color/color_hui">
-    </RelativeLayout>
+            style="@style/title_name_style"
+            android:text="CONTACT US"
+            android:layout_marginTop="0.5dp"
+            android:layout_marginBottom="0.5dp"
+            android:background="@color/white"/>
+    </LinearLayout>
 
     <ScrollView
         android:layout_width="match_parent"
@@ -68,7 +38,7 @@
                     android:layout_height="wrap_content"
                     android:background="@color/white"
                     android:text="BYD Global Service"
-                    android:textSize="20sp"
+                    android:textSize="18sp"
                     android:textColor="@color/black"
                     android:padding="10dp"/>
 
@@ -161,7 +131,7 @@
                     android:layout_height="wrap_content"
                     android:background="@color/white"
                     android:text="Australia Authorized Service partner"
-                    android:textSize="20sp"
+                    android:textSize="18sp"
                     android:textColor="@color/black"
                     android:padding="10dp"/>
 
@@ -254,7 +224,7 @@
                     android:layout_height="wrap_content"
                     android:background="@color/white"
                     android:text="Europe Authorized Service partner"
-                    android:textSize="20sp"
+                    android:textSize="18sp"
                     android:textColor="@color/black"
                     android:padding="10dp"/>
 
@@ -347,7 +317,7 @@
                     android:layout_height="wrap_content"
                     android:background="@color/white"
                     android:text="South Africa"
-                    android:textSize="20sp"
+                    android:textSize="18sp"
                     android:textColor="@color/black"
                     android:padding="10dp"/>
 
@@ -436,7 +406,7 @@
                     android:layout_height="wrap_content"
                     android:background="@color/white"
                     android:text="America Authorized Service partner"
-                    android:textSize="20sp"
+                    android:textSize="18sp"
                     android:textColor="@color/black"
                     android:padding="10dp"/>
 

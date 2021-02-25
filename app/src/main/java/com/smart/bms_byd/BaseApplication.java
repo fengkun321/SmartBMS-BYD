@@ -13,6 +13,7 @@ import android.net.wifi.WifiManager;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
 
 import com.smart.bms_byd.data.AnalysisInfo;
@@ -30,9 +31,15 @@ import org.json.JSONObject;
 public class BaseApplication extends Application implements TCPClientS.OnDataReceiveListener {
 
     public String strNowSSID = "";
-    public NetWorkType nowNetWorkType;
+    public NetWorkType nowNetWorkType = NetWorkType.NOTHING_NET;
     private static final String TAG = "BaseApplication";
     private static BaseApplication myApplication;
+
+    public String strErrorInfo = "";
+    public String strMessageInfo = "";
+    public int isShowErrorInfo = View.VISIBLE;
+    public int isShowMessageInfo = View.VISIBLE;
+
     public static BaseApplication getInstance() {
         return myApplication;
     }
@@ -91,18 +98,34 @@ public class BaseApplication extends Application implements TCPClientS.OnDataRec
         }
     };
 
+//    public static final String DEVICE_WIFI_SIGN = "BYDB";
+//    public static final String DEVICE_WIFI_PWD = "BYDB-Box";
+
+    public static final String DEVICE_WIFI_SIGN = "FK";
+    public static final String DEVICE_WIFI_PWD = "fk12345678";
     public void checkSSIDTYPE(String strSSID) {
         strNowSSID = strSSID;
         int version = BaseVolume.getAndroidSDKVersion();
         if (version > 13)
             strNowSSID = strNowSSID.replace("\"", "");
-        if (strNowSSID.contains("BYD"))
+        if (strNowSSID.contains(DEVICE_WIFI_SIGN))
             nowNetWorkType = NetWorkType.WIFI_DEVICE;
         else
             nowNetWorkType = NetWorkType.WIFI_OTHER;
 
         EventBus.getDefault().post(new MessageInfo(MessageInfo.i_NET_WORK_STATE, NetWorkType.WIFI_DEVICE));
 
+    }
+
+    /** 发布消息至顶部消息栏 */
+    public void updateMessageInfo(String strMsg) {
+        this.strErrorInfo = strMsg;
+        EventBus.getDefault().post(new MessageInfo(MessageInfo.i_MESSAGE_INFO,strMsg));
+    }
+    /** 发布异常提醒至顶部异常栏 */
+    public void updateErrorInfo(String strError) {
+        this.strErrorInfo = strError;
+        EventBus.getDefault().post(new MessageInfo(MessageInfo.i_ERROR_INFO,strError));
     }
 
     private SharedPreferences pref  = null;

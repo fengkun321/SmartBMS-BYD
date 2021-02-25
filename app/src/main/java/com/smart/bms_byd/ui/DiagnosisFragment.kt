@@ -1,6 +1,5 @@
-package com.smart.bms_byd.ui.diagnosis
+package com.smart.bms_byd.ui
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -8,19 +7,12 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.smart.bms_byd.R
 import com.smart.bms_byd.adapter.DiagnosticListAdapter
 import com.smart.bms_byd.data.DiagnosticMessageInfo
-import com.smart.bms_byd.otherPage.ConnectWIFIActivity
 import com.smart.bms_byd.util.NetWorkType
-import com.smart.bms_byd.view.NetStateInfoView
 import com.smartIPandeInfo.data.MessageInfo
-import kotlinx.android.synthetic.main.activity_notification_message.*
 import kotlinx.android.synthetic.main.fragment_diagnosis.*
-import kotlinx.android.synthetic.main.fragment_diagnosis.myNetState
-import kotlinx.android.synthetic.main.fragment_diagnosis.recyclerDevice
-import kotlinx.android.synthetic.main.fragment_diagnosis.tvRight
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
@@ -36,15 +28,10 @@ class DiagnosisFragment : Fragment(),View.OnClickListener{
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initUI()
-        EventBus.getDefault().register(this);
+        EventBus.getDefault().register(this)
     }
 
     private fun initUI() {
-        myNetState.initView(context,true,object : NetStateInfoView.NetStateInfoListener{
-            override fun onClickListenerByNetInfo(view: View?) {
-                startActivity(Intent(context, ConnectWIFIActivity().javaClass))
-            }
-        })
 
         diagnosisList.add(DiagnosticMessageInfo("2021-01-29 12:30:25","BMS","xxxx event type xxxx event type xxxx"))
         diagnosisList.add(DiagnosticMessageInfo("2021-01-29 12:30:25","BMS","xxxx event type xxxx event type xxxx"))
@@ -56,15 +43,13 @@ class DiagnosisFragment : Fragment(),View.OnClickListener{
         diagnosisList.add(DiagnosticMessageInfo("2021-01-29 12:30:25","BMS","xxxx event type xxxx event type xxxx"))
         diagnosisList.add(DiagnosticMessageInfo("2021-01-29 12:30:25","BMS","xxxx event type xxxx event type xxxx"))
 
-        diagnosticListAdapter = DiagnosticListAdapter(diagnosisList,context!!)
+        diagnosticListAdapter = DiagnosticListAdapter(diagnosisList,context)
         recyclerDevice.adapter = diagnosticListAdapter
         recyclerDevice.itemAnimator = DefaultItemAnimator()
         recyclerDevice.layoutManager = LinearLayoutManager(context,LinearLayoutManager.VERTICAL,false)
 
         tvRealTime.setOnClickListener(this)
         tvHistory.setOnClickListener(this)
-        tvRight.setOnClickListener(this)
-        imgPush.setOnClickListener(this)
 
     }
 
@@ -89,26 +74,23 @@ class DiagnosisFragment : Fragment(),View.OnClickListener{
                 if (tvRealTime.tag.toString().toBoolean()) return
                 tvRealTime.tag = true
                 tvRealTime.setTextColor(resources.getColor(R.color.white))
-                tvRealTime.setBackgroundResource(R.drawable.system_blue_border)
+                tvRealTime.setBackgroundResource(R.drawable.error_red_bg_border)
                 tvHistory.tag = false
-                tvHistory.setTextColor(resources.getColor(R.color.text_color))
-                tvHistory.setBackgroundResource(R.drawable.system_tran_border)
-
+                tvHistory.setTextColor(resources.getColor(R.color.black))
+                tvHistory.setBackgroundResource(0)
+                llErrorTitle.visibility = View.GONE
+                diagnosticListAdapter.changeHistory(false)
             }
             R.id.tvHistory -> {
                 if (tvHistory.tag.toString().toBoolean()) return
                 tvRealTime.tag = false
-                tvRealTime.setTextColor(resources.getColor(R.color.text_color))
-                tvRealTime.setBackgroundResource(R.drawable.system_tran_border)
+                tvRealTime.setTextColor(resources.getColor(R.color.black))
+                tvRealTime.setBackgroundResource(0)
                 tvHistory.tag = true
                 tvHistory.setTextColor(resources.getColor(R.color.white))
-                tvHistory.setBackgroundResource(R.drawable.system_blue_border)
-            }
-            R.id.tvRight -> {
-
-            }
-            R.id.imgPush -> {
-
+                tvHistory.setBackgroundResource(R.drawable.error_red_bg_border)
+                llErrorTitle.visibility = View.VISIBLE
+                diagnosticListAdapter.changeHistory(true)
             }
         }
 
@@ -120,7 +102,7 @@ class DiagnosisFragment : Fragment(),View.OnClickListener{
             // 接收数据
             MessageInfo.i_NET_WORK_STATE -> {
                 val netWorkType = msg.anyInfo as NetWorkType
-                myNetState.updateNetInfo(netWorkType)
+
             }
         }
 

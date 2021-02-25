@@ -1,0 +1,473 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:layout_marginTop="10dp"
+    android:layout_marginBottom="10dp"
+    android:background="@color/white">
+
+    <TextView android:id="@+id/tvName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:text="System"
+        android:textColor="@color/black"
+        android:gravity="center"/>
+
+    <LinearLayout android:id="@+id/llSystemMain"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            style="@style/system_item_liner_style">
+            <LinearLayout
+                android:orientation="vertical"
+                style="@style/system_item_linerlayout_style">
+                <TextView
+                    style="@style/system_item_title_style"
+                    android:text="SOC"/>
+                <TextView android:id="@+id/tvSOCMin"
+                    style="@style/system_item_value_style"
+                    android:text="XXX"/>
+            </LinearLayout>
+
+            <View
+                android:layout_width="0.5dp"
+                android:layout_height="match_parent"
+                android:background="@color/color_bg_hui"/>
+
+            <LinearLayout
+                style="@style/system_item_linerlayout_style">
+                <TextView
+                    style="@style/system_item_title_style"
+                    android:text="Battery voltage"/>
+                <TextView android:id="@+id/tvBatteryMain"
+                    style="@style/system_item_value_style"
+                    android:text="XXX"/>
+            </LinearLayout>
+
+            <View
+                android:layout_width="0.5dp"
+                android:layout_height="match_parent"
+                android:background="@color/color_bg_hui"/>
+
+            <LinearLayout
+                style="@style/system_item_linerlayout_style">
+                <TextView
+                    style="@style/system_item_title_style"
+                    android:text="Output voltage"/>
+                <TextView
+                    style="@style/system_item_value_style"
+                    android:text="XXX"/>
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/color_bg_hui"/>
+
+        <LinearLayout
+            style="@style/system_item_liner_style">
+            <LinearLayout
+                style="@style/system_item_linerlayout_style">
+                <TextView
+                    style="@style/system_item_title_style"
+                    android:text="Current"/>
+                <TextView
+                    style="@style/system_item_value_style"
+                    android:text="XXX"/>
+            </LinearLayout>
+
+            <View
+                android:layout_width="0.5dp"
+                android:layout_height="match_parent"
+                android:background="@color/color_bg_hui"/>
+
+            <LinearLayout
+                style="@style/system_item_linerlayout_style">
+                <TextView
+                    style="@style/system_item_title_style"
+                    android:text="Parrellal connection"/>
+                <TextView
+                    style="@style/system_item_value_style"
+                    android:text="XXX"/>
+            </LinearLayout>
+
+            <View
+                android:layout_width="0.5dp"
+                android:layout_height="match_parent"
+                android:background="@color/color_bg_hui"/>
+
+            <LinearLayout
+                style="@style/system_item_linerlayout_style">
+                <TextView
+                    style="@style/system_item_title_style"
+                    android:text="Modules per tower"/>
+                <TextView
+                    style="@style/system_item_value_style"
+                    android:text="XXX"/>
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/color_bg_hui"/>
+
+        <LinearLayout
+            style="@style/system_item_liner_style">
+            <LinearLayout
+                style="@style/system_item_linerlayout_style">
+                <TextView
+                    style="@style/system_item_title_style"
+                    android:text="Max.cell voltage"/>
+                <TextView
+                    style="@style/system_item_value_style"
+                    android:text="XXX"/>
+            </LinearLayout>
+
+            <View
+                android:layout_width="0.5dp"
+                android:layout_height="match_parent"
+                android:background="@color/color_bg_hui"/>
+
+            <LinearLayout
+                style="@style/system_item_linerlayout_style">
+                <TextView
+                    style="@style/system_item_title_style"
+                    android:text="Max.cell voltage number"/>
+                <TextView
+                    style="@style/system_item_value_style"
+                    android:text="XXX"/>
+            </LinearLayout>
+
+            <View
+                android:layout_width="0.5dp"
+                android:layout_height="match_parent"
+                android:background="@color/color_bg_hui"/>
+
+            <LinearLayout
+                style="@style/system_item_linerlayout_style">
+                <TextView
+                    style="@style/system_item_title_style"
+                    android:text="Min.cell voltage"/>
+                <TextView
+                    style="@style/system_item_value_style"
+                    android:text="XXX"/>
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/color_bg_hui"/>
+
+        <LinearLayout
+            style="@style/system_item_liner_style">
+            <LinearLayout
+                style="@style/system_item_linerlayout_style">
+                <TextView
+                    style="@style/system_item_title_style"
+                    android:text="Min.cell voltage number"/>
+                <TextView
+                    style="@style/system_item_value_style"
+                    android:text="XXX"/>
+            </LinearLayout>
+
+            <View
+                android:layout_width="0.5dp"
+                android:layout_height="match_parent"
+                android:background="@color/color_bg_hui"/>
+
+            <LinearLayout
+                style="@style/system_item_linerlayout_style">
+                <TextView
+                    style="@style/system_item_title_style"
+                    android:text="Max.cell temperature"/>
+                <TextView
+                    style="@style/system_item_value_style"
+                    android:text="XXX"/>
+            </LinearLayout>
+
+            <View
+                android:layout_width="0.5dp"
+                android:layout_height="match_parent"
+                android:background="@color/color_bg_hui"/>
+
+            <LinearLayout
+                style="@style/system_item_linerlayout_style">
+                <TextView
+                    style="@style/system_item_title_style"
+                    android:text="Max.cell temperature number"/>
+                <TextView
+                    style="@style/system_item_value_style"
+                    android:text="XXX"/>
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/color_bg_hui"/>
+
+        <LinearLayout
+            style="@style/system_item_liner_style">
+            <LinearLayout
+                style="@style/system_item_linerlayout_style">
+                <TextView
+                    style="@style/system_item_title_style"
+                    android:text="Min.cell temperature"/>
+                <TextView
+                    style="@style/system_item_value_style"
+                    android:text="XXX"/>
+            </LinearLayout>
+
+            <View
+                android:layout_width="0.5dp"
+                android:layout_height="match_parent"
+                android:background="@color/color_bg_hui"/>
+
+            <LinearLayout
+                style="@style/system_item_linerlayout_style">
+                <TextView
+                    style="@style/system_item_title_style"
+                    android:text="Min.cell temperature number"/>
+                <TextView
+                    style="@style/system_item_value_style"
+                    android:text="XXX"/>
+            </LinearLayout>
+
+            <View
+                android:layout_width="0.5dp"
+                android:layout_height="match_parent"
+                android:background="@color/color_bg_hui"/>
+
+            <View
+                style="@style/system_item_linerlayout_style"/>
+
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/color_bg_hui"/>
+
+    </LinearLayout>
+
+    <LinearLayout android:id="@+id/llSystemSub"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            style="@style/system_item_liner_style">
+            <LinearLayout
+                style="@style/system_item_linerlayout_style">
+                <TextView
+                    style="@style/system_item_title_style"
+                    android:text="Battery voltage"/>
+                <TextView android:id="@+id/tvBatterySub"
+                    style="@style/system_item_value_style"
+                    android:text="XXX"/>
+            </LinearLayout>
+
+            <View
+                android:layout_width="0.5dp"
+                android:layout_height="match_parent"
+                android:background="@color/color_bg_hui"/>
+
+            <LinearLayout
+                style="@style/system_item_linerlayout_style">
+                <TextView
+                    style="@style/system_item_title_style"
+                    android:text="Output voltage"/>
+                <TextView
+                    style="@style/system_item_value_style"
+                    android:text="XXX"/>
+            </LinearLayout>
+
+            <View
+                android:layout_width="0.5dp"
+                android:layout_height="match_parent"
+                android:background="@color/color_bg_hui"/>
+
+            <LinearLayout
+                style="@style/system_item_linerlayout_style">
+                <TextView
+                    style="@style/system_item_title_style"
+                    android:text="Current"/>
+                <TextView
+                    style="@style/system_item_value_style"
+                    android:text="XXX"/>
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/color_bg_hui"/>
+
+        <LinearLayout
+            style="@style/system_item_liner_style">
+            <LinearLayout
+                style="@style/system_item_linerlayout_style">
+                <TextView
+                    style="@style/system_item_title_style"
+                    android:text="Max.cell voltage"/>
+                <TextView
+                    style="@style/system_item_value_style"
+                    android:text="XXX"/>
+            </LinearLayout>
+
+            <View
+                android:layout_width="0.5dp"
+                android:layout_height="match_parent"
+                android:background="@color/color_bg_hui"/>
+
+            <LinearLayout
+                style="@style/system_item_linerlayout_style">
+                <TextView
+                    style="@style/system_item_title_style"
+                    android:text="Max.cell voltage number"/>
+                <TextView
+                    style="@style/system_item_value_style"
+                    android:text="XXX"/>
+            </LinearLayout>
+
+            <View
+                android:layout_width="0.5dp"
+                android:layout_height="match_parent"
+                android:background="@color/color_bg_hui"/>
+
+            <LinearLayout
+                style="@style/system_item_linerlayout_style">
+                <TextView
+                    style="@style/system_item_title_style"
+                    android:text="Min.cell voltage"/>
+                <TextView
+                    style="@style/system_item_value_style"
+                    android:text="XXX"/>
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/color_bg_hui"/>
+
+        <LinearLayout
+            style="@style/system_item_liner_style">
+            <LinearLayout
+                style="@style/system_item_linerlayout_style">
+                <TextView
+                    style="@style/system_item_title_style"
+                    android:text="Min.cell voltage number"/>
+                <TextView
+                    style="@style/system_item_value_style"
+                    android:text="XXX"/>
+            </LinearLayout>
+
+            <View
+                android:layout_width="0.5dp"
+                android:layout_height="match_parent"
+                android:background="@color/color_bg_hui"/>
+
+            <LinearLayout
+                style="@style/system_item_linerlayout_style">
+                <TextView
+                    style="@style/system_item_title_style"
+                    android:text="Max.cell temperature"/>
+                <TextView
+                    style="@style/system_item_value_style"
+                    android:text="XXX"/>
+            </LinearLayout>
+
+            <View
+                android:layout_width="0.5dp"
+                android:layout_height="match_parent"
+                android:background="@color/color_bg_hui"/>
+
+            <LinearLayout
+                style="@style/system_item_linerlayout_style">
+                <TextView
+                    style="@style/system_item_title_style"
+                    android:text="Max.cell temperature number"/>
+                <TextView
+                    style="@style/system_item_value_style"
+                    android:text="XXX"/>
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/color_bg_hui"/>
+
+        <LinearLayout
+            style="@style/system_item_liner_style">
+            <LinearLayout
+                style="@style/system_item_linerlayout_style">
+                <TextView
+                    style="@style/system_item_title_style"
+                    android:text="Min.cell temperature"/>
+                <TextView
+                    style="@style/system_item_value_style"
+                    android:text="XXX"/>
+            </LinearLayout>
+
+            <View
+                android:layout_width="0.5dp"
+                android:layout_height="match_parent"
+                android:background="@color/color_bg_hui"/>
+
+            <LinearLayout
+                style="@style/system_item_linerlayout_style">
+                <TextView
+                    style="@style/system_item_title_style"
+                    android:text="Min.cell temperature number"/>
+                <TextView
+                    style="@style/system_item_value_style"
+                    android:text="XXX"/>
+            </LinearLayout>
+
+            <View
+                android:layout_width="0.5dp"
+                android:layout_height="match_parent"
+                android:background="@color/color_bg_hui"/>
+
+            <View
+                style="@style/system_item_linerlayout_style"/>
+
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/color_bg_hui"/>
+
+
+    </LinearLayout>
+
+
+
+
+</LinearLayout>

@@ -1,43 +1,128 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="45dp"
-        android:background="@color/title_color">
-
-        <ImageView android:id="@+id/imgLeft"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp" />
-
-        <TextView android:id="@+id/tvTitleName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Update Firmware"
-            android:textSize="18sp"
-            android:textColor="@color/white"
-            android:layout_centerInParent="true"/>
-
-        <TextView android:id="@+id/tvRight"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Save"
-            android:textColor="@color/white"
-            android:layout_centerVertical="true"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="10dp"
-            android:visibility="gone"/>
-
-    </RelativeLayout>
+    android:background="@color/white">
 
     <com.smart.bms_byd.view.NetStateInfoView
         android:id="@+id/myNetState"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
-</LinearLayout>
+    <RelativeLayout android:id="@+id/rlIcon"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/color_bg_hui"
+        android:padding="10dp"
+        android:layout_below="@+id/myNetState">
+
+        <ImageView android:id="@+id/imgLeft"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:layout_centerVertical="true"
+            android:src="@drawable/img_left_back"
+            android:visibility="gone"/>
+
+        <ImageView android:id="@+id/imgTitleIcon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/img_beconnect_icon"
+            android:layout_centerHorizontal="true"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Battery-Box"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@+id/imgTitleIcon"
+            android:layout_marginTop="5dp"/>
+
+        <ImageView android:id="@+id/imgRight"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:padding="10dp"
+            android:src="@drawable/img_right_more"
+            android:visibility="gone"/>
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_below="@+id/rlIcon">
+
+        <LinearLayout android:id="@+id/llTitleName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/color_bg_hui">
+            <TextView android:id="@+id/tvTitleName"
+                style="@style/title_name_style"
+                android:text="DOWNLOAD FIRMWARE"
+                android:layout_marginTop="0.5dp"
+                android:layout_marginBottom="0.5dp"
+                android:background="@color/white"/>
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:layout_marginTop="80dp">
+
+            <TextView android:id="@+id/tvProgressValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0%"
+                android:textSize="20sp"
+                android:textColor="@color/black"
+                android:textStyle="bold"/>
+
+            <ProgressBar android:id="@+id/updateProgressBar"
+                style="@android:style/Widget.ProgressBar.Horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="5dp"
+                android:layout_marginLeft="40dp"
+                android:layout_marginRight="40dp"
+                android:layout_marginTop="20dp"
+                android:indeterminate="false"
+                android:max="100"
+                android:progress="0"
+                android:tag="download"
+                android:progressDrawable="@drawable/download_progress_drawable"
+                android:scrollbars="horizontal" />
+
+            <TextView android:id="@+id/tvUpdateInfo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="This should take about a minute"
+                android:textSize="16sp"
+                android:textColor="@color/black"
+                android:layout_marginTop="20dp"/>
+
+            <TextView android:id="@+id/tvUpdateHint"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="please wait"
+                android:layout_marginTop="20dp"/>
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+
+
+
+
+
+
+
+
+</RelativeLayout>

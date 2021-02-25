@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <color name="colorPrimary">#E91E63</color>
+    <color name="colorPrimary">#E60012</color>
+    <color name="colorPrimary_black">#80000A</color>
     <color name="colorPrimaryDark">#ffffffff</color>
     <color name="colorAccent">#03DAC5</color>
 
@@ -21,9 +22,22 @@
     <color name="color_transparent_ban">#20000000</color>
     <color name="color_transparent">#00000000</color>
 
-    <color name="title_color">#0187fc</color>
-    <color name="title_net_color">#C891CCFF</color>
+    <color name="title_color">#FFFFFFFF</color>
+    <color name="title_text_color">#000D5B</color>
+    <color name="title_net_color">#DCFFFC</color>
+    <color name="title_net_text_color">#5EBAB2</color>
+    <color name="title_error_color">#FFF8DB</color>
+    <color name="title_error_text_color">#FFCC01</color>
+    <color name="title_msg_color">#FFE1D6</color>
+    <color name="title_msg_text_color">#FF4700</color>
     <color name="text_color">#0187fc</color>
-    <color name="color_blue">#0187fc</color>
+    <color name="color_blue">#ABD1FC</color>
+    <color name="color_blue_light">#2684FF</color>
+
+    <color name="color_bg_hui">#E8E8E8</color>
+    <color name="color_menu_bg">#F9F9FB</color>
+
+
+
 
 </resources>

@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import com.smart.bms_byd.BaseActivity;
 import com.smart.bms_byd.MainActivity;
 import com.smart.bms_byd.BaseApplication;
+import com.smart.bms_byd.MainActivityTest;
 import com.smart.bms_byd.R;
 import com.smart.bms_byd.otherPage.PrivacyActivity;
 import com.smart.bms_byd.util.BaseVolume;
@@ -46,11 +47,6 @@ public class FirstActivity extends BaseActivity {
         setContentView(R.layout.activity_first);
         mPermissionsChecker = new PermissionsChecker(this);
         imgLogo = findViewById(R.id.imgLogo);
-    }
-
-    public void onResume() {
-        super.onResume();
-
         imgLogo.startAnimation(AnimationUtils.loadAnimation(mContext, R.anim.alpha_logo));
 
         new Timer().schedule(new TimerTask() {
@@ -65,6 +61,10 @@ public class FirstActivity extends BaseActivity {
                 }
             }
         },1000);
+    }
+
+    public void onResume() {
+        super.onResume();
 
     }
 
@@ -95,7 +95,7 @@ public class FirstActivity extends BaseActivity {
             finish();
         }
         else {
-            startActivity(new Intent(FirstActivity.this, MainActivity.class));
+            startActivity(new Intent(FirstActivity.this, MainActivityTest.class));
             finish();
         }
 

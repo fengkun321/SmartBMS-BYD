@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="320dp"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_gravity="center" >
+    android:layout_gravity="center"
+    android:layout_margin="20dp">
 
     <LinearLayout
         android:layout_width="fill_parent"
@@ -15,12 +16,16 @@
         <TextView
             android:id="@+id/dialog_title"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_height="50dp"
             android:gravity="center"
             android:text="是否正确"
-            android:textColor="#3d3d3d"
-            android:textSize="16sp" />
+            android:textColor="@color/black"
+            android:textSize="18sp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/color_hui"/>
 
         <TextView
             android:id="@+id/areaName"
@@ -29,43 +34,38 @@
             android:layout_margin="15dip"
             android:paddingLeft="5dp"
             android:textSize="17sp" 
-            android:gravity="center"
-            android:textColor="#3d3d3d"/>
-
-        <View
-            android:layout_width="fill_parent"
-            android:layout_height="0.5px"
-            android:background="#D1D1D1" />
+            android:gravity="center"/>
 
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal" >
+            android:orientation="horizontal"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="10dp">
 
             <Button
                 android:id="@+id/cancel_btn"
                 android:layout_width="fill_parent"
                 android:layout_height="45dp"
                 android:layout_weight="1"
-                android:background="@color/color_transparent"
-                android:text="取消"
+                android:background="@drawable/btn_hui_bg"
+                android:text="cancel"
                 android:textSize="16sp"
-                android:textColor="@color/black"/>
-
-            <View android:id="@+id/view1"
-                android:layout_width="0.5dp"
-                android:layout_height="fill_parent"
-                android:background="#D1D1D1" />
+                android:textAllCaps="false"
+                android:layout_margin="10dp"/>
 
             <Button
                 android:id="@+id/confirm_btn"
                 android:layout_width="fill_parent"
                 android:layout_height="45dp"
                 android:layout_weight="1"
-                android:background="@color/color_transparent"
-                android:text="确定"
+                android:background="@drawable/btn_red_bg"
+                android:text="continue"
+                android:textAllCaps="false"
                 android:textSize="16sp"
-                android:textColor="@color/black"/>
+                android:textColor="@color/white"
+                android:layout_margin="10dp"/>
         </LinearLayout>
     </LinearLayout>
 

@@ -51,10 +51,30 @@ open class BaseActivity : AppCompatActivity(),
         mHandler.post { Toast.makeText(applicationContext, str, Toast.LENGTH_SHORT).show() }
     }
 
-    protected open fun showDialog(strMsg: String, periodListener: AreaAddWindowHint.PeriodListener?, isToast: Boolean) {
+    protected fun showToastAndTitle(str: String?) {
+        mHandler.post { Toast.makeText(applicationContext, str, Toast.LENGTH_SHORT).show() }
+        BaseApplication.getInstance().updateMessageInfo(str)
+    }
+
+    protected open fun showDialog(strTitle : String,strMsg: String, periodListener: AreaAddWindowHint.PeriodListener?, isToast: Boolean) {
         if (areaAddWindowHint.isShowing()) return
+        areaAddWindowHint.updateTitle(strTitle)
         areaAddWindowHint.updateContent(strMsg)
         areaAddWindowHint.setShowTost(isToast)
+        areaAddWindowHint.setCancelText("")
+        areaAddWindowHint.setConfirmText("")
+        areaAddWindowHint.setListener(periodListener)
+        areaAddWindowHint.show()
+    }
+
+    protected open fun showDialog(strTitle : String,strMsg: String, periodListener: AreaAddWindowHint.PeriodListener?, isToast: Boolean,
+                                  strCancel:String,strConfirm:String) {
+        if (areaAddWindowHint.isShowing()) return
+        areaAddWindowHint.updateTitle(strTitle)
+        areaAddWindowHint.updateContent(strMsg)
+        areaAddWindowHint.setShowTost(isToast)
+        areaAddWindowHint.setCancelText(strCancel)
+        areaAddWindowHint.setConfirmText(strConfirm)
         areaAddWindowHint.setListener(periodListener)
         areaAddWindowHint.show()
     }

@@ -6,9 +6,9 @@ import androidx.fragment.app.Fragment
 import com.smart.bms_byd.data.AnalysisInfo
 import com.smart.bms_byd.data.CreateControlData
 import com.smart.bms_byd.tcpclient.TCPClientS
-import com.smart.bms_byd.ui.more.MoreFragment
-import com.smart.bms_byd.ui.system.SystemFragment
-import com.smart.bms_byd.ui.diagnosis.DiagnosisFragment
+import com.smart.bms_byd.ui.MoreFragment
+import com.smart.bms_byd.ui.SystemFragment
+import com.smart.bms_byd.ui.DiagnosisFragment
 import com.smart.bms_byd.util.NetWorkType
 import com.smartIPandeInfo.data.MessageInfo
 import kotlinx.android.synthetic.main.activity_main.*
@@ -88,7 +88,7 @@ class MainActivity : BaseActivity() {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public fun onReceiveMessageInfo(msg: MessageInfo) {
         when(msg.iCode) {
-            // 接收数据
+
             MessageInfo.i_NET_WORK_STATE -> {
                 val netWorkType = msg.anyInfo as NetWorkType
 

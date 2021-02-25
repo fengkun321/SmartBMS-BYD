@@ -13,15 +13,16 @@ import com.smart.bms_byd.data.DiagnosticMessageInfo
 import com.smart.bms_byd.data.NotificationMessageInfo
 import com.smart.bms_byd.data.ScanWiFiInfo
 
-class DiagnosticListAdapter(deviceList: ArrayList<DiagnosticMessageInfo>, mContext: Context) : RecyclerView.Adapter<DiagnosticListAdapter.ViewHolder>() {
+class DiagnosticListAdapter(deviceList: ArrayList<DiagnosticMessageInfo>, mContext: Context?) : RecyclerView.Adapter<DiagnosticListAdapter.ViewHolder>() {
 
     var deviceList = arrayListOf<DiagnosticMessageInfo>()
     lateinit var onItemClickListener : OnItemClickListener
     lateinit var mContext: Context
+    var isHistory = false
 
     init {
         this.deviceList = deviceList
-        this.mContext = mContext
+        this.mContext = mContext!!
 
     }
 
@@ -29,15 +30,33 @@ class DiagnosticListAdapter(deviceList: ArrayList<DiagnosticMessageInfo>, mConte
         return ViewHolder(LayoutInflater.from(mContext).inflate(R.layout.item_diagnostic_info, p0, false));
     }
 
+    public fun changeHistory(isHistory : Boolean) {
+        this.isHistory = isHistory
+        notifyDataSetChanged()
+    }
+
     override fun onBindViewHolder(p0: ViewHolder, p1: Int) {
-        p0.tvTime.text = deviceList[p1].strTime
-        p0.tvTitle.text = "[${deviceList[p1].strTitle}]"
+        var strTime = deviceList[p1].strTime
+        strTime = strTime.replace(" ","\n")
+        p0.tvTime.text = strTime
+        p0.tvTitle.text = "(${deviceList[p1].strTitle})"
         p0.tvContent.text = "${deviceList[p1].strContent}"
 
-        if (p1 % 2 == 0)
-            p0.llParent.setBackgroundResource(R.color.white)
-        else
-            p0.llParent.setBackgroundResource(R.color.color_hui_white)
+        if (isHistory) {
+            if (p1 % 2 == 0)
+                p0.llParent.setBackgroundResource(R.color.white)
+            else
+                p0.llParent.setBackgroundResource(R.color.color_hui_white)
+        }
+        else  {
+            p0.tvTime.visibility = View.GONE
+            if (p1 % 2 == 1)
+                p0.llParent.setBackgroundResource(R.color.white)
+            else
+                p0.llParent.setBackgroundResource(R.color.color_hui_white)
+        }
+
+
 
 //        p0.llParent.setOnClickListener {
 //            onItemClickListener.onItemClick(it,p0.adapterPosition)

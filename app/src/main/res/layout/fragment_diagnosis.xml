@@ -4,86 +4,71 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:gravity="center_horizontal"
+    android:background="@color/white">
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="45dp"
-        android:background="@color/title_color">
-
-        <ImageView android:id="@+id/imgLeft"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp" />
-
-        <TextView android:id="@+id/tvTitleName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Diagnostic report"
-            android:textSize="18sp"
-            android:textColor="@color/white"
-            android:layout_centerInParent="true"/>
-
-        <TextView android:id="@+id/tvRight"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Help document"
-            android:textSize="12sp"
-            android:textColor="@color/white"
-            android:layout_centerVertical="true"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="10dp"
-            android:visibility="visible"
-            android:padding="5dp"
-            android:background="@drawable/text_border"/>
-
-    </RelativeLayout>
-
-    <com.smart.bms_byd.view.NetStateInfoView
-        android:id="@+id/myNetState"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-
-    <LinearLayout
+    <LinearLayout android:id="@+id/llTitleName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/color_bg_hui">
+        <TextView android:id="@+id/tvTitleName"
+            style="@style/title_name_style"
+            android:text="Error"
+            android:layout_marginTop="0.5dp"
+            android:layout_marginBottom="0.5dp"
+            android:background="@color/white"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_margin="20dp">
+        android:layout_margin="15dp"
+        android:background="@drawable/error_bg_border">
 
         <TextView android:id="@+id/tvRealTime"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="30dp"
-            android:text="Real-time malfunction"
+            android:layout_width="100dp"
+            android:layout_height="40dp"
+            android:text="Real-time"
             android:tag="true"
-            android:padding="5dp"
             android:gravity="center"
             android:textColor="@color/white"
-            android:background="@drawable/system_blue_border" />
+            android:background="@drawable/error_red_bg_border" />
 
         <TextView android:id="@+id/tvHistory"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="30dp"
-            android:text="history record"
+            android:layout_width="100dp"
+            android:layout_height="40dp"
+            android:text="History"
             android:padding="5dp"
             android:gravity="center"
             android:tag="false"
-            android:textColor="@color/text_color"
-            android:background="@drawable/system_tran_border"
-            android:layout_marginLeft="20dp"/>
+            android:textColor="@color/black"
+            android:background="@null"/>
 
     </LinearLayout>
 
-    <TextView
+    <LinearLayout android:id="@+id/llErrorTitle"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingTop="5dp"
-        android:paddingBottom="5dp"
-        android:paddingLeft="10dp"
-        android:text="recording"
-        android:background="@color/color_hui_white"/>
+        android:layout_height="35dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:background="@color/color_bg_hui"
+        android:visibility="gone">
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="Events"
+            android:layout_marginLeft="20dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Time"
+            android:layout_marginRight="20dp"/>
+
+    </LinearLayout>
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -92,13 +77,6 @@
             android:id="@+id/recyclerDevice"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
-
-        <ImageView android:id="@+id/imgPush"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentBottom="true"
-            android:layout_margin="50dp"/>
 
 
     </RelativeLayout>

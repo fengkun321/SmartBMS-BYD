@@ -10,10 +10,11 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.Settings;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
 
-public class PermissionsActivity extends Activity {
+public class PermissionsActivity extends AppCompatActivity {
 
     public static final int PERMISSIONS_GRANTED = 0; // 权限授权
     public static final int PERMISSIONS_DENIED = 1; // 权限拒绝

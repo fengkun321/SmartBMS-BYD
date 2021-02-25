@@ -1,4 +1,4 @@
-package com.smart.bms_byd.ui.system
+package com.smart.bms_byd.ui
 
 import android.content.Intent
 import android.os.Bundle
@@ -6,10 +6,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.DefaultItemAnimator
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.smart.bms_byd.R
-import com.smart.bms_byd.otherPage.ConnectWIFIActivity
+import com.smart.bms_byd.adapter.SystemStatusAdapter
+import com.smart.bms_byd.data.SystemStatusInfo
 import com.smart.bms_byd.util.NetWorkType
-import com.smart.bms_byd.view.NetStateInfoView
 import com.smartIPandeInfo.data.MessageInfo
 import kotlinx.android.synthetic.main.fragment_system.*
 import org.greenrobot.eventbus.EventBus
@@ -18,6 +21,8 @@ import org.greenrobot.eventbus.ThreadMode
 
 class SystemFragment : Fragment() {
 
+    private var systemStatusArrayList = arrayListOf<SystemStatusInfo>()
+    private lateinit var systemStatusAdapter: SystemStatusAdapter
     override fun onCreateView(inflater: LayoutInflater,container: ViewGroup?,savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_system, container, false)
     }
@@ -29,19 +34,17 @@ class SystemFragment : Fragment() {
     }
 
     private fun initUI() {
-        myNetState.initView(context,true,object : NetStateInfoView.NetStateInfoListener{
-            override fun onClickListenerByNetInfo(view: View?) {
-                startActivity(Intent(context,ConnectWIFIActivity().javaClass))
-            }
-        })
+        systemStatusArrayList.add(SystemStatusInfo("0"))
+        systemStatusArrayList.add(SystemStatusInfo("1"))
+        systemStatusArrayList.add(SystemStatusInfo("2"))
+        systemStatusArrayList.add(SystemStatusInfo("3"))
+        systemStatusArrayList.add(SystemStatusInfo("4"))
+        systemStatusArrayList.add(SystemStatusInfo("5"))
 
-        rlSystemMessage.setOnClickListener {
-            startActivity(Intent(context,SystemMessageActivity().javaClass))
-        }
-        rlInformation.setOnClickListener {
-            startActivity(Intent(context,InformationActivity().javaClass))
-        }
-
+        systemStatusAdapter = SystemStatusAdapter(systemStatusArrayList,context)
+        recyclerSystemInfo.layoutManager = LinearLayoutManager(context,LinearLayoutManager.VERTICAL,false)
+        recyclerSystemInfo.adapter = systemStatusAdapter
+        recyclerSystemInfo.itemAnimator = DefaultItemAnimator()
 
     }
 
@@ -65,7 +68,7 @@ class SystemFragment : Fragment() {
             // 接收数据
             MessageInfo.i_NET_WORK_STATE -> {
                 val netWorkType = msg.anyInfo as NetWorkType
-                myNetState.updateNetInfo(netWorkType)
+
             }
         }
 
@@ -74,6 +77,7 @@ class SystemFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         EventBus.getDefault().unregister(this)
+
     }
 
 

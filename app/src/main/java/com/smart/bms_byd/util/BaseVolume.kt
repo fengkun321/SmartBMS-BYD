@@ -127,6 +127,29 @@ object BaseVolume {
         return currentTime
     }
 
+    /** 年月日
+     * 输入格式：2020-12-09
+     * 输出格式：Dec-09,2020
+     */
+    fun getDateInfo(strDate : String) :String{
+        val iMonth = strDate.split("-")[1].toString().toInt()
+        when(iMonth) {
+            1 -> return "Jan-${strDate.split("-")[2]},${strDate.split("-")[0]}"
+            2 -> return "Feb-${strDate.split("-")[2]},${strDate.split("-")[0]}"
+            3 -> return "Mar-${strDate.split("-")[2]},${strDate.split("-")[0]}"
+            4 -> return "Apr-${strDate.split("-")[2]},${strDate.split("-")[0]}"
+            5 -> return "May-${strDate.split("-")[2]},${strDate.split("-")[0]}"
+            6 -> return "Jun-${strDate.split("-")[2]},${strDate.split("-")[0]}"
+            7 -> return "Jul-${strDate.split("-")[2]},${strDate.split("-")[0]}"
+            8 -> return "Aug-${strDate.split("-")[2]},${strDate.split("-")[0]}"
+            9 -> return "Sept-${strDate.split("-")[2]},${strDate.split("-")[0]}"
+            10 -> return "Oct-${strDate.split("-")[2]},${strDate.split("-")[0]}"
+            11 -> return "Nov-${strDate.split("-")[2]},${strDate.split("-")[0]}"
+            12 -> return "Dec-${strDate.split("-")[2]},${strDate.split("-")[0]}"
+        }
+        return strDate
+    }
+
 
 
 }

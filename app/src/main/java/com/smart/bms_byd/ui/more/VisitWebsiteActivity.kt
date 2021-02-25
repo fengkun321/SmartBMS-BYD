@@ -19,6 +19,9 @@ class VisitWebsiteActivity : BaseActivity() {
 
         myNetState.initView(this, true, this);
 
+        imgLeft.setOnClickListener { finish() }
+
+
         initWebView()
 
         //加载一个网页
@@ -70,6 +73,7 @@ class VisitWebsiteActivity : BaseActivity() {
     override fun onDestroy() {
         super.onDestroy()
         mWebView.destroy()
+        myNetState.unRegisterEventBus()
     }
 
 }

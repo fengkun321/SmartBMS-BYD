@@ -5,9 +5,9 @@
             <solid android:color="@color/white" />
         </shape>
     </item>
-    <item >
-        <bitmap android:src="@drawable/ic_launcher"
-            android:gravity="center" />
+    <item android:top="200dp">
+        <bitmap android:src="@drawable/img_welcome_logo"
+            android:gravity="top" />
     </item>
 
 </layer-list>

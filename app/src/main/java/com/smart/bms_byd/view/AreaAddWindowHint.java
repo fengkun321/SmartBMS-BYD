@@ -13,7 +13,6 @@ public class AreaAddWindowHint extends Dialog implements View.OnClickListener {
 	private Context context;
 	private Button confirmBtn;
 	private Button cancelBtn;
-	private View view1;
 	private TextView tvContent;
 	private boolean isShowTost;
 	
@@ -21,8 +20,9 @@ public class AreaAddWindowHint extends Dialog implements View.OnClickListener {
 	private String period = "";
 	private PeriodListener listener;
 	private String defaultName = "",title;
-	
-	private String strConfirmText = "";
+	private String strCancel = "";
+	private String strConfirm = "";
+
 	
 	public AreaAddWindowHint(Context context) {
 		super(context);
@@ -63,19 +63,19 @@ public class AreaAddWindowHint extends Dialog implements View.OnClickListener {
 		this.setContentView(R.layout.window_area_hint);
 		confirmBtn = (Button) findViewById(R.id.confirm_btn);
 		cancelBtn = (Button) findViewById(R.id.cancel_btn);
-		view1 = findViewById(R.id.view1);
 		tvContent = (TextView) findViewById(R.id.areaName);
 		titleTv = (TextView) findViewById(R.id.dialog_title);
 		titleTv.setText(title);
-		
+
+		if (strCancel.equalsIgnoreCase("")) strCancel = "cancel";
+		if (strConfirm.equalsIgnoreCase("")) strConfirm = "continue";
+
 		if (isShowTost) {
-			view1.setVisibility(View.GONE);
 			cancelBtn.setVisibility(View.GONE);
 		}
-		
-		if (!strConfirmText.equals("")) {
-			confirmBtn.setText(strConfirmText);
-		}
+
+		cancelBtn.setText(strCancel);
+		confirmBtn.setText(strConfirm);
 
 		setCancelable(false);
 		
@@ -86,27 +86,38 @@ public class AreaAddWindowHint extends Dialog implements View.OnClickListener {
 		
 	}
 	
-	public void setConfirmText(String confirmText) {
-		strConfirmText = confirmText;
-		
+	public void setCancelText(String cancelText) {
+		strCancel = cancelText;
+		if (strCancel.equalsIgnoreCase("")) strCancel = "cancel";
+		if (cancelBtn != null) cancelBtn.setText(strCancel);
 	}
+
+	public void setConfirmText(String confirmText) {
+		strConfirm = confirmText;
+		if (strConfirm.equalsIgnoreCase("")) strConfirm = "continue";
+		if (confirmBtn != null) confirmBtn.setText(strConfirm);
+	}
+
 
 	public void setShowTost(boolean showTost) {
 		isShowTost = showTost;
-		if (view1 != null) {
-			if (isShowTost) {
-				view1.setVisibility(View.GONE);
-				cancelBtn.setVisibility(View.GONE);
-			}
-			else {
-				view1.setVisibility(View.VISIBLE);
-				cancelBtn.setVisibility(View.VISIBLE);
-			}
-		}
+		if (cancelBtn == null) return;
+		if (isShowTost)
+			cancelBtn.setVisibility(View.GONE);
+		else
+			cancelBtn.setVisibility(View.VISIBLE);
+
 	}
 
 	public void setListener(PeriodListener listener) {
 		this.listener = listener;
+	}
+
+	public void updateTitle(String strTitle) {
+		this.title = strTitle;
+		if (titleTv != null) {
+			titleTv.setText(title);
+		}
 	}
 	
 	/** ������ʾ���� */

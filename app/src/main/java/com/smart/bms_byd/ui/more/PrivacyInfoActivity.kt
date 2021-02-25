@@ -1,11 +1,8 @@
 package com.smart.bms_byd.ui.more
 
-import android.content.Intent
 import android.os.Bundle
 import com.smart.bms_byd.BaseActivity
-import com.smart.bms_byd.BaseApplication
 import com.smart.bms_byd.R
-import com.smart.bms_byd.util.BaseVolume
 import kotlinx.android.synthetic.main.activity_privacyinfo.*
 
 class PrivacyInfoActivity : BaseActivity() {
@@ -16,10 +13,19 @@ class PrivacyInfoActivity : BaseActivity() {
 
         myNetState.initView(this,true,this);
 
+        imgLeft.setOnClickListener { finish() }
+
         btnNext.setOnClickListener {
 
         }
 
     }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        myNetState.unRegisterEventBus()
+
+    }
+
 
 }

@@ -46,6 +46,16 @@
             android:name=".permissionInfo.FirstActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppStartTheme">
+        </activity>
+
+        <activity
+            android:name=".permissionInfo.PermissionsActivity"
+            android:screenOrientation="portrait"/>
+
+        <activity android:name=".MainActivity">
+        </activity>
+
+        <activity android:name=".MainActivityTest">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -53,21 +63,14 @@
             </intent-filter>
         </activity>
 
-        <activity
-            android:name=".permissionInfo.PermissionsActivity"
-            android:screenOrientation="portrait"/>
-
-        <activity android:name=".MainActivity"/>
-        <activity android:name=".ui.system.SystemMessageActivity"/>
-        <activity android:name=".ui.system.InformationActivity"/>
         <activity android:name=".otherPage.PrivacyActivity"/>
         <activity android:name=".otherPage.UpdateFirmwareActivity"/>
         <activity android:name=".otherPage.ConnectWIFIActivity"/>
-        <activity android:name=".otherPage.ConfigSystemActivity"/>
-        <activity android:name=".otherPage.FinallyConfigActivity"/>
+        <activity android:name=".otherPage.ConfigSystemActivity">
+
+        </activity>
         <activity android:name=".ui.more.PrivacyInfoActivity"/>
         <activity android:name=".ui.more.VisitWebsiteActivity"/>
-        <activity android:name=".ui.more.ContactUsActivity"/>
         <activity android:name=".ui.more.NotificationMessageActivity"/>
 
 

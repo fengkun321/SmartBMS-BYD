@@ -27,6 +27,7 @@ class NotificationMessageActivity : BaseActivity(),NotificationListAdapter.OnIte
         setContentView(R.layout.activity_notification_message)
 
         myNetState.initView(this, true, this);
+        imgLeft.setOnClickListener { finish() }
 
         notificationList.add(NotificationMessageInfo("2020-01-21 14:20:58","important Notice","The booking time is only 7 days,please be at the store site...The booking time is only 7 days,please be at the store site...The booking time is only 7 days,please be at the store site..."))
         notificationList.add(NotificationMessageInfo("2020-01-21 14:20:58","important Notice","The booking time is only 7 days,please be at the store site...The booking time is only 7 days,please be at the store site...The booking time is only 7 days,please be at the store site..."))
@@ -48,6 +49,12 @@ class NotificationMessageActivity : BaseActivity(),NotificationListAdapter.OnIte
 
     override fun onItemClick(view: View?, position: Int) {
         showToast(notificationList[position].strTitle)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        myNetState.unRegisterEventBus()
+
     }
 
 

@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    android:background="@color/color_menu_bg"
+    android:paddingTop="30dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:paddingTop="20dp"
+        android:paddingBottom="20dp"
+        android:background="@color/white">
+        <ImageView
+            android:id="@+id/person"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/img_beconnect_icon"/>
+        <TextView
+            android:id="@+id/stutv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:textColor="@color/title_text_color"
+            android:text="Battery-Box"
+            android:layout_marginLeft="10dp"/>
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/color_bg_hui"/>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scrollbars="none"
+        android:layout_marginTop="20dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@color/white"
+            android:paddingTop="20dp"
+            android:paddingBottom="20dp">
+
+            <RelativeLayout android:id="@+id/rlStatus"
+                style="@style/menu_item_bg_style">
+                <ImageView android:id="@+id/imgStatus"
+                    android:src="@drawable/img_menu_status"
+                    style="@style/menu_icon_style"/>
+                <TextView android:id="@+id/tvStatus"
+                    android:text="Status"
+                    android:layout_toRightOf="@+id/imgStatus"
+                    style="@style/menu_text_style"/>
+                <View
+                    android:layout_alignLeft="@+id/tvStatus"
+                    style="@style/menu_bottom_line_style"/>
+            </RelativeLayout>
+
+            <RelativeLayout android:id="@+id/rlError"
+                style="@style/menu_item_bg_style">
+                <ImageView android:id="@+id/imgError"
+                    android:src="@drawable/img_menu_error"
+                    style="@style/menu_icon_style"/>
+                <TextView android:id="@+id/tvError"
+                    android:text="Error"
+                    android:layout_toRightOf="@+id/imgError"
+                    style="@style/menu_text_style"/>
+                <View
+                    android:layout_alignLeft="@+id/tvError"
+                    style="@style/menu_bottom_line_style"/>
+            </RelativeLayout>
+
+            <RelativeLayout android:id="@+id/rlSendLogs"
+                style="@style/menu_item_bg_style">
+                <ImageView android:id="@+id/imgSendLogs"
+                    android:src="@drawable/img_menu_sendlogs"
+                    style="@style/menu_icon_style"/>
+                <TextView android:id="@+id/tvSendLogs"
+                    android:text="Send logs"
+                    android:layout_toRightOf="@+id/imgSendLogs"
+                    style="@style/menu_text_style"/>
+                <View
+                    android:layout_alignLeft="@+id/tvSendLogs"
+                    style="@style/menu_bottom_line_style"/>
+            </RelativeLayout>
+
+            <RelativeLayout android:id="@+id/rlService"
+                style="@style/menu_item_bg_style">
+                <ImageView android:id="@+id/imgService"
+                    android:src="@drawable/img_menu_service"
+                    style="@style/menu_icon_style"/>
+                <TextView android:id="@+id/tvService"
+                    android:text="Service guideline"
+                    android:layout_toRightOf="@+id/imgService"
+                    style="@style/menu_text_style"/>
+                <View
+                    android:layout_alignLeft="@+id/tvService"
+                    style="@style/menu_bottom_line_style"/>
+            </RelativeLayout>
+
+            <RelativeLayout android:id="@+id/rlConfiguration"
+                style="@style/menu_item_bg_style">
+                <ImageView android:id="@+id/imgConfiguration"
+                    android:src="@drawable/img_menu_configuration"
+                    style="@style/menu_icon_style"/>
+                <TextView android:id="@+id/tvConfiguration"
+                    android:text="Configuration"
+                    android:layout_toRightOf="@+id/imgConfiguration"
+                    style="@style/menu_text_style"/>
+                <View
+                    android:layout_alignLeft="@+id/tvConfiguration"
+                    style="@style/menu_bottom_line_style"/>
+            </RelativeLayout>
+
+            <RelativeLayout android:id="@+id/rlInformation"
+                style="@style/menu_item_bg_style">
+                <ImageView android:id="@+id/imgInformation"
+                    android:src="@drawable/img_menu_information"
+                    style="@style/menu_icon_style"/>
+                <TextView android:id="@+id/tvInformation"
+                    android:text="Information"
+                    android:layout_toRightOf="@+id/imgInformation"
+                    style="@style/menu_text_style"/>
+                <View
+                    android:layout_alignLeft="@+id/tvInformation"
+                    style="@style/menu_bottom_line_style"/>
+            </RelativeLayout>
+
+            <RelativeLayout android:id="@+id/rlContactUs"
+                style="@style/menu_item_bg_style">
+                <ImageView android:id="@+id/imgContactUs"
+                    android:src="@drawable/img_menu_contact"
+                    style="@style/menu_icon_style"/>
+                <TextView android:id="@+id/tvContactUs"
+                    android:text="Contact Us"
+                    android:layout_toRightOf="@+id/imgContactUs"
+                    style="@style/menu_text_style"/>
+                <View
+                    android:layout_alignLeft="@+id/tvContactUs"
+                    style="@style/menu_bottom_line_style"/>
+            </RelativeLayout>
+
+            <RelativeLayout android:id="@+id/rlMore"
+                style="@style/menu_item_bg_style">
+                <ImageView android:id="@+id/imgMore"
+                    android:src="@drawable/img_menu_more"
+                    style="@style/menu_icon_style"/>
+                <TextView android:id="@+id/tvMore"
+                    android:text="More"
+                    android:layout_toRightOf="@+id/imgMore"
+                    style="@style/menu_text_style"/>
+                <View
+                    android:layout_alignLeft="@+id/tvMore"
+                    style="@style/menu_bottom_line_style"/>
+            </RelativeLayout>
+
+
+
+        </LinearLayout>
+
+    </ScrollView>
+
+
+
+
+
+</LinearLayout>

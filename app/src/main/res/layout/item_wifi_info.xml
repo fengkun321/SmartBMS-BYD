@@ -5,30 +5,45 @@
     android:id="@+id/rlParent"
     android:background="@drawable/item_selector">
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="0.5dp"
-        android:background="@color/color_hui"/>
 
-    <RelativeLayout
+
+    <RelativeLayout android:id="@+id/rlContent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="20dp">
+        android:padding="10dp">
 
         <TextView android:id="@+id/tvName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="123456"
-            android:layout_centerVertical="true"/>
+            android:textColor="@color/black"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"/>
 
         <TextView android:id="@+id/tvSign"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="信号"
             android:layout_centerVertical="true"
-            android:layout_alignParentRight="true"/>
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="10dp"
+            android:visibility="gone"/>
+
+        <ImageView android:id="@+id/imgSign"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/img_wifi_sign"/>
 
     </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/color_hui"
+        android:layout_alignBottom="@+id/rlContent"/>
 
 
 

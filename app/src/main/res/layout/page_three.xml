@@ -3,24 +3,95 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:gravity="center">
+    android:paddingTop="20dp"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Select system"/>
+        android:text="Select system"
+        android:layout_marginLeft="10dp"/>
 
-    <Button android:id="@+id/btnNext"
+    <RelativeLayout android:id="@+id/rlSelectSystem"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_marginTop="10dp">
+
+        <Spinner android:id="@+id/spinnerSystem"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:spinnerMode="dropdown"
+            android:dropDownVerticalOffset="50dp"
+            android:background="@drawable/text_border"/>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/img_select_down"
+            android:layout_marginRight="20dp"/>
+
+
+    </RelativeLayout>
+
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Next step"
-        android:textAllCaps="false"
-        android:paddingTop="10dp"
-        android:paddingBottom="10dp"
-        android:paddingLeft="20dp"
-        android:paddingRight="20dp"
-        android:layout_marginTop="30dp"/>
+        android:text="Input quantity"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="20dp"/>
+
+    <RelativeLayout android:id="@+id/rlSelectInput"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_marginTop="10dp">
+
+        <Spinner android:id="@+id/spinnerInput"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:spinnerMode="dropdown"
+            android:dropDownVerticalOffset="50dp"
+            android:background="@drawable/text_border"/>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/img_select_down"
+            android:layout_marginRight="20dp"/>
 
 
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:gravity="center">
+
+        <ImageView android:id="@+id/imgOne"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:src="@drawable/img_hvs_icon"/>
+
+        <TextView android:id="@+id/tvNumber"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="X15"
+            android:textSize="20sp"
+            android:textColor="@color/colorPrimary"/>
+
+        <ImageView android:id="@+id/imgTwo"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:src="@drawable/img_hvs_icon"/>
+
+
+    </LinearLayout>
 
 </LinearLayout>

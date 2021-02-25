@@ -12,6 +12,7 @@ import com.smart.bms_byd.BaseApplication
 import com.smart.bms_byd.R
 import com.smart.bms_byd.adapter.WiFiLsitAdapter
 import com.smart.bms_byd.util.NetWorkType
+import com.smart.bms_byd.view.AreaAddWindowHint
 import com.smart.bms_byd.view.NetStateInfoView
 import com.smart.bms_byd.wifiInfo.WIFIConnectionManager
 import com.smart.bms_byd.wifiInfo.WIFIConnectionTest
@@ -37,7 +38,6 @@ class ConnectWIFIActivity : BaseActivity(),
 
         EventBus.getDefault().register(this);
 
-
         myNetState.initView(this, true, null);
 
 
@@ -62,6 +62,8 @@ class ConnectWIFIActivity : BaseActivity(),
 
         WIFIConnectionManager.getInstance(this)?.openWifi()
         startScanWifi(true)
+
+        imgLeft.setOnClickListener { finish() }
 
     }
 
@@ -122,7 +124,7 @@ class ConnectWIFIActivity : BaseActivity(),
     fun wifiConnectByAndroidQ(scanResult: ScanResult) {
 
         nowSelectSSID = scanResult.SSID
-        val strConnectPwd = "BYDB-Box"
+        val strConnectPwd = BaseApplication.DEVICE_WIFI_PWD
 //        val strConnectPwd = "fk12345678"
         // Android10.0以上用这个 // 想使用这种方式，需要将api提升到29以上
 //        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
@@ -184,11 +186,17 @@ class ConnectWIFIActivity : BaseActivity(),
         Log.e("configWifiInfo", "isEnable:${isEnable}")
         if (!isEnable) {
             loadingDialog.dismiss()
-            showToast("connect fail!")
+            showDialog("Connection Failed","Network connection failed,please try again.",object : AreaAddWindowHint.PeriodListener{
+                override fun refreshListener(string: String?) {
+                    wifiConnectByAndroidQ(scanResult)
+                }
+                override fun cancelListener() {
+                }
+            },false,"cancel","Retry")
         }
         else {
             loadingDialog.showAndMsg("connecting...")
-            mHandler.postDelayed(connectTimeOutRunnable,40*1000)
+            mHandler.postDelayed(connectTimeOutRunnable,30*1000)
         }
 
 
@@ -198,19 +206,27 @@ class ConnectWIFIActivity : BaseActivity(),
         override fun run() {
             if (loadingDialog.isShowing) {
                 loadingDialog.dismiss()
-                showToast("connect time out!")
+                showDialog("Connection Failed","Network connection failed,please try again.",object : AreaAddWindowHint.PeriodListener{
+                    override fun refreshListener(string: String?) {
+                        wifiConnectByAndroidQ(nowSelectWifiInfo)
+                    }
+                    override fun cancelListener() {
+                    }
+                },false,"cancel","Retry")
             }
         }
 
     }
 
+    private lateinit var nowSelectWifiInfo : ScanResult
 
     // wifi 列表的点击事件
     override fun onItemClick(view: View?, position: Int) {
         if (wifiList[position].SSID.equals(BaseApplication.getInstance().strNowSSID))
             return
         startScanWifi(false)
-        wifiConnectByAndroidQ(wifiList[position])
+        nowSelectWifiInfo = wifiList[position]
+        wifiConnectByAndroidQ(nowSelectWifiInfo)
 
     }
 
@@ -220,7 +236,6 @@ class ConnectWIFIActivity : BaseActivity(),
             // 接收数据
             MessageInfo.i_NET_WORK_STATE -> {
                 val netWorkType = msg.anyInfo as NetWorkType
-                myNetState.updateNetInfo(netWorkType)
                 if (netWorkType == NetWorkType.WIFI_DEVICE) {
                     if (BaseApplication.getInstance().strNowSSID.equals(nowSelectSSID) && loadingDialog.isShowing) {
                         mHandler.removeCallbacks(connectTimeOutRunnable)
@@ -229,10 +244,7 @@ class ConnectWIFIActivity : BaseActivity(),
                         finish()
                     }
                 }
-
             }
-
-
         }
 
     }
@@ -241,7 +253,7 @@ class ConnectWIFIActivity : BaseActivity(),
         super.onDestroy()
         mHandler.removeCallbacks(connectTimeOutRunnable)
         EventBus.getDefault().unregister(this)
-
+        myNetState.unRegisterEventBus()
     }
 
 
