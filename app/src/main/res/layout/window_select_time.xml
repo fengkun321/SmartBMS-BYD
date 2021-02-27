@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:layout_margin="20dp">
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:background="@drawable/dialog_finddevice_border"
+        android:orientation="vertical"
+        android:scrollbars="vertical" >
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp">
+
+            <TextView
+                android:id="@+id/dialog_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="Customize"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                android:layout_centerInParent="true"/>
+
+            <ImageView android:id="@+id/imgDismiss"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:src="@drawable/img_delete"
+                android:layout_alignParentRight="true"
+                android:paddingRight="20dp"
+                android:paddingLeft="20dp"/>
+
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/color_hui"/>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout android:id="@+id/llTimeInfo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="visible">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="150dp"
+                    android:orientation="vertical"
+                    android:layout_margin="10dp"
+                    android:gravity="center">
+
+                    <RelativeLayout android:id="@+id/rlStartTime"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:background="@color/color_menu_bg"
+                        android:padding="10dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Start time:"
+                            android:layout_toLeftOf="@+id/tvStartTime"
+                            android:layout_marginRight="30dp"
+                            android:layout_centerVertical="true"/>
+
+                        <TextView android:id="@+id/tvStartTime"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="2021-02-27"
+                            android:textSize="16sp"
+                            android:textColor="@color/black"
+                            android:layout_centerInParent="true"/>
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/img_down_icon"
+                            android:tint="@color/colorPrimary"
+                            android:layout_toRightOf="@+id/tvStartTime"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="30dp"/>
+
+
+                    </RelativeLayout>
+
+                    <RelativeLayout android:id="@+id/rlStopTime"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginTop="20dp"
+                        android:background="@color/color_menu_bg"
+                        android:padding="10dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Stop time:"
+                            android:layout_toLeftOf="@+id/tvStopTime"
+                            android:layout_marginRight="30dp"
+                            android:layout_centerVertical="true"/>
+
+                        <TextView android:id="@+id/tvStopTime"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="2021-02-27"
+                            android:textSize="16sp"
+                            android:textColor="@color/black"
+                            android:layout_centerInParent="true"/>
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/img_down_icon"
+                            android:tint="@color/colorPrimary"
+                            android:layout_toRightOf="@+id/tvStopTime"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="30dp"/>
+
+
+
+                    </RelativeLayout>
+
+
+
+                </LinearLayout>
+
+                <Button
+                    android:id="@+id/confirm_btn"
+                    android:layout_width="fill_parent"
+                    android:layout_height="45dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/btn_red_bg"
+                    android:text="OK"
+                    android:textAllCaps="false"
+                    android:textSize="16sp"
+                    android:textColor="@color/white"
+                    android:layout_margin="10dp"/>
+
+
+            </LinearLayout>
+
+            <LinearLayout android:id="@+id/llSelectTime"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <com.smart.bms_byd.view.MyCustomDatePicker
+                    android:id="@+id/myCustomDatePicker"
+                    android:layout_width="match_parent"
+                    android:layout_height="150dp"
+                    android:layout_margin="10dp"/>
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginBottom="10dp">
+
+                    <TextView
+                        android:id="@+id/cancel_btn"
+                        android:layout_width="fill_parent"
+                        android:layout_height="40dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/dialog_finddevice_border"
+                        android:text="cancel"
+                        android:textAllCaps="false"
+                        android:layout_margin="10dp"
+                        android:visibility="visible"
+                        android:gravity="center"/>
+
+                    <TextView
+                        android:id="@+id/ok_btn"
+                        android:layout_width="fill_parent"
+                        android:layout_height="40dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/dialog_finddevice_border"
+                        android:text="OK"
+                        android:textAllCaps="false"
+                        android:layout_margin="10dp"
+                        android:gravity="center"/>
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+</ScrollView>

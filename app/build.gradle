@@ -10,7 +10,7 @@ android {
 
     defaultConfig {
         applicationId "com.smart.bms_byd"
-        minSdkVersion 23 // 6.0
+        minSdkVersion 19 // 5.0
         targetSdkVersion 28 // 9.0
         versionCode 1
         versionName "1.0.0"

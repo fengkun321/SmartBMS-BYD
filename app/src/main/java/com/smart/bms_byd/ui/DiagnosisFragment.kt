@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -11,6 +12,7 @@ import com.smart.bms_byd.R
 import com.smart.bms_byd.adapter.DiagnosticListAdapter
 import com.smart.bms_byd.data.DiagnosticMessageInfo
 import com.smart.bms_byd.util.NetWorkType
+import com.smart.bms_byd.view.SelectTimeWindowDialog
 import com.smartIPandeInfo.data.MessageInfo
 import kotlinx.android.synthetic.main.fragment_diagnosis.*
 import org.greenrobot.eventbus.EventBus
@@ -21,6 +23,7 @@ class DiagnosisFragment : Fragment(),View.OnClickListener{
 
     var diagnosisList = arrayListOf<DiagnosticMessageInfo>()
     lateinit var diagnosticListAdapter : DiagnosticListAdapter
+    lateinit var selectTimeWindowDialog: SelectTimeWindowDialog
     override fun onCreateView(inflater: LayoutInflater,container: ViewGroup?,savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_diagnosis, container, false)
     }
@@ -33,6 +36,14 @@ class DiagnosisFragment : Fragment(),View.OnClickListener{
 
     private fun initUI() {
 
+        selectTimeWindowDialog = SelectTimeWindowDialog(context,R.style.dialog_style,object : SelectTimeWindowDialog.PeriodListener{
+            override fun refreshListener(strStartTime: String?, strStopTime: String?) {
+                Toast.makeText(context,"$strStartTime -- $strStopTime",Toast.LENGTH_SHORT).show()
+            }
+            override fun cancelListener() {
+
+            }
+        })
         diagnosisList.add(DiagnosticMessageInfo("2021-01-29 12:30:25","BMS","xxxx event type xxxx event type xxxx"))
         diagnosisList.add(DiagnosticMessageInfo("2021-01-29 12:30:25","BMS","xxxx event type xxxx event type xxxx"))
         diagnosisList.add(DiagnosticMessageInfo("2021-01-29 12:30:25","BMS","xxxx event type xxxx event type xxxx"))
@@ -91,6 +102,8 @@ class DiagnosisFragment : Fragment(),View.OnClickListener{
                 tvHistory.setBackgroundResource(R.drawable.error_red_bg_border)
                 llErrorTitle.visibility = View.VISIBLE
                 diagnosticListAdapter.changeHistory(true)
+
+                selectTimeWindowDialog.showDialogByTime()
             }
         }
 
