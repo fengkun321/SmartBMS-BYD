@@ -1,6 +1,7 @@
 package com.smart.bms_byd.view;
 
 import android.content.Context;
+import android.os.Build;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +11,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 
 import com.smart.bms_byd.BaseApplication;
 import com.smart.bms_byd.R;
@@ -70,6 +72,7 @@ public class NetStateInfoView extends LinearLayout {
         this.context = context;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     public NetStateInfoView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
         this.context = context;
@@ -104,6 +107,13 @@ public class NetStateInfoView extends LinearLayout {
                 String strMsgInfo = msg.getAnyInfo().toString();
                 setMessage(strMsgInfo);
                 break;
+            case MessageInfo.i_TCP_CONNECT_FAIL:
+                String strTCPFailInfo = msg.getAnyInfo().toString();
+                setMessage("Disconnected:"+strTCPFailInfo);
+                break;
+            case MessageInfo.i_TCP_CONNECT_SUCCESS:
+                setMessage("Connected");
+                break;
         }
     }
 
@@ -128,11 +138,11 @@ public class NetStateInfoView extends LinearLayout {
         switch (iNetWorkType) {
             // 没有网络
             case NOTHING_NET:
-                tvNetInfo.setText("暂无网络");
+                tvNetInfo.setText("Unreachable");
                 imgNetIcon.setVisibility(View.GONE);
                 break;
             case MOBILE_NET:
-                tvNetInfo.setText("移动网络");
+                tvNetInfo.setText("WWAN");
                 imgNetIcon.setVisibility(View.GONE);
                 break;
             case WIFI_OTHER:

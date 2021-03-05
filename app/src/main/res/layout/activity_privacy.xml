@@ -50,32 +50,18 @@
     </RelativeLayout>
 
 
-    <ScrollView
+    <com.github.barteksc.pdfviewer.PDFView
+        android:id="@+id/pdfView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
-        android:scrollbars="vertical"
-        android:background="@color/white">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
-
-        </LinearLayout>
-
-    </ScrollView>
+        android:layout_weight="1"/>
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="10dp"
         android:background="@color/white">
-        <CheckBox
+        <CheckBox android:id="@+id/cbAgree"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="I agree to this agreement"/>

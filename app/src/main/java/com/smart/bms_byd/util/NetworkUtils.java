@@ -190,12 +190,12 @@ public class NetworkUtils {
      * @param str
      * @return
      */
-    public static StringBuilder parseAscii(String str){
+    public static String parseAscii(String str){
         StringBuilder sb=new StringBuilder();
         byte[] bs=str.getBytes();
         for(int i=0;i<bs.length;i++)
             sb.append(toHex(bs[i]));
-        return sb;
+        return sb.toString();
     }
     
     /**

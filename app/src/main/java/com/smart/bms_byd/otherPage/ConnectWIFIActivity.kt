@@ -11,6 +11,8 @@ import com.smart.bms_byd.BaseActivity
 import com.smart.bms_byd.BaseApplication
 import com.smart.bms_byd.R
 import com.smart.bms_byd.adapter.WiFiLsitAdapter
+import com.smart.bms_byd.tcpclient.TCPClientS
+import com.smart.bms_byd.util.BaseVolume
 import com.smart.bms_byd.util.NetWorkType
 import com.smart.bms_byd.view.AreaAddWindowHint
 import com.smart.bms_byd.view.NetStateInfoView
@@ -30,7 +32,9 @@ class ConnectWIFIActivity : BaseActivity(),
 
     private lateinit var wiFiLsitAdapter : WiFiLsitAdapter
     private var wifiList = arrayListOf<ScanResult>()
-    private var nowSelectSSID = BaseApplication.getInstance().strNowSSID
+    private var nowSelectSSID = ""
+    private var wifiSign = ""
+    private var strSelectPwd = BaseApplication.DEVICE_WIFI_PWD
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,8 +42,9 @@ class ConnectWIFIActivity : BaseActivity(),
 
         EventBus.getDefault().register(this);
 
-        myNetState.initView(this, true, null);
+        wifiSign = intent.getStringExtra("wifiSign")
 
+        myNetState.initView(this, true, null);
 
 //        wifiList.add(ScanWiFiInfo("123","11"))
 //        wifiList.add(ScanWiFiInfo("456","22"))
@@ -85,7 +90,7 @@ class ConnectWIFIActivity : BaseActivity(),
             scanTimer = Timer()
             scanTimer.schedule(object : TimerTask() {
                 override fun run() {
-                    val newWifiList = WIFIConnectionManager.getInstance(mContext)?.allWifiList!!
+                    val newWifiList = WIFIConnectionManager.getInstance(mContext)?.getWifiList(wifiSign)
                     // 去重
                     newWifiList?.forEach {
                         var isHave = false
@@ -110,6 +115,9 @@ class ConnectWIFIActivity : BaseActivity(),
                         }
 
                     }
+
+                    if (wifiList.size > 0) llWaiting.visibility = View.GONE
+
                 }
             }, 0, 2000)
 
@@ -121,74 +129,20 @@ class ConnectWIFIActivity : BaseActivity(),
     /**
      * 连接指定wifi-针对Android10.0系统
      */
-    fun wifiConnectByAndroidQ(scanResult: ScanResult) {
-
-        nowSelectSSID = scanResult.SSID
-        val strConnectPwd = BaseApplication.DEVICE_WIFI_PWD
-//        val strConnectPwd = "fk12345678"
-        // Android10.0以上用这个 // 想使用这种方式，需要将api提升到29以上
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-//            val specifier: NetworkSpecifier = WifiNetworkSpecifier.Builder()
-//                .setSsidPattern(PatternMatcher(nowSelectSSID, PatternMatcher.PATTERN_PREFIX))
-//                .setWpa2Passphrase(strConnectPwd)
-//                .build()
-//            val request = NetworkRequest.Builder()
-//                .addTransportType(NetworkCapabilities.TRANSPORT_WIFI)
-//                .removeCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
-//                .setNetworkSpecifier(specifier)
-//                .build()
-//            val connectivityManager = mContext.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-//            val networkCallback: ConnectivityManager.NetworkCallback = object : ConnectivityManager.NetworkCallback() {
-//                override fun onAvailable(network: Network) {
-//                    // do success processing here..
-//                    Log.e("NetworkCallback", "onAvailable!")
-//                    loadingDialog.dismiss()
-//                    showToast("Connection Success！")
-////                    finish()
-//                    val wifiManager = applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager
-//                    val wifiInfo: WifiInfo = wifiManager.getConnectionInfo()
-//                    BaseApplication.getInstance().checkSSIDTYPE(wifiInfo.ssid)
-//
-//
-//                }
-//
-//                override fun onUnavailable() {
-//                    Log.e("NetworkCallback", "onUnavailable:")
-//                    loadingDialog.dismiss()
-//                    showToast("Connection Fail！")
-//                }
-//            }
-//            connectivityManager.requestNetwork(request, networkCallback)
-//        }
-//        // Android10.0 以下用这个
-//        else {
-//            val wifiManager = applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager
-//            val configuration: WifiConfiguration = WIFIConnectionTest.configWifiInfo(this, wifiManager,scanResult, strConnectPwd)
-//            var netId = configuration.networkId
-//            if (netId == -1) {
-//                netId = wifiManager.addNetwork(configuration)
-//            }
-//            val isEnable = wifiManager.enableNetwork(netId, true)
-//            Log.e("configWifiInfo", "isEnable:${isEnable}")
-//            if (!isEnable) {
-//                loadingDialog.dismiss()
-//                showToast("connect fail!")
-//            }
-//        }
+    fun wifiConnectByAndroidQ() {
 
         val wifiManager = applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager
-        val configuration: WifiConfiguration = WIFIConnectionTest.configWifiInfo(this, wifiManager,scanResult, strConnectPwd)
+        val configuration: WifiConfiguration = WIFIConnectionTest.configWifiInfo(this, wifiManager,nowSelectWifiInfo, strSelectPwd)
         var netId = configuration.networkId
-        if (netId == -1) {
+        if (netId == -1)
             netId = wifiManager.addNetwork(configuration)
-        }
         val isEnable = wifiManager.enableNetwork(netId, true)
         Log.e("configWifiInfo", "isEnable:${isEnable}")
         if (!isEnable) {
             loadingDialog.dismiss()
             showDialog("Connection Failed","Network connection failed,please try again.",object : AreaAddWindowHint.PeriodListener{
                 override fun refreshListener(string: String?) {
-                    wifiConnectByAndroidQ(scanResult)
+                    wifiConnectByAndroidQ()
                 }
                 override fun cancelListener() {
                 }
@@ -208,7 +162,7 @@ class ConnectWIFIActivity : BaseActivity(),
                 loadingDialog.dismiss()
                 showDialog("Connection Failed","Network connection failed,please try again.",object : AreaAddWindowHint.PeriodListener{
                     override fun refreshListener(string: String?) {
-                        wifiConnectByAndroidQ(nowSelectWifiInfo)
+                        wifiConnectByAndroidQ()
                     }
                     override fun cancelListener() {
                     }
@@ -226,24 +180,42 @@ class ConnectWIFIActivity : BaseActivity(),
             return
         startScanWifi(false)
         nowSelectWifiInfo = wifiList[position]
-        wifiConnectByAndroidQ(nowSelectWifiInfo)
-
+        // 属于比亚迪热点，则自动连接
+        strSelectPwd = BaseApplication.DEVICE_WIFI_PWD
+        wifiConnectByAndroidQ()
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public fun onReceiveMessageInfo(msg: MessageInfo) {
         when(msg.iCode) {
-            // 接收数据
+            // 网络状态
             MessageInfo.i_NET_WORK_STATE -> {
                 val netWorkType = msg.anyInfo as NetWorkType
                 if (netWorkType == NetWorkType.WIFI_DEVICE) {
-                    if (BaseApplication.getInstance().strNowSSID.equals(nowSelectSSID) && loadingDialog.isShowing) {
+                    if (BaseApplication.getInstance().strNowSSID.equals(nowSelectWifiInfo.SSID) &&
+                        loadingDialog.isShowing &&
+                        TCPClientS.getInstance(BaseApplication.getInstance()).connectionState == TCPClientS.TCP_CONNECT_STATE_DISCONNECT) {
                         mHandler.removeCallbacks(connectTimeOutRunnable)
-                        loadingDialog.dismiss()
-                        showToast("Connection Success！")
-                        finish()
+                        loadingDialog.showAndMsg("Create channel...")
+                        TCPClientS.getInstance(BaseApplication.getInstance()).connect(BaseVolume.TCP_IP,BaseVolume.TCP_PORT)
                     }
                 }
+            }
+            MessageInfo.i_TCP_CONNECT_SUCCESS -> {
+                showToast("Connection Success！")
+                finish()
+            }
+            MessageInfo.i_TCP_CONNECT_FAIL -> {
+                val strFailInfo= msg.anyInfo as String
+                showToast(strFailInfo)
+                showDialog("Connection Failed","Network connection failed,please try again.",object : AreaAddWindowHint.PeriodListener{
+                    override fun refreshListener(string: String?) {
+                        loadingDialog.showAndMsg("Create channel...")
+                        TCPClientS.getInstance(BaseApplication.getInstance()).connect(BaseVolume.TCP_IP,BaseVolume.TCP_PORT)
+                    }
+                    override fun cancelListener() {
+                    }
+                },false,"cancel","Retry")
             }
         }
 

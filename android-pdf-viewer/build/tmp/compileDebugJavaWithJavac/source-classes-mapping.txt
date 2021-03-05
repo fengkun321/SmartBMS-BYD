@@ -1,0 +1,101 @@
+com/github/barteksc/pdfviewer/util/MathUtils.java
+ com.github.barteksc.pdfviewer.util.MathUtils
+com/github/barteksc/pdfviewer/util/SnapEdge.java
+ com.github.barteksc.pdfviewer.util.SnapEdge
+com/github/barteksc/pdfviewer/AnimationManager.java
+ com.github.barteksc.pdfviewer.AnimationManager
+ com.github.barteksc.pdfviewer.AnimationManager$XAnimation
+ com.github.barteksc.pdfviewer.AnimationManager$YAnimation
+ com.github.barteksc.pdfviewer.AnimationManager$ZoomAnimation
+com/github/barteksc/pdfviewer/source/AssetSource.java
+ com.github.barteksc.pdfviewer.source.AssetSource
+com/github/barteksc/pdfviewer/source/DocumentSource.java
+ com.github.barteksc.pdfviewer.source.DocumentSource
+com/github/barteksc/pdfviewer/exception/PageRenderingException.java
+ com.github.barteksc.pdfviewer.exception.PageRenderingException
+com/github/barteksc/pdfviewer/PdfFile.java
+ com.github.barteksc.pdfviewer.PdfFile
+com/github/barteksc/pdfviewer/listener/Callbacks.java
+ com.github.barteksc.pdfviewer.listener.Callbacks
+com/github/barteksc/pdfviewer/util/ArrayUtils.java
+ com.github.barteksc.pdfviewer.util.ArrayUtils
+com/github/barteksc/pdfviewer/DecodingAsyncTask.java
+ com.github.barteksc.pdfviewer.DecodingAsyncTask
+com/github/barteksc/pdfviewer/PDFView.java
+ com.github.barteksc.pdfviewer.PDFView
+ com.github.barteksc.pdfviewer.PDFView$1
+ com.github.barteksc.pdfviewer.PDFView$Configurator
+ com.github.barteksc.pdfviewer.PDFView$ScrollDir
+ com.github.barteksc.pdfviewer.PDFView$State
+com/github/barteksc/pdfviewer/util/Util.java
+ com.github.barteksc.pdfviewer.util.Util
+com/github/barteksc/pdfviewer/scroll/DefaultScrollHandle.java
+ com.github.barteksc.pdfviewer.scroll.DefaultScrollHandle
+ com.github.barteksc.pdfviewer.scroll.DefaultScrollHandle$1
+com/github/barteksc/pdfviewer/util/FileUtils.java
+ com.github.barteksc.pdfviewer.util.FileUtils
+com/github/barteksc/pdfviewer/listener/OnLoadCompleteListener.java
+ com.github.barteksc.pdfviewer.listener.OnLoadCompleteListener
+com/github/barteksc/pdfviewer/listener/OnErrorListener.java
+ com.github.barteksc.pdfviewer.listener.OnErrorListener
+com/github/barteksc/pdfviewer/listener/OnTapListener.java
+ com.github.barteksc.pdfviewer.listener.OnTapListener
+com/github/barteksc/pdfviewer/model/PagePart.java
+ com.github.barteksc.pdfviewer.model.PagePart
+com/github/barteksc/pdfviewer/BuildConfig.java
+ com.github.barteksc.pdfviewer.BuildConfig
+com/github/barteksc/pdfviewer/link/LinkHandler.java
+ com.github.barteksc.pdfviewer.link.LinkHandler
+com/github/barteksc/pdfviewer/util/Constants.java
+ com.github.barteksc.pdfviewer.util.Constants
+ com.github.barteksc.pdfviewer.util.Constants$Cache
+ com.github.barteksc.pdfviewer.util.Constants$Pinch
+com/github/barteksc/pdfviewer/listener/OnRenderListener.java
+ com.github.barteksc.pdfviewer.listener.OnRenderListener
+com/github/barteksc/pdfviewer/source/UriSource.java
+ com.github.barteksc.pdfviewer.source.UriSource
+com/github/barteksc/pdfviewer/util/FitPolicy.java
+ com.github.barteksc.pdfviewer.util.FitPolicy
+com/github/barteksc/pdfviewer/scroll/ScrollHandle.java
+ com.github.barteksc.pdfviewer.scroll.ScrollHandle
+com/github/barteksc/pdfviewer/exception/FileNotFoundException.java
+ com.github.barteksc.pdfviewer.exception.FileNotFoundException
+com/github/barteksc/pdfviewer/source/InputStreamSource.java
+ com.github.barteksc.pdfviewer.source.InputStreamSource
+com/github/barteksc/pdfviewer/listener/OnPageChangeListener.java
+ com.github.barteksc.pdfviewer.listener.OnPageChangeListener
+com/github/barteksc/pdfviewer/listener/OnPageScrollListener.java
+ com.github.barteksc.pdfviewer.listener.OnPageScrollListener
+com/github/barteksc/pdfviewer/source/FileSource.java
+ com.github.barteksc.pdfviewer.source.FileSource
+com/github/barteksc/pdfviewer/PagesLoader.java
+ com.github.barteksc.pdfviewer.PagesLoader
+ com.github.barteksc.pdfviewer.PagesLoader$1
+ com.github.barteksc.pdfviewer.PagesLoader$GridSize
+ com.github.barteksc.pdfviewer.PagesLoader$Holder
+ com.github.barteksc.pdfviewer.PagesLoader$RenderRange
+com/github/barteksc/pdfviewer/CacheManager.java
+ com.github.barteksc.pdfviewer.CacheManager
+ com.github.barteksc.pdfviewer.CacheManager$PagePartComparator
+com/github/barteksc/pdfviewer/util/PageSizeCalculator.java
+ com.github.barteksc.pdfviewer.util.PageSizeCalculator
+ com.github.barteksc.pdfviewer.util.PageSizeCalculator$1
+com/github/barteksc/pdfviewer/model/LinkTapEvent.java
+ com.github.barteksc.pdfviewer.model.LinkTapEvent
+com/github/barteksc/pdfviewer/source/ByteArraySource.java
+ com.github.barteksc.pdfviewer.source.ByteArraySource
+com/github/barteksc/pdfviewer/listener/OnLongPressListener.java
+ com.github.barteksc.pdfviewer.listener.OnLongPressListener
+com/github/barteksc/pdfviewer/RenderingHandler.java
+ com.github.barteksc.pdfviewer.RenderingHandler
+ com.github.barteksc.pdfviewer.RenderingHandler$1
+ com.github.barteksc.pdfviewer.RenderingHandler$2
+ com.github.barteksc.pdfviewer.RenderingHandler$RenderingTask
+com/github/barteksc/pdfviewer/listener/OnDrawListener.java
+ com.github.barteksc.pdfviewer.listener.OnDrawListener
+com/github/barteksc/pdfviewer/listener/OnPageErrorListener.java
+ com.github.barteksc.pdfviewer.listener.OnPageErrorListener
+com/github/barteksc/pdfviewer/link/DefaultLinkHandler.java
+ com.github.barteksc.pdfviewer.link.DefaultLinkHandler
+com/github/barteksc/pdfviewer/DragPinchManager.java
+ com.github.barteksc.pdfviewer.DragPinchManager

@@ -23,7 +23,7 @@ class DiagnosisFragment : Fragment(),View.OnClickListener{
 
     var diagnosisList = arrayListOf<DiagnosticMessageInfo>()
     lateinit var diagnosticListAdapter : DiagnosticListAdapter
-    lateinit var selectTimeWindowDialog: SelectTimeWindowDialog
+
     override fun onCreateView(inflater: LayoutInflater,container: ViewGroup?,savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_diagnosis, container, false)
     }
@@ -36,14 +36,6 @@ class DiagnosisFragment : Fragment(),View.OnClickListener{
 
     private fun initUI() {
 
-        selectTimeWindowDialog = SelectTimeWindowDialog(context,R.style.dialog_style,object : SelectTimeWindowDialog.PeriodListener{
-            override fun refreshListener(strStartTime: String?, strStopTime: String?) {
-                Toast.makeText(context,"$strStartTime -- $strStopTime",Toast.LENGTH_SHORT).show()
-            }
-            override fun cancelListener() {
-
-            }
-        })
         diagnosisList.add(DiagnosticMessageInfo("2021-01-29 12:30:25","BMS","xxxx event type xxxx event type xxxx"))
         diagnosisList.add(DiagnosticMessageInfo("2021-01-29 12:30:25","BMS","xxxx event type xxxx event type xxxx"))
         diagnosisList.add(DiagnosticMessageInfo("2021-01-29 12:30:25","BMS","xxxx event type xxxx event type xxxx"))
@@ -103,7 +95,6 @@ class DiagnosisFragment : Fragment(),View.OnClickListener{
                 llErrorTitle.visibility = View.VISIBLE
                 diagnosticListAdapter.changeHistory(true)
 
-                selectTimeWindowDialog.showDialogByTime()
             }
         }
 

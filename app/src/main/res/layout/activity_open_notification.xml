@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout android:id="@+id/rlIcon"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_below="@+id/myNetState"
+        android:background="@color/color_bg_hui">
+
+
+        <TextView android:id="@+id/tvTitleName"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="Battery-Box"
+            android:gravity="center"
+            android:textColor="@color/title_text_color"
+            android:textSize="16sp"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@+id/imgTitleIcon"
+            android:layout_marginBottom="0.5dp"
+            android:background="@color/white"/>
+
+        <ImageView android:id="@+id/imgLeft"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_centerVertical="true"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:src="@drawable/img_left_back"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ScrollView android:id="@+id/scrollViewTxt"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView android:id="@+id/tvMessageInfo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:padding="10dp"/>
+
+
+            </LinearLayout>
+
+        </ScrollView>
+
+        <WebView android:id="@+id/mWebView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+    </RelativeLayout>
+
+
+</LinearLayout>

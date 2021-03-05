@@ -163,7 +163,7 @@ open class BaseActivity : AppCompatActivity(),
 
     // 网络信息点击事件
     override fun onClickListenerByNetInfo(view: View?) {
-        startActivity(Intent(mContext,ConnectWIFIActivity().javaClass))
+        startActivity(Intent(mContext,ConnectWIFIActivity().javaClass).putExtra("wifiSign",BaseApplication.DEVICE_WIFI_SIGN))
     }
 
 

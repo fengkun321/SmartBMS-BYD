@@ -1,5 +1,6 @@
 package com.smart.bms_byd.ui.more
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.KeyEvent
 import android.view.KeyEvent.KEYCODE_BACK
@@ -37,6 +38,7 @@ class NotificationMessageActivity : BaseActivity(),NotificationListAdapter.OnIte
         notificationList.add(NotificationMessageInfo("2020-01-21 14:20:58","important Notice","The booking time is only 7 days,please be at the store site...The booking time is only 7 days,please be at the store site...The booking time is only 7 days,please be at the store site..."))
         notificationList.add(NotificationMessageInfo("2020-01-21 14:20:58","important Notice","The booking time is only 7 days,please be at the store site...The booking time is only 7 days,please be at the store site...The booking time is only 7 days,please be at the store site..."))
 
+        notificationList[1].strType = "URL"
 
         notificationListAdapter = NotificationListAdapter(notificationList,mContext)
         notificationListAdapter.onItemClickListener = this
@@ -49,6 +51,8 @@ class NotificationMessageActivity : BaseActivity(),NotificationListAdapter.OnIte
 
     override fun onItemClick(view: View?, position: Int) {
         showToast(notificationList[position].strTitle)
+        startActivity(Intent(mContext,OpenNotificationActivity().javaClass).putExtra("NotificationInfo",notificationList[position]))
+
     }
 
     override fun onDestroy() {

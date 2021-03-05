@@ -25,7 +25,7 @@ class VisitWebsiteActivity : BaseActivity() {
         initWebView()
 
         //加载一个网页
-        mWebView.loadUrl("http://www.baidu.com/")
+        mWebView.loadUrl("https://www.byd.com/cn/index.html")
         mWebView.setWebViewClient(object : WebViewClient() {
             // 加载失败
             override fun onReceivedError(view: WebView, errorCode: Int, description: String, failingUrl: String) {

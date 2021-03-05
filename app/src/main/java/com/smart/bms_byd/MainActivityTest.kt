@@ -15,6 +15,7 @@ import com.smart.bms_byd.otherPage.ConfigSystemActivity
 import com.smart.bms_byd.tcpclient.TCPClientS
 import com.smart.bms_byd.ui.*
 import com.smart.bms_byd.util.NetWorkType
+import com.smart.bms_byd.view.SelectTimeWindowDialog
 import com.smartIPandeInfo.data.MessageInfo
 import kotlinx.android.synthetic.main.activity_main_test.*
 import kotlinx.android.synthetic.main.stumenutop.view.*
@@ -28,6 +29,7 @@ class MainActivityTest : BaseActivity() {
     private var lastIndex = 0
     private var mFragments = mutableListOf<Fragment>()
     lateinit var drawer : DrawerLayout
+    lateinit var selectTimeWindowDialog: SelectTimeWindowDialog
 
     companion object {
         private lateinit var mainActivityTest: MainActivityTest
@@ -61,7 +63,7 @@ class MainActivityTest : BaseActivity() {
         mFragments = ArrayList()
         mFragments.add(SystemFragment())
         mFragments.add(DiagnosisFragment())
-        mFragments.add(SendLogsFragment())
+        mFragments.add(ServiceGuideFragment())
         mFragments.add(InformationFragment())
         mFragments.add(ContactUsFragment())
         mFragments.add(MoreFragment())
@@ -85,6 +87,15 @@ class MainActivityTest : BaseActivity() {
     }
 
     private fun initView() {
+
+        selectTimeWindowDialog = SelectTimeWindowDialog(mContext,R.style.dialog_style,object : SelectTimeWindowDialog.PeriodListener{
+            override fun refreshListener(strStartTime: String?, strStopTime: String?) {
+                showToast("$strStartTime -- $strStopTime")
+            }
+            override fun cancelListener() {
+
+            }
+        })
 
         imgLeft.setOnClickListener { onShowMenu() }
 
@@ -113,10 +124,10 @@ class MainActivityTest : BaseActivity() {
                 setFragmentPosition(1)
             }
             R.id.rlSendLogs -> {
-                setFragmentPosition(2)
+                selectTimeWindowDialog.showDialogByTime()
             }
             R.id.rlService -> {
-
+                setFragmentPosition(2)
             }
             R.id.rlConfiguration -> {
                 startActivity(Intent(mContext,ConfigSystemActivity().javaClass))

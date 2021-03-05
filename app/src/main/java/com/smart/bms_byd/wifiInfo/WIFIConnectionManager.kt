@@ -1,11 +1,12 @@
 package com.smart.bms_byd.wifiInfo
 
 import android.content.Context
+import android.net.ConnectivityManager
 import android.net.wifi.*
 import android.util.Log
+import androidx.core.content.ContextCompat.getSystemService
+import java.util.*
 
-import java.util.ArrayList
-import java.util.HashMap
 
 class WIFIConnectionManager(private val mContext: Context) {
     var wifiManager: WifiManager? = null
@@ -23,39 +24,36 @@ class WIFIConnectionManager(private val mContext: Context) {
             wifiInfo = wifiManager!!.connectionInfo
             var nowSSID = wifiInfo!!.ssid
             if (!nowSSID.equals(""))
-                nowSSID = nowSSID.substring(1,nowSSID.length - 1)
+                nowSSID = nowSSID.substring(1, nowSSID.length - 1)
             return nowSSID
         }
-
     /**
-     * 获取附件的热点集合
-     * @return
+     * 获取附近的wifi
      */
-    //开始扫描AP
-    val allWifiList: ArrayList<ScanResult>
-        get() {
-            wifiManager!!.startScan()
-            val scanWifiList = wifiManager!!.scanResults
-            val wifiList = ArrayList<ScanResult>()
-            if (scanWifiList != null && scanWifiList.size > 0) {
-                val signalStrength = HashMap<String, Int>()
-                for (i in scanWifiList.indices) {
-                    val scanResult = scanWifiList[i]
-                    Log.e("MainActivity", "搜索的wifi-ssid:" + scanResult.SSID+",rssi:"+scanResult.level)
-//                    if (!scanResult.SSID.isEmpty() && scanResult.SSID.indexOf(BaseVolume.WIFI_SIGN) >= 0) {
-                    if (!scanResult.SSID.isEmpty()) {
+    public fun getWifiList(strWifiSign : String) : ArrayList<ScanResult>{
+        wifiManager!!.startScan()
+        val scanWifiList = wifiManager!!.scanResults
+        var wifiList = ArrayList<ScanResult>()
+        if (scanWifiList != null && scanWifiList.size > 0) {
+            val signalStrength = HashMap<String, Int>()
+            for (i in scanWifiList.indices) {
+                val scanResult = scanWifiList[i]
+                Log.e("MainActivity", "搜索的wifi-ssid:" + scanResult.SSID + ",rssi:" + scanResult.level)
+                    if (!scanResult.SSID.isEmpty() && scanResult.SSID.indexOf(strWifiSign) >= 0) {
+//                if (!scanResult.SSID.isEmpty()) {
                     val key = scanResult.SSID + " " + scanResult.capabilities
-                        if (!signalStrength.containsKey(key)) {
-                            signalStrength[key] = i
-                            wifiList.add(scanResult)
-                        }
+                    if (!signalStrength.containsKey(key)) {
+                        signalStrength[key] = i
+                        wifiList.add(scanResult)
                     }
                 }
-            } else {
-                Log.e("MainActivity", "没有搜索到wifi")
             }
-            return wifiList
+        } else {
+            Log.e("MainActivity", "没有搜索到wifi")
         }
+        return wifiList
+
+    }
 
 
     /**

@@ -12,7 +12,7 @@
         android:background="@color/color_bg_hui">
         <TextView android:id="@+id/tvTitleName"
             style="@style/title_name_style"
-            android:text="Send logs"
+            android:text="Service guideline"
             android:layout_marginTop="0.5dp"
             android:layout_marginBottom="0.5dp"
             android:background="@color/white"/>

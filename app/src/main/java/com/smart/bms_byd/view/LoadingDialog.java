@@ -41,14 +41,5 @@ public class LoadingDialog extends Dialog {
 		}
 	}
 
-	public void updateStatusText(String strText) {
-		this.strMsg = strText;
-		if (!isShowing())
-			show();
-		if (this.mTextView != null) {
-			this.mTextView.setText(strText);
-		}
-
-	}
 
 }

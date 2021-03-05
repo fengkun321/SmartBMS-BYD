@@ -58,7 +58,7 @@
         android:background="@color/color_bg_hui">
         <TextView android:id="@+id/tvTitleName"
             style="@style/title_name_style"
-            android:text="DOWNLOAD FIRMWARE"
+            android:text="CONNECT DEVICE WIFI"
             android:layout_marginTop="0.5dp"
             android:layout_marginBottom="0.5dp"
             android:background="@color/white"/>
@@ -76,6 +76,28 @@
             android:layout_above="@+id/tvHint">
 
         </androidx.recyclerview.widget.RecyclerView>
+
+        <LinearLayout android:id="@+id/llWaiting"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:layout_centerInParent="true">
+            <ProgressBar
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="waiting..."
+                android:textColor="@color/colorPrimary"
+                android:layout_marginTop="10dp"/>
+
+
+        </LinearLayout>
+
+
 
         <TextView android:id="@+id/tvHint"
             android:layout_width="wrap_content"

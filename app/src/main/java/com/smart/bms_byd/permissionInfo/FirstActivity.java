@@ -13,6 +13,7 @@ import com.smart.bms_byd.BaseApplication;
 import com.smart.bms_byd.MainActivityTest;
 import com.smart.bms_byd.R;
 import com.smart.bms_byd.otherPage.PrivacyActivity;
+import com.smart.bms_byd.otherPage.UpdateFirmwareActivity;
 import com.smart.bms_byd.util.BaseVolume;
 
 import java.util.Timer;
@@ -35,6 +36,7 @@ public class FirstActivity extends BaseActivity {
             Manifest.permission.ACCESS_FINE_LOCATION,
 //            Manifest.permission.ACCESS_BACKGROUND_LOCATION, //全新的定位权限
             Manifest.permission.READ_PHONE_STATE,// 设备唯一标识
+            Manifest.permission.MODIFY_PHONE_STATE,// 监听手机状态
 //            Manifest.permission.ACCESS_MEDIA_LOCATION,  //访问照片的位置信息
 
     };
@@ -89,13 +91,15 @@ public class FirstActivity extends BaseActivity {
     /** 前往下一个页面 */
     private void gotoNextActivity() {
 
+        BaseApplication.getInstance().registerReceiverNetwork();
+
         // 第一次打开，则先进入隐私政策页面
         if (BaseApplication.getInstance().getBooleanBySharedPreferences(BaseVolume.FIRST_RUN_APPLICATION,true)) {
             startActivity(new Intent(FirstActivity.this, PrivacyActivity.class));
             finish();
         }
         else {
-            startActivity(new Intent(FirstActivity.this, MainActivityTest.class));
+            startActivity(new Intent(FirstActivity.this, UpdateFirmwareActivity.class));
             finish();
         }
 
