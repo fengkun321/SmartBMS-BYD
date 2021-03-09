@@ -72,7 +72,7 @@ public class DownloadUtil {
                 FileOutputStream fos = null;
                 // 储存下载文件的目录
                 String savePath = isExistDir(saveDir);
-                Log.e(TAG,"存储下载目录："+savePath);
+//                Log.e(TAG,"存储下载目录："+savePath);
                 try {
                     is = response.body().byteStream();
                     long total = response.body().contentLength();
@@ -121,7 +121,7 @@ public class DownloadUtil {
             downloadFile.createNewFile();
         }
         String savePath = downloadFile.getAbsolutePath();
-        Log.e(TAG,"下载目录："+savePath);
+//        Log.e(TAG,"下载目录："+savePath);
         return savePath;
     }
 

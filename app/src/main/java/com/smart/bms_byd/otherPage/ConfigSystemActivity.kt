@@ -14,6 +14,7 @@ import com.smart.bms_byd.R
 import com.smart.bms_byd.adapter.MyPagerAdapter
 import com.smart.bms_byd.data.AnalysisInfo
 import com.smart.bms_byd.data.CreateControlData
+import com.smart.bms_byd.data.DeviceStateInfo
 import com.smart.bms_byd.tcpclient.TCPClientS
 import com.smart.bms_byd.util.BaseVolume
 import com.smart.bms_byd.util.NetWorkType
@@ -107,17 +108,30 @@ class ConfigSystemActivity : BaseActivity(){
     private var strNowTimeInfo = ""
     private fun initView1() {
         imgFow.setImageResource(R.drawable.img_fow_one)
-        strNowTimeInfo = BaseVolume.getNowSystemTime()
+//        strNowTimeInfo = BaseVolume.getNowSystemTime()
+        strNowTimeInfo = DeviceStateInfo.getInstance().BCU_Time
         view1.tvDate.text = BaseVolume.getDateInfo(strNowTimeInfo.split(" ")[0])
         view1.tvTime.text = strNowTimeInfo.split(" ")[1]
     }
 
     private lateinit var inverterAdapter : ArrayAdapter<String>
-    private val inverterArray = arrayListOf("Fronius","GOODWE","GOODWE","KOSTAL","Selectronic","SMA SBS 3.7-6.0"
-        ,"SMA","Victron","SUNTECH","Sungrow","Kaco","Studer","SolarEdge","Ingeteam","Sungrow","Schneider","SMA SBS 2.5")
+    private var inverterArray = arrayListOf<String>()
     private fun initView2() {
         imgFow.setImageResource(R.drawable.img_fow_two)
         view2.spinnerInverter.tag = "Inverter"
+        inverterArray.clear()
+        // 低压
+        if ((DeviceStateInfo.getInstance().BCU_SN.indexOf("P02") == 0) || (DeviceStateInfo.getInstance().BCU_SN.indexOf("P01") == 0)) {
+            inverterArray = arrayListOf("GOODWE","Selectronic"
+                ,"SMA","Victron","SUNTECH","Studer","SolarEdge","Sungrow")
+        }
+        // 高压
+        else if (DeviceStateInfo.getInstance().BCU_SN.indexOf("P03") == 0){
+            inverterArray = arrayListOf("Fronius","GOODWE","KOSTAL","SMA SBS 3.7-6.0"
+                ,"Sungrow","Kaco","Ingeteam","Schneider","SMA SBS 2.5")
+        }
+
+
         //将可选内容与ArrayAdapter连接起来
         inverterAdapter = ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, inverterArray)
         //设置下拉列表的风格
@@ -126,6 +140,14 @@ class ConfigSystemActivity : BaseActivity(){
         view2.spinnerInverter.adapter = inverterAdapter
         //添加事件Spinner事件监听
         view2.spinnerInverter.onItemSelectedListener = OnItemSelectedListener
+        // 自动选中当前选项
+        val strNowInverterName = DeviceStateInfo.getInstance().inverterAllArray[DeviceStateInfo.getInstance().Inverter_Type]
+        for (iN in inverterArray.indices) {
+            if (inverterArray[iN].equals(strNowInverterName)) {
+                view2.spinnerInverter.setSelection(iN)
+                break
+            }
+        }
 
 
     }
@@ -138,19 +160,14 @@ class ConfigSystemActivity : BaseActivity(){
         imgFow.setImageResource(R.drawable.img_fow_three)
 
         view3.spinnerSystem.tag = "System"
-
-        val iInverterSelectNumber = spinnerInverter.selectedItemPosition
-        when(iInverterSelectNumber) {
-            1,2 -> {
-                systemArray = arrayListOf("HVL","HVM","HVS","LVL","LV Flex","LVS")
-            }
-            0,3,5,9,10,13,15,16-> {
-                systemArray = arrayListOf("HVL","HVM","HVS")
-            }
-            4,6,7,8,11,12,14-> {
-                systemArray = arrayListOf("LVL","LV Flex","LVS")
-            }
-
+        systemArray.clear()
+        // 低压
+        if ((DeviceStateInfo.getInstance().BCU_SN.indexOf("P02") == 0) || (DeviceStateInfo.getInstance().BCU_SN.indexOf("P01") == 0)) {
+            systemArray.addAll(DeviceStateInfo.getInstance().lowSystemArray)
+        }
+        // 高压
+        else if (DeviceStateInfo.getInstance().BCU_SN.indexOf("P03") == 0){
+            systemArray.addAll(DeviceStateInfo.getInstance().highSystemArray)
         }
 
         //将可选内容与ArrayAdapter连接起来
@@ -160,19 +177,23 @@ class ConfigSystemActivity : BaseActivity(){
         //将adapter 添加到spinner中
         view3.spinnerSystem.adapter = systemAdapter
 
+        // 自动选中当前选项
+        view3.spinnerSystem.setSelection(DeviceStateInfo.getInstance().BMS_Type)
+
         view3.spinnerInput.tag = "Input"
         //将可选内容与ArrayAdapter连接起来
         updateSelectInputArrayBySystem()
 //        inputAdapter = ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, inputArray)
         //设置下拉列表的风格
 //        inputAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-
         //将adapter 添加到spinner中
 //        view3.spinnerInput.adapter = inputAdapter
         //添加事件Spinner事件监听
-        view3.spinnerSystem.onItemSelectedListener = OnItemSelectedListener
-        //添加事件Spinner事件监听
         view3.spinnerInput.onItemSelectedListener = OnItemSelectedListener
+
+        //添加事件Spinner事件监听
+        view3.spinnerSystem.onItemSelectedListener = OnItemSelectedListener
+
 
 
     }
@@ -204,38 +225,41 @@ class ConfigSystemActivity : BaseActivity(){
         //设置下拉列表的风格
         inputAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         view3.spinnerInput.adapter = inputAdapter
+        // 自动选中当前选项
+        for (iN in inputArray.indices) {
+            if (inputArray[iN].equals("${DeviceStateInfo.getInstance().BMS_Number}")) {
+                view3.spinnerInput.setSelection(iN)
+                break
+            }
+        }
     }
 
     private lateinit var networkAdapter : ArrayAdapter<String>
-    private val networkArray = arrayListOf<String>()
     private lateinit var phaseAdapter : ArrayAdapter<String>
-    private val phaseArray = arrayListOf<String>()
-
     private fun initView4() {
         imgFow.setImageResource(R.drawable.img_fow_four)
         view4.spinnerNetwork.tag = "Network"
-        networkArray.add("Off Grid")
-        networkArray.add("On Grid")
-        networkArray.add("Back Up")
         //将可选内容与ArrayAdapter连接起来
-        networkAdapter = ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, networkArray)
+        networkAdapter = ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, DeviceStateInfo.getInstance().networkArray)
         //设置下拉列表的风格
         networkAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         //将adapter 添加到spinner中
         view4.spinnerNetwork.adapter = networkAdapter
         //添加事件Spinner事件监听
         view4.spinnerNetwork.onItemSelectedListener = OnItemSelectedListener
+        // 自动选中当前选项
+        view4.spinnerNetwork.setSelection(DeviceStateInfo.getInstance().User_Scene)
 
-        phaseArray.add("Single Phase")
-        phaseArray.add("Three Phase")
         //将可选内容与ArrayAdapter连接起来
-        phaseAdapter = ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, phaseArray)
+        phaseAdapter = ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, DeviceStateInfo.getInstance().phaseArray)
         //设置下拉列表的风格
         phaseAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         //将adapter 添加到spinner中
         view4.spinnerPhase.adapter = phaseAdapter
         //添加事件Spinner事件监听
         view4.spinnerPhase.onItemSelectedListener = OnItemSelectedListener
+        // 自动选中当前选项
+        view4.spinnerPhase.setSelection(DeviceStateInfo.getInstance().Dan_or_San)
     }
 
     /** 下拉框的回调 */
@@ -329,22 +353,32 @@ class ConfigSystemActivity : BaseActivity(){
 
     /** 开始设置参数 0x0010 3个寄存器 */
     private fun startSetWorkData() {
-        val strInverterType = String.format("%02X",spinnerInverter.selectedItemPosition)
-        val strBMSNum = String.format("%02X",spinnerInput.selectedItemPosition)
-        var strBMSType = "00"
-        val strSystemSelect = spinnerSystem.selectedItem.toString()
-        if (strSystemSelect.equals("HVL") || strSystemSelect.equals("LVL")) {
-            strBMSType = "00"
+        var strInverterType = ""
+        var strInverterItem = view2.spinnerInverter.selectedItem.toString()
+        // 如果是 GOODWE,则需要根据当前高低压 单独处理
+        if (strInverterItem.equals("GOODWE")) {
+            // 低压
+            if ((DeviceStateInfo.getInstance().BCU_SN.indexOf("P02") == 0) || (DeviceStateInfo.getInstance().BCU_SN.indexOf("P01") == 0))
+                strInverterType = "02"
+            // 高压
+            else if (DeviceStateInfo.getInstance().BCU_SN.indexOf("P03") == 0)
+                strInverterType = "01"
         }
-        else if (strSystemSelect.equals("HVM") || strSystemSelect.equals("LV Flex")) {
-            strBMSType = "01"
+        else {
+            for (iN in DeviceStateInfo.getInstance().inverterAllArray.indices) {
+                if (DeviceStateInfo.getInstance().inverterAllArray[iN].equals(strInverterItem)) {
+                    strInverterType = String.format("%02X",iN)
+                    break
+                }
+            }
         }
-        else if (strSystemSelect.equals("HVS") || strSystemSelect.equals("LVS")) {
-            strBMSType = "02"
-        }
-        val strUseScene = String.format("%02X",spinnerNetwork.selectedItemPosition)
-        val strDanSan = String.format("%02X",spinnerPhase.selectedItemPosition)
-        loadingDialog.showAndMsg("正在设置...")
+
+        val strBMSNum = String.format("%02X",view3.spinnerInput.selectedItem.toString().toInt())
+        var strBMSType = String.format("%02X",view3.spinnerSystem.selectedItemPosition)
+
+        val strUseScene = String.format("%02X",view4.spinnerNetwork.selectedItemPosition)
+        val strDanSan = String.format("%02X",view4.spinnerPhase.selectedItemPosition)
+        loadingDialog.showAndMsg("setting...")
         // 设置从逆变器类型到单三相 五个参数
         val strSendData = CreateControlData.writeMoreByAddress("0010",
             strInverterType+strBMSNum+strBMSType+strUseScene+strDanSan+"00")
@@ -375,27 +409,44 @@ class ConfigSystemActivity : BaseActivity(){
             // 接收数据
             MessageInfo.i_RECEIVE_DATA -> {
                 val analysisInfo = msg.anyInfo as AnalysisInfo
-                // 在设置 逆变器类型到单三相 五个参数
-                if (analysisInfo.iWriteMoreAddress == 0x0010 &&
-                    analysisInfo.iWriteMoreNumber == 3 &&
-                    loadingDialog.isShowing) {
-                    // 继续设置时间
-                    setBCUTimeInfo()
-                }
-                // 在设置 BCU时间标定
-                else if (analysisInfo.iWriteMoreAddress == 0x0063 &&
-                    analysisInfo.iWriteMoreNumber == 3 &&
-                    loadingDialog.isShowing) {
-                    loadingDialog.dismiss()
-                    BaseApplication.getInstance().StopSend()
+                if (analysisInfo.strType.equals(BaseVolume.CMD_TYPE_WRITE_MORE)) {
+                    // 在设置 逆变器类型到单三相 五个参数
+                    if (analysisInfo.strWriteMoreAddress == "0010" &&
+                        analysisInfo.iWriteMoreRegisterNumber == 3 &&
+                        loadingDialog.isShowing) {
 
-                    llSureConfigData.visibility = View.GONE
-                    llSuccess.visibility = View.VISIBLE
-                    btnNext.text = "OK"
+                        loadingDialog.dismiss()
+                        BaseApplication.getInstance().StopSend()
+                        llSureConfigData.visibility = View.GONE
+                        llSuccess.visibility = View.VISIBLE
+                        btnNext.text = "OK"
+
+                        // 继续设置时间
+//                        setBCUTimeInfo()
+                    }
+                    // 在设置 BCU时间标定
+                    else if (analysisInfo.strWriteMoreAddress == "0063" &&
+                        analysisInfo.iWriteMoreRegisterNumber == 3 &&
+                        loadingDialog.isShowing) {
+//                        loadingDialog.dismiss()
+//                        BaseApplication.getInstance().StopSend()
+//                        llSureConfigData.visibility = View.GONE
+//                        llSuccess.visibility = View.VISIBLE
+//                        btnNext.text = "OK"
+                    }
                 }
+                // 设置失败的处理
+                else if (analysisInfo.strType.equals(BaseVolume.CMD_TYPE_WRITE_MORE_ERROR)) {
+                    BaseApplication.getInstance().StopSend()
+                    val strMsg = analysisInfo.strErrorInfo
+                    myNetState.setMessage(strMsg)
+                    showToast(strMsg)
+                }
+
             }
             MessageInfo.i_SEND_DATA_ERROR -> {
                 val strError = msg.anyInfo.toString()
+                BaseApplication.getInstance().StopSend()
                 loadingDialog.dismiss()
                 showToast(strError)
             }

@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import com.smart.bms_byd.BaseActivity
 import com.smart.bms_byd.BaseApplication
 import com.smart.bms_byd.R
+import com.smart.bms_byd.data.DeviceStateInfo
 import com.smart.bms_byd.util.NetWorkType
 import com.smart.bms_byd.view.AddMenuWindowDialog
 import com.smartIPandeInfo.data.MessageInfo
@@ -29,6 +30,31 @@ class InformationFragment : Fragment(){
 
     private fun initUI() {
 
+    }
+
+
+    private fun initData() {
+        tvBMUVer.text = DeviceStateInfo.getInstance().BCU_Now_Version
+        tvBMSVer.text = DeviceStateInfo.getInstance().BMS_Version
+        tvTableVer.text = DeviceStateInfo.getInstance().Five_Table_Version
+        tvInverterInfo.text = DeviceStateInfo.getInstance().getInverterTypeInfo()
+        tvGridInfo.text = "${DeviceStateInfo.getInstance().getNetWorkInfo()}" + ";" +
+                "${DeviceStateInfo.getInstance().getDanSanInfo()}"
+
+        tvApplication.text = ""
+
+    }
+
+    override fun onHiddenChanged(hidden: Boolean) {
+        super.onHiddenChanged(hidden)
+        // 隐藏啦
+        if (hidden) {
+
+        }
+        // 显示啦
+        else {
+            initData()
+        }
 
     }
 

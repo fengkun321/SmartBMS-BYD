@@ -34,7 +34,7 @@
                 android:layout_marginLeft="0dp"
                 style="@style/menu_text_style"/>
 
-            <TextView
+            <TextView android:id="@+id/tvBMUVer"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
@@ -59,7 +59,7 @@
                 android:textSize="16sp"
                 style="@style/menu_text_style"/>
 
-            <TextView
+            <TextView android:id="@+id/tvBMSVer"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
@@ -84,7 +84,7 @@
                 android:textSize="16sp"
                 style="@style/menu_text_style"/>
 
-            <TextView
+            <TextView android:id="@+id/tvTableVer"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
@@ -109,7 +109,7 @@
                 android:textSize="16sp"
                 style="@style/menu_text_style"/>
 
-            <TextView
+            <TextView android:id="@+id/tvInverterInfo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
@@ -134,7 +134,7 @@
                 android:textSize="16sp"
                 style="@style/menu_text_style"/>
 
-            <TextView
+            <TextView android:id="@+id/tvGridInfo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
@@ -159,7 +159,7 @@
                 android:textSize="16sp"
                 style="@style/menu_text_style"/>
 
-            <TextView
+            <TextView android:id="@+id/tvApplication"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"

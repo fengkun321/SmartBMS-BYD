@@ -17,12 +17,12 @@ class AnalysisInfo : Serializable {
     var strReadDataBuffer = ""
 
     // 写单个寄存器的数据
-    var iWriteOnlyAddress = 0
+    var strWriteOnlyAddress = ""
     var strWriteOnlyBuffer = ""
 
     // 写多个寄存器的数据
-    var iWriteMoreAddress = 0
-    var iWriteMoreNumber = 0
+    var strWriteMoreAddress = ""
+    var iWriteMoreRegisterNumber = 0
 //    var strWriteMoreBuffer = ""
 
     // 错误描述
@@ -60,13 +60,13 @@ class AnalysisInfo : Serializable {
         }
         // 写单个寄存器
         else if (strType.equals(BaseVolume.CMD_TYPE_WRITE_ONLY, ignoreCase = true)) {
-            iWriteOnlyAddress = strAllData.substring(4,8).toInt(16)
+            strWriteOnlyAddress = strAllData.substring(4,8)
             strWriteOnlyBuffer = strAllData.substring(8,12)
         }
         // 写多个寄存器
         else if (strType.equals(BaseVolume.CMD_TYPE_WRITE_MORE, ignoreCase = true)) {
-            iWriteMoreAddress = strAllData.substring(4,8).toInt(16)
-            iWriteMoreNumber = strAllData.substring(8,12).toInt(16)/2
+            strWriteMoreAddress = strAllData.substring(4,8)
+            iWriteMoreRegisterNumber = strAllData.substring(8,12).toInt(16)
         }
         // 异常
         else if (strType.equals(BaseVolume.CMD_TYPE_READ_DATA_ERROR, ignoreCase = true)
@@ -89,11 +89,11 @@ class AnalysisInfo : Serializable {
         val strBMS_Version_R = Integer.parseInt(strDataBuffer.substring(58,60),16)
         val strBCU_Qu = Integer.parseInt(strDataBuffer.substring(60,62),16)
         val strBMS_Qu = Integer.parseInt(strDataBuffer.substring(62,64),16)
-        val strInverterType = Integer.parseInt(strDataBuffer.substring(64,66),16)
-        val strBMSNumber = Integer.parseInt(strDataBuffer.substring(66,68),16)
-        val strBMSType = Integer.parseInt(strDataBuffer.substring(68,70),16)
-        val strUser_Scene = strDataBuffer.substring(70,72)
-        val strDan_or_San = Integer.parseInt(strDataBuffer.substring(72,74),16)
+        val iInverterType = Integer.parseInt(strDataBuffer.substring(64,66),16)
+        val iBMSNumber = Integer.parseInt(strDataBuffer.substring(66,68),16)
+        val iBMSType = Integer.parseInt(strDataBuffer.substring(68,70),16)
+        val iUser_Scene = Integer.parseInt(strDataBuffer.substring(70,72),16)
+        val iDan_or_San = Integer.parseInt(strDataBuffer.substring(72,74),16)
         val strNull = Integer.parseInt(strDataBuffer.substring(74,76),16)
         val strInverterTable = strDataBuffer.substring(76,388)
         val strBMUState = strDataBuffer.substring(388,392)
@@ -108,15 +108,18 @@ class AnalysisInfo : Serializable {
 
         DeviceStateInfo.getInstance().BCU_SN = strBCU_SN
         DeviceStateInfo.getInstance().BCU_APP_A_Version = "$strBCU_APP_A_L.$strBCU_APP_A_R"
+        DeviceStateInfo.getInstance().BCU_APP_A_Version_HEX = strDataBuffer.substring(48,50)+strDataBuffer.substring(50,52)
         DeviceStateInfo.getInstance().BCU_APP_B_Version = "$strBCU_APP_B_L.$strBCU_APP_B_R"
+        DeviceStateInfo.getInstance().BCU_APP_B_Version_HEX = strDataBuffer.substring(52,54)+strDataBuffer.substring(54,56)
         DeviceStateInfo.getInstance().BMS_Version = "$strBMS_Version_L.$strBMS_Version_R"
+        DeviceStateInfo.getInstance().BMS_Version_HEX = strDataBuffer.substring(56,58)+strDataBuffer.substring(58,60)
         DeviceStateInfo.getInstance().BCU_APP_Area = "$strBCU_Qu"
         DeviceStateInfo.getInstance().BMS_APP_Area = "$strBMS_Qu"
-        DeviceStateInfo.getInstance().Inverter_Type = "$strInverterType"
-        DeviceStateInfo.getInstance().BMS_Number = strBMSNumber
-        DeviceStateInfo.getInstance().BMS_Type = strBMSType
-        DeviceStateInfo.getInstance().User_Scene = strUser_Scene
-        DeviceStateInfo.getInstance().Dan_or_San = strDan_or_San
+        DeviceStateInfo.getInstance().Inverter_Type = iInverterType
+        DeviceStateInfo.getInstance().BMS_Number = iBMSNumber
+        DeviceStateInfo.getInstance().BMS_Type = iBMSType
+        DeviceStateInfo.getInstance().User_Scene = iUser_Scene
+        DeviceStateInfo.getInstance().Dan_or_San = iDan_or_San
         DeviceStateInfo.getInstance().Inverter_Table = strInverterTable
         DeviceStateInfo.getInstance().BMU_State = strBMUState
         DeviceStateInfo.getInstance().FaultCode = strFaultCode
@@ -162,32 +165,30 @@ class AnalysisInfo : Serializable {
 //        val All_Energy_out = Integer.parseLong(strDataBuffer.substring(84,100),10);
         val All_Energy_in = strDataBuffer.substring(68,84).toLong(16)
         val All_Energy_out = strDataBuffer.substring(84,100).toLong(16)
-        DeviceStateInfo.getInstance().BMU_SOC = iSOC
-        DeviceStateInfo.getInstance().BMU_HighVoltage = fBMU_HighVoltage
-        DeviceStateInfo.getInstance().BMU_LowVoltage = fBMU_LowVoltage
-        DeviceStateInfo.getInstance().BMU_SOH = iSOH
-        DeviceStateInfo.getInstance().BMU_Ele = fBMU_Ele
-        DeviceStateInfo.getInstance().BMU_SumVoltage = fBMU_SumVoltage
-        DeviceStateInfo.getInstance().BMU_HighTemper = iBMU_HighTemper
-        DeviceStateInfo.getInstance().BMU_LowTemper = iBMU_LowTemper
-        DeviceStateInfo.getInstance().BMU_AverageTemper = iBMU_AverageTemper
+        DeviceStateInfo.getInstance().Five_BMU_SOC = iSOC
+        DeviceStateInfo.getInstance().Five_BMU_HighVoltage = fBMU_HighVoltage
+        DeviceStateInfo.getInstance().Five_BMU_LowVoltage = fBMU_LowVoltage
+        DeviceStateInfo.getInstance().Five_BMU_SOH = iSOH
+        DeviceStateInfo.getInstance().Five_BMU_Ele = fBMU_Ele
+        DeviceStateInfo.getInstance().Five_BMU_SumVoltage = fBMU_SumVoltage
+        DeviceStateInfo.getInstance().Five_BMU_HighTemper = iBMU_HighTemper
+        DeviceStateInfo.getInstance().Five_BMU_LowTemper = iBMU_LowTemper
+        DeviceStateInfo.getInstance().Five_BMU_AverageTemper = iBMU_AverageTemper
 
-        DeviceStateInfo.getInstance().BCU_Now_Version = "$strBCU_Ver_L.$strBCU_Ver_R"
-        if (DeviceStateInfo.getInstance().BCU_APP_Area.equals("0"))
-            DeviceStateInfo.getInstance().BCU_APP_A_Version = "$$strBCU_Ver_L.$strBCU_Ver_R"
-        else
-            DeviceStateInfo.getInstance().BCU_APP_B_Version = "$$strBCU_Ver_L.$strBCU_Ver_R"
+        DeviceStateInfo.getInstance().Five_BCU_Now_Version = "$strBCU_Ver_L.$strBCU_Ver_R"
+        DeviceStateInfo.getInstance().Five_BCU_Now_Version_HEX = strDataBuffer.substring(40,42)+strDataBuffer.substring(42,44)
 
-        DeviceStateInfo.getInstance().Now_Alarm_First = Now_Alarm_First
-        DeviceStateInfo.getInstance().Now_Alarm_Second = Now_Alarm_Second
-        DeviceStateInfo.getInstance().Now_Alarm_Thirdly = Now_Alarm_Thirdly
+        DeviceStateInfo.getInstance().Five_Now_Alarm_First = Now_Alarm_First
+        DeviceStateInfo.getInstance().Five_Now_Alarm_Second = Now_Alarm_Second
+        DeviceStateInfo.getInstance().Five_Now_Alarm_Thirdly = Now_Alarm_Thirdly
 
-        DeviceStateInfo.getInstance().VPT_Table_Version = "$strInverter_Ver_L.$strInverter_Ver_R"
+        DeviceStateInfo.getInstance().Five_Table_Version = "$strInverter_Ver_L.$strInverter_Ver_R"
+        DeviceStateInfo.getInstance().Five_Table_Version_HEX = strDataBuffer.substring(56,58)+strDataBuffer.substring(58,60)
 
-        DeviceStateInfo.getInstance().BMS_Type = strBMSType
-        DeviceStateInfo.getInstance().PACK_Voltage = fPACK_Voltage
-        DeviceStateInfo.getInstance().All_Energy_in = All_Energy_in
-        DeviceStateInfo.getInstance().All_Energy_out = All_Energy_out
+        DeviceStateInfo.getInstance().Five_BMS_Type = strBMSType
+        DeviceStateInfo.getInstance().Five_PACK_Voltage = fPACK_Voltage
+        DeviceStateInfo.getInstance().Five_All_Energy_in = All_Energy_in
+        DeviceStateInfo.getInstance().Five_All_Energy_out = All_Energy_out
         Log.e(strTag,"数据,analysisDataByReadBMUState:"+DeviceStateInfo.getInstance().toString())
 
     }

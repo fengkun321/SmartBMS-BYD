@@ -115,8 +115,10 @@ class ConnectWIFIActivity : BaseActivity(),
                         }
 
                     }
+                    runOnUiThread {
+                        if (wifiList.size > 0) llWaiting.visibility = View.GONE
+                    }
 
-                    if (wifiList.size > 0) llWaiting.visibility = View.GONE
 
                 }
             }, 0, 2000)
@@ -192,6 +194,7 @@ class ConnectWIFIActivity : BaseActivity(),
             MessageInfo.i_NET_WORK_STATE -> {
                 val netWorkType = msg.anyInfo as NetWorkType
                 if (netWorkType == NetWorkType.WIFI_DEVICE) {
+                    if (!this::nowSelectWifiInfo.isInitialized) return
                     if (BaseApplication.getInstance().strNowSSID.equals(nowSelectWifiInfo.SSID) &&
                         loadingDialog.isShowing &&
                         TCPClientS.getInstance(BaseApplication.getInstance()).connectionState == TCPClientS.TCP_CONNECT_STATE_DISCONNECT) {

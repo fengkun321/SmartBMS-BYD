@@ -350,8 +350,8 @@ public class BaseApplication extends Application implements TCPClientS.OnDataRec
         }
         // 写多个寄存器的回复
         else if (strType.equalsIgnoreCase(BaseVolume.CMD_TYPE_WRITE_MORE)) {
-            int iDataLen = Integer.parseInt(strAllData.substring(12,14),16);
-            iLenght = 2+2+1+iDataLen; // 写的寄存器地址，要写的寄存器数量，字节长度，数据
+            int iDataLen = Integer.parseInt(strAllData.substring(8,12),16)*2;
+            iLenght = 4; // 写的寄存器地址，要写的寄存器数量，字节长度，数据
         }
         // 操作错误的返回 83 86 90
         else if (strType.equalsIgnoreCase(BaseVolume.CMD_TYPE_READ_DATA_ERROR)

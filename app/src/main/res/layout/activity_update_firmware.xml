@@ -93,7 +93,7 @@
                 android:layout_marginTop="20dp"
                 android:indeterminate="false"
                 android:max="100"
-                android:progress="0"
+                android:progress="100"
                 android:tag="download"
                 android:progressDrawable="@drawable/download_progress_drawable"
                 android:scrollbars="horizontal" />

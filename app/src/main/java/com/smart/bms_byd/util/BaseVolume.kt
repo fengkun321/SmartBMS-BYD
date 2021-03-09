@@ -32,6 +32,22 @@ object BaseVolume {
     const val DATA_VALUE = "DATA_VALUE"
     const val WIFI_SIGN = "BYD"
 
+    // BMU 升级的起始地址
+    const val CMD_UPDATE_BMU_START_ADDRESS = "05F0"
+    // BMS 升级的起始地址
+    const val CMD_UPDATE_BMS_START_ADDRESS = "0640"
+    // 阈值表更新的起始地址
+    const val CMD_UPDATE_TABLE_START_ADDRESS = "0400"
+
+    // BMU 升级的起始地址
+    const val CMD_UPDATE_BMU_ADDRESS = "05F7"
+    // BMS 升级的起始地址
+    const val CMD_UPDATE_BMS_ADDRESS = "0647"
+    // 阈值表更新的起始地址
+    const val CMD_UPDATE_TABLE_ADDRESS = "0407"
+
+
+
 
     /**
      * 判断某个界面是否在前台
