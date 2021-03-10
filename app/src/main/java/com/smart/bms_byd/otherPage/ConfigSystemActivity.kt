@@ -227,7 +227,7 @@ class ConfigSystemActivity : BaseActivity(){
         view3.spinnerInput.adapter = inputAdapter
         // 自动选中当前选项
         for (iN in inputArray.indices) {
-            if (inputArray[iN].equals("${DeviceStateInfo.getInstance().BMS_Number}")) {
+            if (inputArray[iN].equals("${DeviceStateInfo.getInstance().getBMSNumberNow()}")) {
                 view3.spinnerInput.setSelection(iN)
                 break
             }
@@ -373,7 +373,11 @@ class ConfigSystemActivity : BaseActivity(){
             }
         }
 
-        val strBMSNum = String.format("%02X",view3.spinnerInput.selectedItem.toString().toInt())
+        var strBMSNum = String.format("%02X",view3.spinnerInput.selectedItem.toString().toInt())
+        // 高压，则只改变低四位
+        if (DeviceStateInfo.getInstance().isHighVolInfo())
+            strBMSNum = "${DeviceStateInfo.getInstance().BMS_Number_HEX.substring(0,1)}${String.format("%01X",view3.spinnerInput.selectedItem.toString().toInt())}"
+
         var strBMSType = String.format("%02X",view3.spinnerSystem.selectedItemPosition)
 
         val strUseScene = String.format("%02X",view4.spinnerNetwork.selectedItemPosition)

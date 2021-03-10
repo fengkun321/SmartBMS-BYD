@@ -16,7 +16,6 @@ class DeviceStateInfo {
 
     // BMU 系统参数信息 0x0000-0x0065 102个
     var BCU_SN = "P02" // BCU_序列号开头为 P01/P02:低压； P03:高压； 其他需要用户自己选择
-//    var BCU_IS_HightVol = false // 是否为高压
     var BCU_APP_A_Version = ""
     var BCU_APP_A_Version_HEX = ""
     var BCU_APP_B_Version = ""
@@ -27,7 +26,8 @@ class DeviceStateInfo {
     var BCU_APP_Area = "" // 当前使用的APP区
     var BMS_APP_Area = "" // 当前使用的APP区
     var Inverter_Type = 0 // 逆变器类型
-    var BMS_Number = 0 // BMS 电池数量
+    // BMS 电池数量 当高低压不同时，意义也不同
+    var BMS_Number_HEX = "00"
     var BMS_Type = 0 // BMS 类型
     var User_Scene = 0 // 应用场景
     var Dan_or_San = 0 // 单/三相
@@ -94,16 +94,32 @@ class DeviceStateInfo {
         return phaseArray[Dan_or_San]
     }
 
-    public fun getBMUTypeInfo() : String {
-        var systemArray = arrayListOf<String>()
+    /**
+     * 是否为高压
+     * false:低压
+     * true:高压
+     */
+    public fun isHighVolInfo() : Boolean {
         // 低压
         if ((BCU_SN.indexOf("P02") == 0) || (BCU_SN.indexOf("P01") == 0))
-            return lowSystemArray[BMS_Type]
+            return false
         // 高压
         else if (BCU_SN.indexOf("P03") == 0)
-            return highSystemArray[BMS_Type]
+            return true
+        return false
+    }
 
-        return ""
+    /**
+     * 高压时，高四位并联数，低四位：塔内模组数 （只设置模组数）
+     * 低压时，并联数（只设置并联数）
+     */
+    public fun getBMSNumberNow() : Int {
+        // 低压
+        if (!isHighVolInfo())
+            return BMS_Number_HEX.toInt(16)
+        // 高压
+        else
+            return BMS_Number_HEX.substring(1).toInt(16)
     }
 
     /** 更新BMU State */
@@ -152,7 +168,7 @@ class DeviceStateInfo {
                 "BCU_APP_Area='$BCU_APP_Area', " + "\n" +
                 "BMS_APP_Area='$BMS_APP_Area', " + "\n" +
                 "Inverter_Type='$Inverter_Type', " + "\n" +
-                "BMS_Number=$BMS_Number, " + "\n" +
+                "BMS_Number_HEX='$BMS_Number_HEX', " + "\n" +
                 "BMS_Type=$BMS_Type, " + "\n" +
                 "User_Scene='$User_Scene', " + "\n" +
                 "Dan_or_San=$Dan_or_San, " + "\n" +

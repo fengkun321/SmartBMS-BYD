@@ -90,7 +90,7 @@ class AnalysisInfo : Serializable {
         val strBCU_Qu = Integer.parseInt(strDataBuffer.substring(60,62),16)
         val strBMS_Qu = Integer.parseInt(strDataBuffer.substring(62,64),16)
         val iInverterType = Integer.parseInt(strDataBuffer.substring(64,66),16)
-        val iBMSNumber = Integer.parseInt(strDataBuffer.substring(66,68),16)
+        val strBMSNumberHEX = strDataBuffer.substring(66,68)
         val iBMSType = Integer.parseInt(strDataBuffer.substring(68,70),16)
         val iUser_Scene = Integer.parseInt(strDataBuffer.substring(70,72),16)
         val iDan_or_San = Integer.parseInt(strDataBuffer.substring(72,74),16)
@@ -116,7 +116,7 @@ class AnalysisInfo : Serializable {
         DeviceStateInfo.getInstance().BCU_APP_Area = "$strBCU_Qu"
         DeviceStateInfo.getInstance().BMS_APP_Area = "$strBMS_Qu"
         DeviceStateInfo.getInstance().Inverter_Type = iInverterType
-        DeviceStateInfo.getInstance().BMS_Number = iBMSNumber
+        DeviceStateInfo.getInstance().BMS_Number_HEX = strBMSNumberHEX
         DeviceStateInfo.getInstance().BMS_Type = iBMSType
         DeviceStateInfo.getInstance().User_Scene = iUser_Scene
         DeviceStateInfo.getInstance().Dan_or_San = iDan_or_San
