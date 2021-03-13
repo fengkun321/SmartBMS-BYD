@@ -24,12 +24,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_margin="15dp"
+        android:layout_margin="10dp"
         android:background="@drawable/error_bg_border">
 
         <TextView android:id="@+id/tvRealTime"
             android:layout_width="100dp"
-            android:layout_height="40dp"
+            android:layout_height="35dp"
             android:text="Real-time"
             android:tag="true"
             android:gravity="center"
@@ -38,7 +38,7 @@
 
         <TextView android:id="@+id/tvHistory"
             android:layout_width="100dp"
-            android:layout_height="40dp"
+            android:layout_height="35dp"
             android:text="History"
             android:padding="5dp"
             android:gravity="center"
@@ -74,9 +74,15 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerDevice"
+            android:id="@+id/recyclerNowError"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerHistoryError"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone"/>
 
 
     </RelativeLayout>

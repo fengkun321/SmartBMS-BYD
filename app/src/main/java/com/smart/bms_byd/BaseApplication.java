@@ -259,14 +259,14 @@ public class BaseApplication extends Application implements TCPClientS.OnDataRec
     // TCP的连接状态回调
     @Override
     public void onConnectSuccess() {
-        Log.e(TAG, "TCP，连接成功！");
+        Log.e(TAG, "Connect，连接成功！");
         strOldReceiveBuffer = "";
         EventBus.getDefault().post(new MessageInfo(MessageInfo.i_TCP_CONNECT_SUCCESS,""));
     }
 
     @Override
     public void onConnectFail(String strFailMsg) {
-        Log.e(TAG, "TCP，连接失败：" + strFailMsg);
+        Log.e(TAG, "Connect，连接失败：" + strFailMsg);
         StopSend();
         Toast.makeText(this,"tcp,fail:"+strFailMsg,Toast.LENGTH_SHORT).show();
         EventBus.getDefault().post(new MessageInfo(MessageInfo.i_TCP_CONNECT_FAIL,strFailMsg));
@@ -275,15 +275,20 @@ public class BaseApplication extends Application implements TCPClientS.OnDataRec
     @Override
     public void onDataReceive(byte[] receiveData) {
         String str = NetworkUtils.bytesToHexString(receiveData);
-        Log.e(TAG, "TCP，接收数据：" + str);
+        Log.e(TAG, "Connect，接收数据：" + str);
         checkData(str);
     }
 
     @Override
     public void onDataResultInfo(boolean isOK, String strErrorInfo) {
-        Log.e(TAG, "TCP，发送数据，结果：" + isOK+" "+strErrorInfo);
         if (!isOK) {
+            Log.e(TAG, "Connect，发送数据，结果：" + isOK+" "+strErrorInfo);
             EventBus.getDefault().post(new MessageInfo(MessageInfo.i_SEND_DATA_ERROR,"tcp,send fail:"+strErrorInfo));
+            // 断开连接
+            if (strErrorInfo.equalsIgnoreCase("Broken pipe") || strErrorInfo.equalsIgnoreCase("Socket closed")) {
+                EventBus.getDefault().post(new MessageInfo(MessageInfo.i_TCP_CONNECT_FAIL,strErrorInfo));
+                TCPClientS.getInstance(this).manuallyDisconnect();
+            }
 //            Looper.prepare();
 //            Toast.makeText(this,"tcp,send fail:"+strErrorInfo,Toast.LENGTH_SHORT).show();
 //            Looper.loop();
@@ -308,7 +313,7 @@ public class BaseApplication extends Application implements TCPClientS.OnDataRec
             // 根据类型，计算该条数据的有效长度
             int iCmdLength = checkLengthByType(strType,strOldReceiveBuffer);
             // 长度不够，继续等待接收
-            if (iCmdLength > strOldReceiveBuffer.length())
+            if (iCmdLength*2 > strOldReceiveBuffer.length())
                 continue;
             String strWillGoodData = strOldReceiveBuffer.substring(0,iCmdLength*2);
             String strOldCrc = strWillGoodData.substring(strWillGoodData.length() - 4);
@@ -316,7 +321,7 @@ public class BaseApplication extends Application implements TCPClientS.OnDataRec
             String strNewCrc = NetworkUtils.bytesToHexString(CRC16.getCrc16(strWillD));
             // 校验通过，说明是有效数据
             if (strOldCrc.equalsIgnoreCase(strNewCrc)) {
-                Log.e(TAG, "有效数据：" + strWillGoodData);
+//                Log.e(TAG, "有效数据：" + strWillGoodData);
                 // 数据解析，并抛到上层
                 AnalysisInfo analysisInfo0 = new AnalysisInfo(strType,strWillGoodData);
                 EventBus.getDefault().post(new MessageInfo(MessageInfo.i_RECEIVE_DATA,analysisInfo0));
@@ -364,7 +369,7 @@ public class BaseApplication extends Application implements TCPClientS.OnDataRec
 
     /** 开始发送数据 */
     public void StartSendDataByTCP(String strNowSendData) {
-        Log.e(TAG, "TCP，发送数据："+strNowSendData);
+        Log.e(TAG, "Connect，发送数据："+strNowSendData);
         TCPClientS.getInstance(this).sendHexCmd(strNowSendData);
     }
 

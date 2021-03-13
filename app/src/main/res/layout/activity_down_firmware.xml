@@ -61,7 +61,7 @@
             android:background="@color/color_bg_hui">
             <TextView android:id="@+id/tvTitleName"
                 style="@style/title_name_style"
-                android:text="UPDATE FIRMWARE"
+                android:text="DOWNLOAD FIRMWARE"
                 android:layout_marginTop="0.5dp"
                 android:layout_marginBottom="0.5dp"
                 android:background="@color/white"/>
@@ -84,7 +84,7 @@
                 android:textColor="@color/black"
                 android:textStyle="bold"/>
 
-            <ProgressBar android:id="@+id/updateProgressBar"
+            <ProgressBar android:id="@+id/downloadProgressBar"
                 style="@android:style/Widget.ProgressBar.Horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="5dp"

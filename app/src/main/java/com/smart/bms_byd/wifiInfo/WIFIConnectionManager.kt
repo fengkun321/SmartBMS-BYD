@@ -9,8 +9,6 @@ import java.util.*
 
 
 class WIFIConnectionManager(private val mContext: Context) {
-    var wifiManager: WifiManager? = null
-        private set
     private var wifiInfo: WifiInfo? = null
     private val networkId: Int = 0
     private var wifiConfigurationList: List<WifiConfiguration>? = null
@@ -21,7 +19,8 @@ class WIFIConnectionManager(private val mContext: Context) {
      */
     val nowConnectWifi: String
         get() {
-            wifiInfo = wifiManager!!.connectionInfo
+            val wifiManager = mContext.applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager
+            wifiInfo = wifiManager.connectionInfo
             var nowSSID = wifiInfo!!.ssid
             if (!nowSSID.equals(""))
                 nowSSID = nowSSID.substring(1, nowSSID.length - 1)
@@ -31,6 +30,7 @@ class WIFIConnectionManager(private val mContext: Context) {
      * 获取附近的wifi
      */
     public fun getWifiList(strWifiSign : String) : ArrayList<ScanResult>{
+        val wifiManager = mContext.applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager
         wifiManager!!.startScan()
         val scanWifiList = wifiManager!!.scanResults
         var wifiList = ArrayList<ScanResult>()
@@ -56,33 +56,24 @@ class WIFIConnectionManager(private val mContext: Context) {
     }
 
 
-    /**
-     * 获取本机的ip地址
-     */
-    val localIp: String?
-        get() = convertIp(wifiManager!!.connectionInfo.ipAddress)
 
-
-    init {
-        wifiManager = mContext.applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager
-
-    }
 
     /**
      * 连接wifi
      */
     fun startConnect(SSID: String, PASSW: String) {
+        val wifiManager = mContext.applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager
         var netId = -1
         if (removeWifi(SSID)) {
             Log.e("sin", "移除,新建config")
-            netId = wifiManager!!.addNetwork(createWifiInfo(SSID, PASSW))
+            netId = wifiManager.addNetwork(createWifiInfo(SSID, PASSW))
         } else {
             if (getExitsWifiConfig(SSID) != null) {
                 Log.e("sin", "这个wifi是连接过")
                 netId = getExitsWifiConfig(SSID)!!.networkId
             } else {
                 Log.e("sin", "没连接过的，新建一个wifi配置 ")
-                netId = wifiManager!!.addNetwork(createWifiInfo(SSID, PASSW))
+                netId = wifiManager.addNetwork(createWifiInfo(SSID, PASSW))
             }
         }
 
@@ -93,9 +84,6 @@ class WIFIConnectionManager(private val mContext: Context) {
         if (!b) {
             Log.e("SSSSSSSSSSSS", "-0.0-")
             //  如果这里失败，再从新获取manager  重新配置config；
-            wifiManager = mContext.applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager
-            // 配置config
-
         } else {
             Log.e("SIN", "success")
         }
@@ -107,6 +95,7 @@ class WIFIConnectionManager(private val mContext: Context) {
      * 存在过的wifiConfiguration
      */
     fun getExitsWifiConfig(SSID: String): WifiConfiguration? {
+        val wifiManager = mContext.applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager
         wifiConfigurationList = wifiManager!!.configuredNetworks
         for (wifiConfiguration in wifiConfigurationList!!) {
             if (wifiConfiguration.SSID == "\"" + SSID + "\"") {
@@ -118,7 +107,7 @@ class WIFIConnectionManager(private val mContext: Context) {
 
 
     fun removeWifi(netId: Int): Boolean {
-        //
+        val wifiManager = mContext.applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager
         return wifiManager!!.removeNetwork(netId)
     }
 
@@ -143,7 +132,7 @@ class WIFIConnectionManager(private val mContext: Context) {
      */
     fun createWifiInfo(SSID: String, password: String): WifiConfiguration? {
         val config = WifiConfiguration()
-
+        val wifiManager = mContext.applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager
         if (config != null) {
             config.allowedAuthAlgorithms.clear()
             config.allowedGroupCiphers.clear()
@@ -184,6 +173,7 @@ class WIFIConnectionManager(private val mContext: Context) {
      */
 //    @RequiresApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
     fun isConnected(ssid: String): Boolean {
+        val wifiManager = mContext.applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager
         val wifiInfo = wifiManager!!.connectionInfo ?: return false
         when (wifiInfo.supplicantState) {
             SupplicantState.AUTHENTICATING, SupplicantState.ASSOCIATING, SupplicantState.ASSOCIATED, SupplicantState.FOUR_WAY_HANDSHAKE, SupplicantState.GROUP_HANDSHAKE, SupplicantState.COMPLETED -> return wifiInfo.ssid.replace("\"", "") == ssid
@@ -197,7 +187,8 @@ class WIFIConnectionManager(private val mContext: Context) {
      */
     fun openWifi(): Boolean {
         var opened = true
-        if (!wifiManager!!.isWifiEnabled) {
+        val wifiManager = mContext.applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager
+        if (!wifiManager.isWifiEnabled) {
             opened = wifiManager!!.setWifiEnabled(true)
         }
         return opened
@@ -209,8 +200,9 @@ class WIFIConnectionManager(private val mContext: Context) {
      */
     fun closeWifi(): Boolean {
         var closed = true
-        if (wifiManager!!.isWifiEnabled) {
-            closed = wifiManager!!.setWifiEnabled(false)
+        val wifiManager = mContext.applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager
+        if (wifiManager.isWifiEnabled) {
+            closed = wifiManager.setWifiEnabled(false)
         }
         return closed
     }
@@ -219,21 +211,6 @@ class WIFIConnectionManager(private val mContext: Context) {
         return if (ipAddress == 0) null else (ipAddress and 0xff).toString() + "." + (ipAddress shr 8 and 0xff) + "." + (ipAddress shr 16 and 0xff) + "." + (ipAddress shr 24 and 0xff)
     }
 
-    companion object {
-
-        private var sInstance: WIFIConnectionManager? = null
-
-        fun getInstance(context: Context?): WIFIConnectionManager? {
-            if (sInstance == null) {
-                synchronized(WIFIConnectionManager::class.java) {
-                    if (sInstance == null) {
-                        sInstance = WIFIConnectionManager(context!!)
-                    }
-                }
-            }
-            return sInstance
-        }
-    }
 
 
 }

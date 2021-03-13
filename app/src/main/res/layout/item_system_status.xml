@@ -28,7 +28,7 @@
                 <TextView
                     style="@style/system_item_title_style"
                     android:text="SOC"/>
-                <TextView android:id="@+id/tvSOCMin"
+                <TextView android:id="@+id/tvSOCMain"
                     style="@style/system_item_value_style"
                     android:text="XXX"/>
             </LinearLayout>
@@ -58,7 +58,7 @@
                 <TextView
                     style="@style/system_item_title_style"
                     android:text="Output voltage"/>
-                <TextView
+                <TextView android:id="@+id/tvOutputMain"
                     style="@style/system_item_value_style"
                     android:text="XXX"/>
             </LinearLayout>
@@ -78,7 +78,7 @@
                 <TextView
                     style="@style/system_item_title_style"
                     android:text="Current"/>
-                <TextView
+                <TextView android:id="@+id/tvCurrentMain"
                     style="@style/system_item_value_style"
                     android:text="XXX"/>
             </LinearLayout>
@@ -93,7 +93,7 @@
                 <TextView
                     style="@style/system_item_title_style"
                     android:text="Parrellal connection"/>
-                <TextView
+                <TextView android:id="@+id/tvParrellalMain"
                     style="@style/system_item_value_style"
                     android:text="XXX"/>
             </LinearLayout>
@@ -108,7 +108,7 @@
                 <TextView
                     style="@style/system_item_title_style"
                     android:text="Modules per tower"/>
-                <TextView
+                <TextView android:id="@+id/tvModulesMain"
                     style="@style/system_item_value_style"
                     android:text="XXX"/>
             </LinearLayout>
@@ -128,22 +128,7 @@
                 <TextView
                     style="@style/system_item_title_style"
                     android:text="Max.cell voltage"/>
-                <TextView
-                    style="@style/system_item_value_style"
-                    android:text="XXX"/>
-            </LinearLayout>
-
-            <View
-                android:layout_width="0.5dp"
-                android:layout_height="match_parent"
-                android:background="@color/color_bg_hui"/>
-
-            <LinearLayout
-                style="@style/system_item_linerlayout_style">
-                <TextView
-                    style="@style/system_item_title_style"
-                    android:text="Max.cell voltage number"/>
-                <TextView
+                <TextView android:id="@+id/tvMaxVolMain"
                     style="@style/system_item_value_style"
                     android:text="XXX"/>
             </LinearLayout>
@@ -158,27 +143,7 @@
                 <TextView
                     style="@style/system_item_title_style"
                     android:text="Min.cell voltage"/>
-                <TextView
-                    style="@style/system_item_value_style"
-                    android:text="XXX"/>
-            </LinearLayout>
-
-
-        </LinearLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="0.5dp"
-            android:background="@color/color_bg_hui"/>
-
-        <LinearLayout
-            style="@style/system_item_liner_style">
-            <LinearLayout
-                style="@style/system_item_linerlayout_style">
-                <TextView
-                    style="@style/system_item_title_style"
-                    android:text="Min.cell voltage number"/>
-                <TextView
+                <TextView android:id="@+id/tvMinVolMain"
                     style="@style/system_item_value_style"
                     android:text="XXX"/>
             </LinearLayout>
@@ -193,22 +158,7 @@
                 <TextView
                     style="@style/system_item_title_style"
                     android:text="Max.cell temperature"/>
-                <TextView
-                    style="@style/system_item_value_style"
-                    android:text="XXX"/>
-            </LinearLayout>
-
-            <View
-                android:layout_width="0.5dp"
-                android:layout_height="match_parent"
-                android:background="@color/color_bg_hui"/>
-
-            <LinearLayout
-                style="@style/system_item_linerlayout_style">
-                <TextView
-                    style="@style/system_item_title_style"
-                    android:text="Max.cell temperature number"/>
-                <TextView
+                <TextView android:id="@+id/tvMaxTempMain"
                     style="@style/system_item_value_style"
                     android:text="XXX"/>
             </LinearLayout>
@@ -223,27 +173,13 @@
 
         <LinearLayout
             style="@style/system_item_liner_style">
+
             <LinearLayout
                 style="@style/system_item_linerlayout_style">
                 <TextView
                     style="@style/system_item_title_style"
                     android:text="Min.cell temperature"/>
-                <TextView
-                    style="@style/system_item_value_style"
-                    android:text="XXX"/>
-            </LinearLayout>
-
-            <View
-                android:layout_width="0.5dp"
-                android:layout_height="match_parent"
-                android:background="@color/color_bg_hui"/>
-
-            <LinearLayout
-                style="@style/system_item_linerlayout_style">
-                <TextView
-                    style="@style/system_item_title_style"
-                    android:text="Min.cell temperature number"/>
-                <TextView
+                <TextView android:id="@+id/tvMinTempMain"
                     style="@style/system_item_value_style"
                     android:text="XXX"/>
             </LinearLayout>
@@ -256,6 +192,12 @@
             <View
                 style="@style/system_item_linerlayout_style"/>
 
+            <View
+                style="@style/system_item_linerlayout_style"/>
+
+
+
+
 
         </LinearLayout>
 
@@ -263,6 +205,7 @@
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
             android:background="@color/color_bg_hui"/>
+
 
     </LinearLayout>
 
@@ -293,7 +236,7 @@
                 <TextView
                     style="@style/system_item_title_style"
                     android:text="Output voltage"/>
-                <TextView
+                <TextView android:id="@+id/tvOutputSub"
                     style="@style/system_item_value_style"
                     android:text="XXX"/>
             </LinearLayout>
@@ -308,7 +251,7 @@
                 <TextView
                     style="@style/system_item_title_style"
                     android:text="Current"/>
-                <TextView
+                <TextView android:id="@+id/tvCurrentSub"
                     style="@style/system_item_value_style"
                     android:text="XXX"/>
             </LinearLayout>
@@ -328,7 +271,7 @@
                 <TextView
                     style="@style/system_item_title_style"
                     android:text="Max.cell voltage"/>
-                <TextView
+                <TextView android:id="@+id/tvMaxVolSub"
                     style="@style/system_item_value_style"
                     android:text="XXX"/>
             </LinearLayout>
@@ -343,7 +286,7 @@
                 <TextView
                     style="@style/system_item_title_style"
                     android:text="Max.cell voltage number"/>
-                <TextView
+                <TextView android:id="@+id/tvMaxVolNumberSub"
                     style="@style/system_item_value_style"
                     android:text="XXX"/>
             </LinearLayout>
@@ -358,7 +301,7 @@
                 <TextView
                     style="@style/system_item_title_style"
                     android:text="Min.cell voltage"/>
-                <TextView
+                <TextView android:id="@+id/tvMinVolSub"
                     style="@style/system_item_value_style"
                     android:text="XXX"/>
             </LinearLayout>
@@ -378,7 +321,7 @@
                 <TextView
                     style="@style/system_item_title_style"
                     android:text="Min.cell voltage number"/>
-                <TextView
+                <TextView android:id="@+id/tvMinVolNumberSub"
                     style="@style/system_item_value_style"
                     android:text="XXX"/>
             </LinearLayout>
@@ -393,7 +336,7 @@
                 <TextView
                     style="@style/system_item_title_style"
                     android:text="Max.cell temperature"/>
-                <TextView
+                <TextView android:id="@+id/tvMaxTempSub"
                     style="@style/system_item_value_style"
                     android:text="XXX"/>
             </LinearLayout>
@@ -408,7 +351,7 @@
                 <TextView
                     style="@style/system_item_title_style"
                     android:text="Max.cell temperature number"/>
-                <TextView
+                <TextView android:id="@+id/tvMaxTempNumberSub"
                     style="@style/system_item_value_style"
                     android:text="XXX"/>
             </LinearLayout>
@@ -428,7 +371,7 @@
                 <TextView
                     style="@style/system_item_title_style"
                     android:text="Min.cell temperature"/>
-                <TextView
+                <TextView android:id="@+id/tvMinTempSub"
                     style="@style/system_item_value_style"
                     android:text="XXX"/>
             </LinearLayout>
@@ -443,7 +386,7 @@
                 <TextView
                     style="@style/system_item_title_style"
                     android:text="Min.cell temperature number"/>
-                <TextView
+                <TextView android:id="@+id/tvMinTempNumberSub"
                     style="@style/system_item_value_style"
                     android:text="XXX"/>
             </LinearLayout>

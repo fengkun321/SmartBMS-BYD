@@ -52,10 +52,6 @@ public class DownloadUtil {
      */
     public void download(Context context, final String url, final String saveDir,final String fileName, final OnDownloadListener listener) {
         this.context= context;
-        // 需要token的时候可以这样做
-        // SharedPreferences sp=MyApp.getAppContext().getSharedPreferences("loginInfo", MODE_PRIVATE);
-        // Request request = new Request.Builder().header("token",sp.getString("token" , "")).url(url).build();
-
         Request request = new Request.Builder().url(url).build();
 
         okHttpClient.newCall(request).enqueue(new Callback() {
@@ -125,10 +121,12 @@ public class DownloadUtil {
         return savePath;
     }
 
-    public boolean isHaveFileByTypeName(String strFolder,String strFileName) {
+    public File isHaveFileByTypeName(String strFolder,String strFileName) {
         File downloadFile = new File(Environment.getExternalStorageDirectory().getPath() + "/"+strFolder+"/", strFileName);
-        boolean isExists = downloadFile.exists();
-        return isExists;
+        if (downloadFile.exists())
+            return downloadFile;
+        else
+            return null;
     }
 
     public void deleteFileByName(String strFolder,String strFileName) {

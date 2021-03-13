@@ -20,7 +20,7 @@
             android:text="信号"
             android:layout_centerVertical="true"/>
 
-        <TextView android:id="@+id/tvTitle"
+        <TextView android:id="@+id/tvType"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="123456"

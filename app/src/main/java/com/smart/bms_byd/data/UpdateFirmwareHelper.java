@@ -26,6 +26,7 @@ public class UpdateFirmwareHelper {
     private int iLastSendNum = 0;
     // 上次发送到的数据位置
     private int iLastSendLocation = 0;
+    private boolean isUpdateRunning = false;
 
     public static final int iUPDATA_PROGRESS_START = 111;
     public static final int iUPDATA_PROGRESS_SENDING = 222;
@@ -73,16 +74,20 @@ public class UpdateFirmwareHelper {
         iLastSendNum = 0;
         iNowUpdateCount = 0;
         iLastSendLocation = 0;
+        isUpdateRunning = true;
 
         String strData = "";
         String strVerInfo = "";
         if (strUpdateStartAddress.equalsIgnoreCase(BaseVolume.CMD_UPDATE_TABLE_START_ADDRESS)) {
+            // HVM-TAB-1-7.1.bin
             int iNumber = Integer.parseInt(strFileName.split("-")[2]);
             String[] strVer = strFileName.split("-")[3].split("\\.");
-            strVerInfo = String.format("%02X",iNumber)+String.format("%02X",Integer.parseInt(strVer[0]))+String.format("%02X",Integer.parseInt(strVer[1]));
+            // 序号 + 版本号
+            strVerInfo = String.format("%04X",iNumber)+String.format("%02X",Integer.parseInt(strVer[0]))+String.format("%02X",Integer.parseInt(strVer[1]));
 
         }
-        else if (strUpdateStartAddress.equalsIgnoreCase(BaseVolume.CMD_UPDATE_BMS_START_ADDRESS)) {
+        else if (strUpdateStartAddress.equalsIgnoreCase(BaseVolume.CMD_UPDATE_BMS_START_ADDRESS) || strUpdateStartAddress.equalsIgnoreCase(BaseVolume.CMD_UPDATE_BMU_START_ADDRESS)) {
+            // BMU-P2-1.16-B-A3FD.bin
             String[] strVer = strFileName.split("-")[2].split("\\.");
             String strArea = strFileName.split("-")[3];
             // A区固件
@@ -93,16 +98,7 @@ public class UpdateFirmwareHelper {
                 strVerInfo = String.format("%02X",Integer.parseInt(strVer[0]))+String.format("%02X",Integer.parseInt(strVer[1]))+"0001";
 
         }
-        else if (strUpdateStartAddress.equalsIgnoreCase(BaseVolume.CMD_UPDATE_BMU_START_ADDRESS)) {
-            String[] strVer = strFileName.split("-")[2].split("\\.");
-            String strArea = strFileName.split("-")[3];
-            // A区固件
-            if (strArea.equalsIgnoreCase("A"))
-                strVerInfo = String.format("%02X",Integer.parseInt(strVer[0]))+String.format("%02X",Integer.parseInt(strVer[1]))+"0000";
-                // B区固件
-            else
-                strVerInfo = String.format("%02X",Integer.parseInt(strVer[0]))+String.format("%02X",Integer.parseInt(strVer[1]))+"0001";
-        }
+
 
         strData += strVerInfo;// 版本号
         strData += "8100";// 更新状态
@@ -124,11 +120,12 @@ public class UpdateFirmwareHelper {
      * @param analysisInfo
      */
     public void keepUpdate(AnalysisInfo analysisInfo) {
+        if (!isUpdateRunning) return;
         // 写入失败
         if (analysisInfo.getStrType().equalsIgnoreCase(BaseVolume.CMD_TYPE_WRITE_MORE_ERROR)) {
             Message msg = new Message();
             msg.what = iUPDATA_PROGRESS_FAULT;
-            msg.obj = analysisInfo.getStrErrorInfo();
+            msg.obj = analysisInfo.getIErrprCode()+","+analysisInfo.getStrErrorInfo();
             mHandler.sendMessage(msg);
             return;
         }
@@ -180,7 +177,7 @@ public class UpdateFirmwareHelper {
         msg.obj = fProgress; // 更新当前更新的比例
         mHandler.sendMessage(msg);
 
-        Log.e("UpdateFirmwareHelper","当前文件的升级进度："+fProgress);
+//        Log.e("UpdateFirmwareHelper","当前文件的升级进度："+fProgress);
 
         String strSendData = CreateControlData.Companion.writeMoreByAddress(strUpdateAddress,strData);
         BaseApplication.getInstance().StartSendDataByTCPTimeOut(strSendData);
@@ -191,6 +188,7 @@ public class UpdateFirmwareHelper {
         strUpdateStartAddress = "";
         strUpdateAddress = "";
         iLastSendNum = 0;
+        isUpdateRunning = false;
         iLastSendLocation = 0;
     }
 

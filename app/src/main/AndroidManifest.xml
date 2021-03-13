@@ -57,6 +57,7 @@
         <activity android:name=".MainActivity" />
         <activity android:name=".MainActivityTest" />
         <activity android:name=".otherPage.PrivacyActivity" />
+        <activity android:name=".otherPage.DownFirmwareActivity" />
         <activity android:name=".otherPage.UpdateFirmwareActivity" />
         <activity android:name=".otherPage.ConnectWIFIActivity" />
         <activity android:name=".otherPage.ConfigSystemActivity">

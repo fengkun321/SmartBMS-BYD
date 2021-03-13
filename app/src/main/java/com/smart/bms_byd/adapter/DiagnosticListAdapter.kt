@@ -35,12 +35,20 @@ class DiagnosticListAdapter(deviceList: ArrayList<DiagnosticMessageInfo>, mConte
         notifyDataSetChanged()
     }
 
+
     override fun onBindViewHolder(p0: ViewHolder, p1: Int) {
         var strTime = deviceList[p1].strTime
-        strTime = strTime.replace(" ","\n")
-        p0.tvTime.text = strTime
-        p0.tvTitle.text = "(${deviceList[p1].strTitle})"
-        p0.tvContent.text = "${deviceList[p1].strContent}"
+        if (!strTime.equals("")) {
+            strTime = strTime.replace(" ","\n")
+            p0.tvTime.text = strTime
+        }
+
+        if (deviceList[p1].iBMSNumber > 0)
+            p0.tvType.text = "(${deviceList[p1].strType} ${deviceList[p1].iBMSNumber})"
+        else
+            p0.tvType.text = "(${deviceList[p1].strType})"
+        p0.tvContent.text = "${deviceList[p1].strContent},Level:${deviceList[p1].iLevel}"
+
 
         if (isHistory) {
             if (p1 % 2 == 0)
@@ -79,7 +87,7 @@ class DiagnosticListAdapter(deviceList: ArrayList<DiagnosticMessageInfo>, mConte
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         lateinit var tvTime: TextView
-        lateinit var tvTitle: TextView
+        lateinit var tvType: TextView
         lateinit var tvContent: TextView
         lateinit var llParent: LinearLayout
 
@@ -87,7 +95,7 @@ class DiagnosticListAdapter(deviceList: ArrayList<DiagnosticMessageInfo>, mConte
 
             llParent = itemView.findViewById(R.id.llParent)
             tvTime = itemView.findViewById(R.id.tvTime)
-            tvTitle = itemView.findViewById(R.id.tvTitle)
+            tvType = itemView.findViewById(R.id.tvType)
             tvContent = itemView.findViewById(R.id.tvContent)
         }
     }

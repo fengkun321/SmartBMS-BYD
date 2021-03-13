@@ -85,6 +85,7 @@ class ConfigSystemActivity : BaseActivity(){
                 }
                 // 跳转页面
                 else if (llSureConfigData.visibility != View.VISIBLE && llSuccess.visibility == View.VISIBLE){
+                    finish()
                     val intent: Intent = Intent(mContext, MainActivityTest().javaClass)
                             .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
                     startActivity(intent)

@@ -8,12 +8,10 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 
 import com.smart.bms_byd.BaseActivity;
-import com.smart.bms_byd.MainActivity;
 import com.smart.bms_byd.BaseApplication;
-import com.smart.bms_byd.MainActivityTest;
 import com.smart.bms_byd.R;
 import com.smart.bms_byd.otherPage.PrivacyActivity;
-import com.smart.bms_byd.otherPage.UpdateFirmwareActivity;
+import com.smart.bms_byd.otherPage.DownFirmwareActivity;
 import com.smart.bms_byd.util.BaseVolume;
 
 import java.util.Timer;
@@ -99,7 +97,7 @@ public class FirstActivity extends BaseActivity {
             finish();
         }
         else {
-            startActivity(new Intent(FirstActivity.this, UpdateFirmwareActivity.class));
+            startActivity(new Intent(FirstActivity.this, DownFirmwareActivity.class));
             finish();
         }
 

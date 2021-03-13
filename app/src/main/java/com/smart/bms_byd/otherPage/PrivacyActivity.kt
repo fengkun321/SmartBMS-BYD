@@ -30,7 +30,7 @@ class PrivacyActivity : BaseActivity(), OnPageChangeListener,
                 showToast("请先阅读并勾选条款！")
                 return@setOnClickListener
             }
-            startActivity(Intent(mContext, UpdateFirmwareActivity().javaClass))
+            startActivity(Intent(mContext, DownFirmwareActivity().javaClass))
             finish()
 
         }

@@ -82,6 +82,7 @@ public class TCPClientS {
 
                 InetAddress ipAddress = InetAddress.getByName(ip);
                 mSocket = new Socket(ipAddress, port);
+//                mSocket.setSoTimeout(20*1000);
 
                 //设置不延时发送
                 //mSocket.setTcpNoDelay(true);
@@ -244,6 +245,7 @@ public class TCPClientS {
                         onDataReceiveListener.onDataResultInfo(false,"发送异常");
                     }
                 } catch (IOException e) {
+                    Log.e(TAG_log, "run: send error:"+e.getMessage());
                     e.printStackTrace();
                     if (onDataReceiveListener != null) {
                         onDataReceiveListener.onDataResultInfo(false,e.getMessage());
@@ -274,6 +276,7 @@ public class TCPClientS {
                         onDataReceiveListener.onDataResultInfo(false,"发送异常");
                     }
                 } catch (IOException e) {
+                    Log.e(TAG_log, "run: send error:"+e.getMessage());
                     e.printStackTrace();
                     if (onDataReceiveListener != null) {
                         onDataReceiveListener.onDataResultInfo(false,e.getMessage());

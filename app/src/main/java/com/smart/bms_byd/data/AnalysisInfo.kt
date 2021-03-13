@@ -31,6 +31,8 @@ class AnalysisInfo : Serializable {
 
     val strTag = "AnalysisInfo"
 
+
+
     constructor(strType: String, strAllData: String) {
         this.strType = strType
         this.strAllData = strAllData
@@ -49,14 +51,10 @@ class AnalysisInfo : Serializable {
             else if (strReadDataBuffer.length == 25*2*2) {
                 analysisDataByReadBMUState(strReadDataBuffer)
             }
-            // 调试信息查询 73个寄存器
-            else if (strReadDataBuffer.length == 73*2*2) {
-
-            }
-            // 历史记录查询 73个寄存器
-            else if (strReadDataBuffer.length == 73*2*2) {
-
-            }
+            // 调试信息查询 BMS信息
+//            else if (strReadDataBuffer.length == 65*2*2) {
+//                analysisBMSDataByNumber(strReadDataBuffer)
+//            }
         }
         // 写单个寄存器
         else if (strType.equals(BaseVolume.CMD_TYPE_WRITE_ONLY, ignoreCase = true)) {
@@ -191,6 +189,141 @@ class AnalysisInfo : Serializable {
         DeviceStateInfo.getInstance().Five_All_Energy_out = All_Energy_out
         Log.e(strTag,"数据,analysisDataByReadBMUState:"+DeviceStateInfo.getInstance().toString())
 
+    }
+
+    /** 解析某个BMS工作信息 */
+    public fun analysisBMSDataByNumber(iNumber : Int,strDataBuffer : String) : SystemStatusInfo{
+
+        // BMS 工作信息
+        var systemStatusInfo = SystemStatusInfo(iNumber)
+
+        val iEveryByteNum = strDataBuffer.substring(0,4).toInt(16)
+        val iMaxVol = strDataBuffer.substring(4,8).toInt(16)
+        val iMinVol = strDataBuffer.substring(8,12).toInt(16)
+        val iMaxVolNumber = strDataBuffer.substring(12,14).toInt(16)
+        val iMinVolNumber = strDataBuffer.substring(14,16).toInt(16)
+        val iMaxTemp = strDataBuffer.substring(16,20).toInt(16)
+        val iMinTemp = strDataBuffer.substring(20,24).toInt(16)
+        val iMaxTempNumber = strDataBuffer.substring(24,26).toInt(16)
+        val iMinTempNumber = strDataBuffer.substring(26,30).toInt(16)
+        val iSumVol = strDataBuffer.substring(84,88).toInt(16)
+        val iPackVol = strDataBuffer.substring(96,100).toInt(16)
+        val iCurrent = strDataBuffer.substring(108,112).toInt(16)
+
+        systemStatusInfo.strMaxCellVoltage = "$iMaxVol mV"
+        systemStatusInfo.strMinCellVoltage = "$iMinVol mV"
+        systemStatusInfo.strMaxCellVoltageNumber = "$iMaxVolNumber"
+        systemStatusInfo.strMinCellVoltageNumber = "$iMinVolNumber"
+        systemStatusInfo.strMaxCellTemperature = "$iMaxTemp ℃"
+        systemStatusInfo.strMinCellTemperature = "$iMinTemp ℃"
+        systemStatusInfo.strMaxCellTemperatureNumber = "$iMaxTempNumber"
+        systemStatusInfo.strMinCellTemperatureNumber = "$iMinTempNumber"
+        systemStatusInfo.strBatteryVoltage = "${String.format("%.1f",iSumVol/10.0f)} V"
+        systemStatusInfo.strOutputVoltage = "${String.format("%.1f",iPackVol/10.0f)} V"
+        systemStatusInfo.strCurrent = "${String.format("%.1f",iCurrent/10.0f)} A"
+
+        return systemStatusInfo
+    }
+
+    /** 解析BMU的异常信息 */
+    public fun analysisBMUErrorInfo(strDataBuffer : String) : List<DiagnosticMessageInfo> {
+        var listAll = arrayListOf<DiagnosticMessageInfo>()
+        var firstList = arrayListOf<DiagnosticMessageInfo>()
+        var secondList = arrayListOf<DiagnosticMessageInfo>()
+        var thirdlyList = arrayListOf<DiagnosticMessageInfo>()
+        val Now_Alarm_First_Binary = NetworkUtils.hexToBinary(strDataBuffer.substring(44,48))
+        val Now_Alarm_Second_Binary = NetworkUtils.hexToBinary(strDataBuffer.substring(48,52))
+        val Now_Alarm_Thirdly_Binary = NetworkUtils.hexToBinary(strDataBuffer.substring(52,56))
+        val iFirstAlarmLength = Now_Alarm_First_Binary.length
+        val iSecondAlarmLength = Now_Alarm_Second_Binary.length
+        val iThirdlyAlarmLength = Now_Alarm_Thirdly_Binary.length
+//        for (iN in 0 until iFirstAlarmLength) {
+//            val strErrorInfo = getErrorInfoByBit(Now_Alarm_First_Binary.substring(iFirstAlarmLength - iN - 1,iFirstAlarmLength - iN),iN)
+//            if (!strErrorInfo.equals("")) {
+//                firstList.add(DiagnosticMessageInfo("BMU",strErrorInfo,"",1))
+//            }
+//        }
+//        for (iN in 0 until iSecondAlarmLength) {
+//            val strErrorInfo = getErrorInfoByBit(Now_Alarm_Second_Binary.substring(iSecondAlarmLength - iN - 1,iSecondAlarmLength - iN),iN)
+//            if (!strErrorInfo.equals("")) {
+//                secondList.add(DiagnosticMessageInfo("BMU",strErrorInfo,"",2))
+//            }
+//        }
+        for (iN in 0 until iThirdlyAlarmLength) {
+            val strErrorInfo = getErrorInfoByBit(Now_Alarm_Thirdly_Binary.substring(iThirdlyAlarmLength - iN - 1,iThirdlyAlarmLength - iN),iN)
+            if (!strErrorInfo.equals("")) {
+                thirdlyList.add(DiagnosticMessageInfo("BMU",strErrorInfo,"",3))
+            }
+        }
+        listAll.addAll(firstList)
+        listAll.addAll(secondList)
+        listAll.addAll(thirdlyList)
+        return listAll
+    }
+
+    /** 解析BMS的异常信息 */
+    public fun analysisBMSErrorInfo(iBMSNumber: Int,strDataBuffer : String) : List<DiagnosticMessageInfo> {
+
+        var listAll = arrayListOf<DiagnosticMessageInfo>()
+
+        var firstList = arrayListOf<DiagnosticMessageInfo>()
+        var secondList = arrayListOf<DiagnosticMessageInfo>()
+        var thirdlyList = arrayListOf<DiagnosticMessageInfo>()
+        val Now_Alarm_First_Binary = NetworkUtils.hexToBinary(strDataBuffer.substring(112,116))
+        val Now_Alarm_Second_Binary = NetworkUtils.hexToBinary(strDataBuffer.substring(116,120))
+        val Now_Alarm_Thirdly_Binary = NetworkUtils.hexToBinary(strDataBuffer.substring(120,124))
+        val iFirstAlarmLength = Now_Alarm_First_Binary.length
+        val iSecondAlarmLength = Now_Alarm_Second_Binary.length
+        val iThirdlyAlarmLength = Now_Alarm_Thirdly_Binary.length
+//        for (iN in 0 until iFirstAlarmLength) {
+//            val strErrorInfo = getErrorInfoByBit(Now_Alarm_First_Binary.substring(iFirstAlarmLength - iN - 1,iFirstAlarmLength - iN),iN)
+//            if (!strErrorInfo.equals("")) {
+//                firstList.add(DiagnosticMessageInfo("BMS",strErrorInfo,"",1,iBMSNumber))
+//            }
+//        }
+//        for (iN in 0 until iSecondAlarmLength) {
+//            val strErrorInfo = getErrorInfoByBit(Now_Alarm_Second_Binary.substring(iSecondAlarmLength - iN - 1,iSecondAlarmLength - iN),iN)
+//            if (!strErrorInfo.equals("")) {
+//                secondList.add(DiagnosticMessageInfo("BMS",strErrorInfo,"",2,iBMSNumber))
+//            }
+//        }
+        for (iN in 0 until iThirdlyAlarmLength) {
+            val strErrorInfo = getErrorInfoByBit(Now_Alarm_Thirdly_Binary.substring(iThirdlyAlarmLength - iN - 1,iThirdlyAlarmLength - iN),iN)
+            if (!strErrorInfo.equals("")) {
+                thirdlyList.add(DiagnosticMessageInfo("BMS",strErrorInfo,"",3,iBMSNumber))
+            }
+        }
+        listAll.addAll(firstList)
+        listAll.addAll(secondList)
+        listAll.addAll(thirdlyList)
+        return listAll
+    }
+
+    /** 根据bit序号获取对应的异常信息 */
+    private fun getErrorInfoByBit(strBit : String,iPosition : Int) : String{
+        var strError = ""
+        if (strBit.equals("0")) return strError
+        when(iPosition) {
+            0 -> strError = "总压过压"
+            1 -> strError = "总压欠压"
+            2 -> strError = "单体过压"
+            3 -> strError = "单体欠压"
+            4 -> strError = "电压传感器故障"
+            5 -> strError = "温度传感器故障"
+            6 -> strError = "单体放电温度高"
+            7 -> strError = "单体放电温度低"
+            8 -> strError = "单体充电温度高"
+            9 -> strError = "单体充电温度低"
+            10 -> strError = "电池充电过流"
+            11 -> strError = "电池充电过流"
+            12 -> strError = "主回路故障"
+            13 -> strError = "短路告警"
+            14 -> strError = "电池不均衡(压差)"
+            15 -> strError = "电流传感器故障"
+
+        }
+
+        return strError
     }
 
 

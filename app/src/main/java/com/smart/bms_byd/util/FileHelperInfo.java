@@ -4,11 +4,15 @@ import android.os.Environment;
 
 import com.smart.bms_byd.data.Base64Utils;
 import com.smart.bms_byd.data.CRC16;
+import com.smart.bms_byd.http.DownloadUtil;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.ByteBuffer;
+import java.nio.channels.FileChannel;
 import java.util.ArrayList;
 
 public class FileHelperInfo {
@@ -58,38 +62,65 @@ public class FileHelperInfo {
     }
 
     /**
+     * 把数据流写入文件
+     * @param path
+     * @param bytes
+     */
+    private static void writeFile(String path, byte[] bytes) {
+        try {
+            FileOutputStream out = new FileOutputStream(path);//指定写到哪个路径中
+            FileChannel fileChannel = out.getChannel();
+            fileChannel.write(ByteBuffer.wrap(bytes)); //将字节流写入文件中
+            fileChannel.force(true);//强制刷新
+            fileChannel.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
      * base64解密，并校验文件数据
-     * @param fileBytes
+     * @param file
      * @return byte[] 如果有返回字节，说明校验通过，无返回则说明校验失败！
      */
-    public static byte[] getContentByteArrayByBase64(byte[] fileBytes) {
+    public static byte[] getContentByteArrayByBase64(File file) {
+        byte[] fileBytes = readFileStream(file);
         byte[] byteDeCode = Base64Utils.decodeToBytes(fileBytes);
-        byte[] byteContent = new byte[byteDeCode.length - 2];
-        byte[] byteCrc = new byte[2];
-        System.arraycopy(byteDeCode, 0, byteContent, 0, byteContent.length);
-        System.arraycopy(byteDeCode, byteDeCode.length - 2, byteCrc, 0, byteCrc.length);
-        String strContentNewCrc = NetworkUtils.bytesToHexString(CRC16.getCrc16(byteContent));
-        String strOldCrc = NetworkUtils.bytesToHexString(byteCrc);
-        if (strContentNewCrc.equalsIgnoreCase(strOldCrc))
-            return byteContent;
-        else
-            return null;
+        String strDecodeData0 = new String(byteDeCode);
+        String strDecodeData = strDecodeData0.replace(" ","");
+        String strOldCrc = strDecodeData.substring(strDecodeData.length() - 4);
+        String strContent = strDecodeData.substring(0,strDecodeData.length() - 4);
+        String strNewCrc = NetworkUtils.bytesToHexString(CRC16.getCrc16(strContent));
+        if (strOldCrc.equalsIgnoreCase(strNewCrc)) {
+            return NetworkUtils.hexStringToBytes(strContent);
+//            String strG = strDecodeData0.substring(0,strDecodeData0.length() - 4);
+//            return strG.getBytes();
+        }
+        return null;
+
 
     }
 
-    public static byte[] getContentByteArrayFirmwareByBase64(byte[] fileBytes) {
-        byte[] byteContent = new byte[fileBytes.length - 2];
-        byte[] byteCrc = new byte[2];
-        System.arraycopy(fileBytes, 0, byteContent, 0, byteContent.length);
-        System.arraycopy(fileBytes, fileBytes.length - 2, byteCrc, 0, byteCrc.length);
-        String strContentNewCrc = NetworkUtils.bytesToHexString(CRC16.getCrc16(byteContent));
-        String strOldCrc = NetworkUtils.bytesToHexString(byteCrc);
-        if (strContentNewCrc.equalsIgnoreCase(strOldCrc))
-            return byteContent;
+    /**
+     * 校验固件的完整性
+     * @param file
+     * @param strOldCRC
+     * @return
+     */
+    public static byte[] getContentByArrayByCRC(File file,String strOldCRC) {
+        byte[] fileBytes = readFileStream(file);
+        String strNewCRC = NetworkUtils.bytesToHexString(CRC16.getCrc16(fileBytes));
+        if (strNewCRC.equalsIgnoreCase(strOldCRC))
+            return fileBytes;
         else
             return null;
 
+
     }
+
+
 
 
 }

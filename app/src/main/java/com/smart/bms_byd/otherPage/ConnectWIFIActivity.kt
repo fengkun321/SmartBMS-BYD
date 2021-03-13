@@ -35,29 +35,21 @@ class ConnectWIFIActivity : BaseActivity(),
     private var nowSelectSSID = ""
     private var wifiSign = ""
     private var strSelectPwd = BaseApplication.DEVICE_WIFI_PWD
+    private lateinit var wifiConnectionManager: WIFIConnectionManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_connectwifi)
 
+        wifiConnectionManager = WIFIConnectionManager(this)
         EventBus.getDefault().register(this);
 
         wifiSign = intent.getStringExtra("wifiSign")
-
         myNetState.initView(this, true, null);
-
-//        wifiList.add(ScanWiFiInfo("123","11"))
-//        wifiList.add(ScanWiFiInfo("456","22"))
-//        wifiList.add(ScanWiFiInfo("789","33"))
-
         wiFiLsitAdapter = WiFiLsitAdapter(wifiList, mContext)
         wiFiLsitAdapter.onItemClickListener = this
         //设置布局管理器
-        recyclerDevice.layoutManager = LinearLayoutManager(
-                this,
-                LinearLayoutManager.VERTICAL,
-                false
-        )
+        recyclerDevice.layoutManager = LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false)
         //设置adapter
         recyclerDevice.adapter = wiFiLsitAdapter
         //设置Item增加、移除动画
@@ -65,8 +57,7 @@ class ConnectWIFIActivity : BaseActivity(),
         //添加分割线
 //        recyclerDevice.addItemDecoration(SpaceItemDecoration(1, mContext))
 
-        WIFIConnectionManager.getInstance(this)?.openWifi()
-        startScanWifi(true)
+        wifiConnectionManager.openWifi()
 
         imgLeft.setOnClickListener { finish() }
 
@@ -74,14 +65,13 @@ class ConnectWIFIActivity : BaseActivity(),
 
     override fun onResume() {
         super.onResume()
-
+        startScanWifi(true)
     }
 
     override fun onPause() {
         super.onPause()
         startScanWifi(false)
     }
-
 
     var scanTimer = Timer()
     private fun startScanWifi(isScan: Boolean) {
@@ -90,7 +80,7 @@ class ConnectWIFIActivity : BaseActivity(),
             scanTimer = Timer()
             scanTimer.schedule(object : TimerTask() {
                 override fun run() {
-                    val newWifiList = WIFIConnectionManager.getInstance(mContext)?.getWifiList(wifiSign)
+                    val newWifiList = wifiConnectionManager.getWifiList(wifiSign)
                     // 去重
                     newWifiList?.forEach {
                         var isHave = false
@@ -111,20 +101,26 @@ class ConnectWIFIActivity : BaseActivity(),
                             runOnUiThread {
                                 wiFiLsitAdapter.notifyItemChanged(wifiList.size)
                             }
-
                         }
-
                     }
                     runOnUiThread {
                         if (wifiList.size > 0) llWaiting.visibility = View.GONE
                     }
-
-
                 }
-            }, 0, 2000)
-
+            }, 0, 3000)
         }
+    }
 
+    private lateinit var nowSelectWifiInfo : ScanResult
+    // wifi 列表的点击事件
+    override fun onItemClick(view: View?, position: Int) {
+        if (wifiList[position].SSID.equals(BaseApplication.getInstance().strNowSSID))
+            return
+        startScanWifi(false)
+        nowSelectWifiInfo = wifiList[position]
+        // 属于比亚迪热点，则自动连接
+        strSelectPwd = BaseApplication.DEVICE_WIFI_PWD
+        wifiConnectByAndroidQ()
     }
 
 
@@ -132,7 +128,14 @@ class ConnectWIFIActivity : BaseActivity(),
      * 连接指定wifi-针对Android10.0系统
      */
     fun wifiConnectByAndroidQ() {
-
+        // 如果当前连接已经是目标wifi，则自动结束
+        if (BaseApplication.getInstance().strNowSSID.equals(nowSelectWifiInfo.SSID)) {
+            loadingDialog.dismiss()
+            mHandler.removeCallbacks(connectTimeOutRunnable)
+            EventBus.getDefault().unregister(this)
+            showToast("WIFI connection success！")
+            finish()
+        }
         val wifiManager = applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager
         val configuration: WifiConfiguration = WIFIConnectionTest.configWifiInfo(this, wifiManager,nowSelectWifiInfo, strSelectPwd)
         var netId = configuration.networkId
@@ -152,10 +155,8 @@ class ConnectWIFIActivity : BaseActivity(),
         }
         else {
             loadingDialog.showAndMsg("connecting...")
-            mHandler.postDelayed(connectTimeOutRunnable,30*1000)
+            mHandler.postDelayed(connectTimeOutRunnable,20*1000)
         }
-
-
     }
 
     private val connectTimeOutRunnable = object : Runnable{
@@ -174,18 +175,7 @@ class ConnectWIFIActivity : BaseActivity(),
 
     }
 
-    private lateinit var nowSelectWifiInfo : ScanResult
 
-    // wifi 列表的点击事件
-    override fun onItemClick(view: View?, position: Int) {
-        if (wifiList[position].SSID.equals(BaseApplication.getInstance().strNowSSID))
-            return
-        startScanWifi(false)
-        nowSelectWifiInfo = wifiList[position]
-        // 属于比亚迪热点，则自动连接
-        strSelectPwd = BaseApplication.DEVICE_WIFI_PWD
-        wifiConnectByAndroidQ()
-    }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public fun onReceiveMessageInfo(msg: MessageInfo) {
@@ -195,30 +185,14 @@ class ConnectWIFIActivity : BaseActivity(),
                 val netWorkType = msg.anyInfo as NetWorkType
                 if (netWorkType == NetWorkType.WIFI_DEVICE) {
                     if (!this::nowSelectWifiInfo.isInitialized) return
-                    if (BaseApplication.getInstance().strNowSSID.equals(nowSelectWifiInfo.SSID) &&
-                        loadingDialog.isShowing &&
-                        TCPClientS.getInstance(BaseApplication.getInstance()).connectionState == TCPClientS.TCP_CONNECT_STATE_DISCONNECT) {
+                    if (BaseApplication.getInstance().strNowSSID.equals(nowSelectWifiInfo.SSID) && loadingDialog.isShowing) {
+                        loadingDialog.dismiss()
                         mHandler.removeCallbacks(connectTimeOutRunnable)
-                        loadingDialog.showAndMsg("Create channel...")
-                        TCPClientS.getInstance(BaseApplication.getInstance()).connect(BaseVolume.TCP_IP,BaseVolume.TCP_PORT)
+                        EventBus.getDefault().unregister(this)
+                        showToast("WIFI connection success！")
+                        finish()
                     }
                 }
-            }
-            MessageInfo.i_TCP_CONNECT_SUCCESS -> {
-                showToast("Connection Success！")
-                finish()
-            }
-            MessageInfo.i_TCP_CONNECT_FAIL -> {
-                val strFailInfo= msg.anyInfo as String
-                showToast(strFailInfo)
-                showDialog("Connection Failed","Network connection failed,please try again.",object : AreaAddWindowHint.PeriodListener{
-                    override fun refreshListener(string: String?) {
-                        loadingDialog.showAndMsg("Create channel...")
-                        TCPClientS.getInstance(BaseApplication.getInstance()).connect(BaseVolume.TCP_IP,BaseVolume.TCP_PORT)
-                    }
-                    override fun cancelListener() {
-                    }
-                },false,"cancel","Retry")
             }
         }
 

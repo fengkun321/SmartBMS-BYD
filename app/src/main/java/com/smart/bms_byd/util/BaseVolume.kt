@@ -46,6 +46,20 @@ object BaseVolume {
     // 阈值表更新的起始地址
     const val CMD_UPDATE_TABLE_ADDRESS = "0407"
 
+    // 读取BMS工作参数的起始位置
+    const val CMD_READ_BMS_WORK_0550 = "0550"
+    // 查询BMS的读取状态
+    const val CMD_READ_BMS_WORK_READ_STATE_0551 = "0551"
+    // 从DATA开始读
+    const val CMD_READ_BMS_WORK_DATA_ADDRESS_0558 = "0558"
+
+    // 读取历史数据的起始位置
+    const val CMD_READ_DEV_HISTORY_05A0 = "05A0"
+    // 查询历史数据的读取状态
+    const val CMD_READ_DEV_HISTORY_STATE_05A1 = "05A1"
+    // 从DATA开始读
+    const val CMD_READ_DEV_HISTORY_ADDRESS_05A8 = "05A8"
+
 
 
 
